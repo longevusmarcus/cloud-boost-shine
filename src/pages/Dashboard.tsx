@@ -96,8 +96,8 @@ export default function Dashboard() {
         {/* Calendar */}
         <div className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200">
           <div className="relative">
-            <div className="flex items-center gap-1 mb-2 px-1">
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Today</span>
+            <div className="mb-3">
+              <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">Today</span>
             </div>
             <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
               {daysInMonth.map((day, idx) => {
@@ -106,15 +106,25 @@ export default function Dashboard() {
                 const isLogged = loggedDates.has(dateStr);
                 const isPast = day < today;
                 const dayNum = format(day, "d");
+                
+                // Days before yesterday that are logged: light solid
+                // Yesterday that is logged: solid black
+                // Today: solid black
+                // Future: dashed outline
+                const yesterdayDate = new Date(today);
+                yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+                const isYesterday = format(day, "yyyy-MM-dd") === format(yesterdayDate, "yyyy-MM-dd");
 
                 return (
                   <div
                     key={idx}
-                    className={`flex-shrink-0 w-9 h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center font-semibold transition-all text-xs md:text-sm ${
+                    className={`flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-semibold transition-all text-sm ${
                       isToday
                         ? 'bg-black text-white'
-                        : isLogged
-                        ? 'bg-gray-900 text-white'
+                        : isYesterday && isLogged
+                        ? 'bg-black text-white'
+                        : isLogged && isPast
+                        ? 'bg-gray-200 text-gray-400'
                         : isPast
                         ? 'border-2 border-gray-200 text-gray-300'
                         : 'border-2 border-dashed border-gray-300 text-gray-400'
