@@ -15,6 +15,9 @@ export default function Auth() {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetLoading, setResetLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -138,78 +141,165 @@ export default function Auth() {
     }
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setResetLoading(true);
+
+    try {
+      // Validate email
+      const emailResult = authSchema.pick({ email: true }).safeParse({ email: resetEmail });
+      
+      if (!emailResult.success) {
+        toast({
+          title: "Invalid Email",
+          description: "Please enter a valid email address.",
+          variant: "destructive",
+        });
+        setResetLoading(false);
+        return;
+      }
+
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Reset Link Sent",
+        description: "Check your email for the password reset link.",
+      });
+
+      setShowForgotPassword(false);
+      setResetEmail("");
+    } catch (error: any) {
+      const errorMessage = sanitizeError(error);
+      toast({
+        title: "Reset Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-950">
       <div className="max-w-md w-full">
-        <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-200">
+        <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
           <div className="flex justify-center mb-4">
-            <div className="w-14 h-14 rounded-2xl bg-black flex items-center justify-center">
-              <Droplet className="w-7 h-7 text-white" strokeWidth={2} fill="white" />
+            <div className="w-14 h-14 rounded-2xl bg-black dark:bg-white flex items-center justify-center">
+              <Droplet className="w-7 h-7 text-white dark:text-black" strokeWidth={2} fill="white" />
             </div>
           </div>
 
-          <h1 className="text-2xl font-bold text-black text-center mb-1">
-            {isSignUp ? "Create Account" : "Welcome Back"}
+          <h1 className="text-2xl font-bold text-black dark:text-white text-center mb-1">
+            {showForgotPassword ? "Reset Password" : isSignUp ? "Create Account" : "Welcome Back"}
           </h1>
-          <p className="text-sm text-gray-600 text-center mb-6">
-            {isSignUp ? "Start optimizing your health" : "Sign in to continue"}
+          <p className="text-sm text-gray-600 dark:text-gray-400 text-center mb-6">
+            {showForgotPassword ? "Enter your email to receive a reset link" : isSignUp ? "Start optimizing your health" : "Sign in to continue"}
           </p>
 
-          <form onSubmit={handleAuth} className="space-y-4">
-            {isSignUp && (
+          {showForgotPassword ? (
+            <form onSubmit={handleForgotPassword} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-gray-700">Full Name</Label>
+                <Label htmlFor="resetEmail" className="text-gray-700 dark:text-gray-300">Email</Label>
                 <Input
-                  id="fullName"
-                  type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  required={isSignUp}
-                  className="h-11 rounded-xl border-gray-200"
+                  id="resetEmail"
+                  type="email"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  required
+                  className="h-11 rounded-xl border-gray-200 dark:border-gray-700"
+                  placeholder="Enter your email"
                 />
               </div>
-            )}
 
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-700">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="h-11 rounded-xl border-gray-200"
-              />
-            </div>
+              <Button 
+                type="submit" 
+                className="w-full h-11 rounded-xl bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-black font-semibold"
+                disabled={resetLoading}
+              >
+                {resetLoading ? "Sending..." : "Send Reset Link"}
+              </Button>
 
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-gray-700">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="h-11 rounded-xl border-gray-200"
-              />
-            </div>
+              <button
+                type="button"
+                onClick={() => setShowForgotPassword(false)}
+                className="w-full text-center text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+              >
+                Back to Sign In
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleAuth} className="space-y-4">
+              {isSignUp && (
+                <div className="space-y-2">
+                  <Label htmlFor="fullName" className="text-gray-700 dark:text-gray-300">Full Name</Label>
+                  <Input
+                    id="fullName"
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required={isSignUp}
+                    className="h-11 rounded-xl border-gray-200 dark:border-gray-700"
+                  />
+                </div>
+              )}
 
-            <Button 
-              type="submit" 
-              className="w-full h-11 rounded-xl bg-black hover:bg-gray-800 text-white font-semibold"
-              disabled={loading}
-            >
-              {loading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}
-            </Button>
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-gray-700 dark:text-gray-300">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="h-11 rounded-xl border-gray-200 dark:border-gray-700"
+                />
+              </div>
 
-            <button
-              type="button"
-              onClick={() => setIsSignUp(!isSignUp)}
-              className="w-full text-center text-sm text-gray-600 hover:text-black transition-colors"
-            >
-              {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
-            </button>
-          </form>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <Label htmlFor="password" className="text-gray-700 dark:text-gray-300">Password</Label>
+                  {!isSignUp && (
+                    <button
+                      type="button"
+                      onClick={() => setShowForgotPassword(true)}
+                      className="text-xs text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+                    >
+                      Forgot password?
+                    </button>
+                  )}
+                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="h-11 rounded-xl border-gray-200 dark:border-gray-700"
+                />
+              </div>
+
+              <Button 
+                type="submit" 
+                className="w-full h-11 rounded-xl bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-black font-semibold"
+                disabled={loading}
+              >
+                {loading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}
+              </Button>
+
+              <button
+                type="button"
+                onClick={() => setIsSignUp(!isSignUp)}
+                className="w-full text-center text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+              >
+                {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>
