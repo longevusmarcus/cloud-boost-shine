@@ -65,8 +65,8 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
       <div className="max-h-[60vh] overflow-y-auto pr-2 space-y-6 scrollbar-hide">
         {/* Masturbation Frequency Section */}
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Masturbation</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">How many times did you masturbate today?</p>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-0.5">Masturbation</h3>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">How many times did you masturbate today?</p>
           <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide">
             <CircularButton
               selected={formData.masturbation_count === 0}
@@ -97,8 +97,8 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
 
         {/* Sleep Quality Section */}
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Sleep Quality</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">How well did you sleep?</p>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-0.5">Sleep Quality</h3>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">How well did you sleep?</p>
           <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide">
             <CircularButton
               selected={formData.sleep_quality === 'excellent'}
@@ -127,7 +127,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
           </div>
 
           <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">Hours slept</label>
+            <label className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2 block">Hours slept</label>
             <input
               type="number"
               step="0.5"
@@ -141,8 +141,8 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
 
         {/* Diet Quality Section */}
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Diet Quality</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">How was your nutrition today?</p>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-0.5">Diet Quality</h3>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">How was your nutrition today?</p>
           <div className="flex gap-3 overflow-x-auto pb-2">
             <CircularButton
               selected={formData.diet_quality === 'excellent'}
@@ -173,8 +173,8 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
 
         {/* Stress Level Section */}
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Stress Level</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">How stressed were you today?</p>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-0.5">Stress Level</h3>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">How stressed were you today?</p>
           <div className="flex gap-3 overflow-x-auto pb-2">
             <CircularButton
               selected={formData.stress_level === 1}
@@ -205,8 +205,8 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
 
         {/* Exercise Section */}
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Exercise</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Minutes of physical activity</p>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-0.5">Exercise</h3>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">Minutes of physical activity</p>
           <input
             type="number"
             value={formData.exercise_minutes}
@@ -218,8 +218,8 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
 
         {/* Electrolytes Section */}
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Electrolytes</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Did you take electrolytes?</p>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-0.5">Electrolytes</h3>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">Did you take electrolytes?</p>
           <div className="flex gap-3 justify-start">
             <CircularButton
               selected={formData.electrolytes === false}
@@ -238,8 +238,8 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
 
         {/* AI Tracker Section */}
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">AI Tracker</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Advanced tracking features coming soon</p>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-0.5">AI Tracker</h3>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">Advanced tracking features coming soon</p>
           
           <div className="mb-4 relative">
             <div className="absolute top-2 right-2 z-10">
@@ -247,7 +247,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
                 Soon
               </span>
             </div>
-            <label className="text-sm font-medium text-gray-400 mb-2 block">Upload Food Photos</label>
+            <label className="text-xs font-medium text-gray-400 mb-2 block">Upload Food Photos</label>
             <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700 opacity-50 cursor-not-allowed">
               <div className="flex items-center justify-center gap-2 text-gray-400">
                 <Camera className="w-5 h-5" />
@@ -262,7 +262,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
                 Soon
               </span>
             </div>
-            <label className="text-sm font-medium text-gray-400 mb-2 block">Connect Device</label>
+            <label className="text-xs font-medium text-gray-400 mb-2 block">Connect Device</label>
             <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700 opacity-50 cursor-not-allowed">
               <div className="flex items-center justify-center gap-2 text-gray-400">
                 <Watch className="w-5 h-5" />
@@ -274,8 +274,8 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
 
         {/* Notes Section */}
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Notes</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Log a symptom or make a note</p>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-0.5">Notes</h3>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">Log a symptom or make a note</p>
           <textarea
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}

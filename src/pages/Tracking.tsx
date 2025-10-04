@@ -243,7 +243,7 @@ export default function Tracking() {
         {/* Content */}
         <div className="pb-24 md:pb-6">{activeTab === "daily" ? (
           <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">Daily Check-in</h1>
+            <h1 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">Daily Check-in</h1>
             <DailyLogForm
               initialData={todayLog}
               onSubmit={handleSubmit}
