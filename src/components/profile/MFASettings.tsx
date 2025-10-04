@@ -15,7 +15,7 @@ export default function MFASettings() {
   const [verifyCode, setVerifyCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [showSetup, setShowSetup] = useState(false);
-
+  const [enrolledFactorId, setEnrolledFactorId] = useState<string | null>(null);
   useEffect(() => {
     checkMFAStatus();
   }, []);
@@ -50,6 +50,7 @@ export default function MFASettings() {
 
       if (error) throw error;
 
+      setEnrolledFactorId(data.id);
       // Use the URI for QR code generation, not the pre-generated qr_code
       setQrCode(data.totp.uri);
       setSecret(data.totp.secret);
@@ -71,21 +72,22 @@ export default function MFASettings() {
 
     setLoading(true);
     try {
-      const factors = await supabase.auth.mfa.listFactors();
-      const factorId = factors.data?.totp?.[0]?.id;
+      // Prefer the factor just enrolled; fall back to listing
+      const listed = await supabase.auth.mfa.listFactors();
+      const idToUse = enrolledFactorId || listed.data?.totp?.[0]?.id || null;
 
-      if (!factorId) throw new Error("No MFA factor found");
+      if (!idToUse) throw new Error("No MFA factor found");
 
       // Create a challenge for the factor
       const { data: challengeData, error: challengeError } = await supabase.auth.mfa.challenge({
-        factorId
+        factorId: idToUse
       });
 
       if (challengeError) throw challengeError;
 
       // Verify the challenge with the code
       const { error } = await supabase.auth.mfa.verify({
-        factorId,
+        factorId: idToUse,
         challengeId: challengeData.id,
         code: verifyCode,
       });
@@ -116,6 +118,7 @@ export default function MFASettings() {
 
       toast.success("MFA disabled");
       setMfaEnabled(false);
+      setEnrolledFactorId(null);
     } catch (error: any) {
       toast.error(error.message || "Failed to disable MFA");
     } finally {
