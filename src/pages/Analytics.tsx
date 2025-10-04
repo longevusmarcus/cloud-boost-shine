@@ -210,7 +210,7 @@ export default function Analytics() {
                 <Heart className="w-5 h-5 md:w-6 md:h-6 text-white" />
               </div>
               <div>
-                <h2 className="text-xl md:text-2xl font-bold text-white">Sexual Activity</h2>
+                <h2 className="text-xl md:text-2xl font-bold text-white">Masturbation Analytics</h2>
                 <p className="text-white/60 text-xs md:text-sm">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
               </div>
             </div>
