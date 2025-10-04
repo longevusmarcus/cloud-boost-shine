@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Upload, Loader2, ExternalLink, FileText, CheckCircle, XCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import * as pdfjsLib from 'pdfjs-dist';
 
 interface TestResultUploadProps {
   onUpload: () => void;
@@ -20,6 +21,32 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
   });
   const [extractionStatus, setExtractionStatus] = useState<string | null>(null);
   const { toast } = useToast();
+
+  // Set up PDF.js worker
+  pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+
+  const convertPdfToImage = async (file: File): Promise<string> => {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    const page = await pdf.getPage(1); // Get first page
+    
+    const viewport = page.getViewport({ scale: 2.0 });
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    
+    if (!context) throw new Error('Failed to get canvas context');
+    
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    
+    await page.render({
+      canvasContext: context,
+      viewport: viewport,
+      canvas: canvas
+    }).promise;
+    
+    return canvas.toDataURL('image/png');
+  };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -40,22 +67,12 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("Not authenticated");
 
-      // Convert PDF to base64
-      const reader = new FileReader();
-      const base64Promise = new Promise<string>((resolve, reject) => {
-        reader.onload = () => {
-          const base64 = reader.result as string;
-          resolve(base64);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(formData.file!);
-      });
-
-      const pdfBase64 = await base64Promise;
+      // Convert PDF to image
+      const imageBase64 = await convertPdfToImage(formData.file);
 
       // Call AI function to extract metrics
       const { data: parseData, error: parseError } = await supabase.functions.invoke('parse-test-pdf', {
-        body: { pdfBase64 }
+        body: { pdfBase64: imageBase64 }
       });
 
       if (parseError) {
