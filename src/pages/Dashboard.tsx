@@ -215,10 +215,10 @@ export default function Dashboard() {
                 </svg>
               </div>
 
-              <div className="absolute left-1/3 -top-20 animate-enter-explode-top" style={{ animationDelay: '2s', animationDuration: '3.5s' }}>
+              <div className="absolute -right-20 top-1/3 animate-enter-explode" style={{ animationDelay: '2s', animationDuration: '3.5s' }}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400">
                   <circle cx="8" cy="8" r="4" fill="currentColor" />
-                  <path d="M8 12 Q8 16, 8 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                  <path d="M12 8 Q14 10, 18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
                 </svg>
               </div>
             </div>
@@ -362,48 +362,47 @@ export default function Dashboard() {
 
         @keyframes enter-explode {
           0% {
-            transform: translate(0, 0) scale(1);
+            transform: translate(0, 0) scale(1) rotate(0deg);
             opacity: 1;
           }
-          75% {
-            transform: translate(140px, 0) scale(1);
+          70% {
+            transform: translate(var(--enter-x, 0), var(--enter-y, 0)) scale(1) rotate(360deg);
             opacity: 1;
           }
-          90% {
-            transform: translate(140px, 0) scale(1.5);
-            opacity: 0.6;
+          85% {
+            transform: translate(var(--enter-x, 0), var(--enter-y, 0)) scale(2) rotate(360deg);
+            opacity: 0.8;
           }
           100% {
-            transform: translate(140px, 0) scale(0);
-            opacity: 0;
-          }
-        }
-
-        @keyframes enter-explode-top {
-          0% {
-            transform: translate(0, 0) scale(1);
-            opacity: 1;
-          }
-          75% {
-            transform: translate(0, 140px) scale(1);
-            opacity: 1;
-          }
-          90% {
-            transform: translate(0, 140px) scale(1.5);
-            opacity: 0.6;
-          }
-          100% {
-            transform: translate(0, 140px) scale(0);
+            transform: translate(var(--enter-x, 0), var(--enter-y, 0)) scale(0) rotate(360deg);
             opacity: 0;
           }
         }
         
         .animate-enter-explode {
           animation: enter-explode infinite ease-in-out;
+          --enter-x: 140px;
+          --enter-y: 0;
         }
 
-        .animate-enter-explode-top {
-          animation: enter-explode-top infinite ease-in-out;
+        .animate-enter-explode:nth-child(5) {
+          --enter-x: 140px;
+          --enter-y: 0;
+        }
+
+        .animate-enter-explode:nth-child(6) {
+          --enter-x: -140px;
+          --enter-y: 20px;
+        }
+
+        .animate-enter-explode:nth-child(7) {
+          --enter-x: 0;
+          --enter-y: 140px;
+        }
+
+        .animate-enter-explode:nth-child(8) {
+          --enter-x: 0;
+          --enter-y: -140px;
         }
       `}</style>
     </Layout>
