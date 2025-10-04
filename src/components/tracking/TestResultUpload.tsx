@@ -163,7 +163,7 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
         </Button>
 
         {!isCompact && (
-          <div className="mt-6 p-6 bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700">
+          <div className="mt-6 p-5 md:p-6 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
             <h4 className="font-semibold text-black dark:text-white mb-2">Get Your YO Test 🔬</h4>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
               Only YO Home Sperm Test PDFs are supported for automatic processing
@@ -172,7 +172,7 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
               href="https://www.hellosperm.com/products/yo-home-sperm-test"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between p-4 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-600 hover:border-black dark:hover:border-white transition-all duration-200"
+              className="flex items-center justify-between p-4 bg-white dark:bg-gray-900/50 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-900 transition-all duration-200"
             >
               <div>
                 <div className="font-medium text-black dark:text-white">Order YO Sperm Test</div>

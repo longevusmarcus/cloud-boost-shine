@@ -277,7 +277,7 @@ export default function Tracking() {
 
         {/* Content */}
         <div className="pb-24 md:pb-6">{activeTab === "daily" ? (
-          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-950 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-800">
             <h1 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">Daily Check-in</h1>
             <DailyLogForm
               initialData={todayLog}
@@ -287,7 +287,7 @@ export default function Tracking() {
           ) : (
             <div className="space-y-4 md:space-y-6">
               {/* Testing Roadmap */}
-              <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <div className="bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-950 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-800">
                 <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">
                     <FlaskConical className="w-5 h-5 md:w-6 md:h-6 text-gray-900 dark:text-white" />
@@ -299,17 +299,19 @@ export default function Tracking() {
                 </div>
 
                 {testResults.length === 0 ? (
-                  <div className="bg-gray-50 dark:bg-gray-950 rounded-2xl p-4 md:p-6 mb-4 md:mb-6 border border-gray-200 dark:border-gray-700">
-                    <h4 className="font-semibold text-base md:text-lg text-gray-900 dark:text-white mb-2">🎯 Take Your First Test</h4>
-                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4">
-                      Establish your baseline. Get a complete sperm analysis to start your optimization journey.
-                    </p>
-                    <TestResultUpload onUpload={handleTestUpload} />
+                  <div className="space-y-3 md:space-y-4">
+                    <div className="pt-2">
+                      <h4 className="font-semibold text-base md:text-lg text-gray-900 dark:text-white mb-2">🎯 Take Your First Test</h4>
+                      <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4">
+                        Establish your baseline. Get a complete sperm analysis to start your optimization journey.
+                      </p>
+                      <TestResultUpload onUpload={handleTestUpload} />
+                    </div>
                   </div>
                 ) : (
                   <div className="space-y-3 md:space-y-4">
-                    <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
-                      <div className="flex items-center justify-between mb-3">
+                    <div className="rounded-xl p-4 md:p-5 bg-gray-50 dark:bg-gray-800/50">
+                      <div className="flex items-center justify-between">
                         <div className="min-w-0">
                           <h4 className="font-semibold text-base md:text-lg text-gray-900 dark:text-white">Last Test</h4>
                           <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">{format(new Date(testResults[0].test_date), "MMM d, yyyy")}</p>
@@ -322,10 +324,10 @@ export default function Tracking() {
                     </div>
 
                     {daysUntilNext !== null && (
-                      <div className={`rounded-2xl p-4 md:p-6 border-2 ${
+                      <div className={`rounded-xl p-4 md:p-5 ${
                         daysUntilNext <= 0 
-                          ? 'bg-green-50 dark:bg-green-950 border-green-500' 
-                          : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+                          ? 'bg-green-50 dark:bg-green-950/50 border border-green-500' 
+                          : 'bg-gray-50 dark:bg-gray-800/50'
                       }`}>
                         <h4 className="font-semibold text-base md:text-lg text-gray-900 dark:text-white mb-2">
                           {daysUntilNext <= 0 ? '⏰ Test Due!' : '📅 Next Quarterly Test'}
@@ -336,23 +338,19 @@ export default function Tracking() {
                             : `${daysUntilNext} day${daysUntilNext !== 1 ? 's' : ''} until your next recommended test`}
                         </p>
                         {nextTestDate && (
-                          <p className="text-gray-500 dark:text-gray-500 text-xs mb-4">
+                          <p className="text-gray-500 dark:text-gray-500 text-xs">
                             Scheduled: {format(nextTestDate, "MMMM d, yyyy")}
                           </p>
                         )}
                       </div>
                     )}
 
-                    {/* Always show upload button */}
-                    <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
-                      <h4 className="font-semibold text-sm md:text-base text-gray-900 dark:text-white mb-2">Upload New Test</h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4">
-                        Upload anytime to track your progress
-                      </p>
+                    {/* Upload Button */}
+                    <div className="pt-2">
                       <TestResultUpload onUpload={handleTestUpload} isCompact />
                     </div>
 
-                    <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="rounded-xl p-4 md:p-5 bg-gray-50 dark:bg-gray-800/50">
                       <h4 className="font-semibold text-sm md:text-base text-gray-900 dark:text-white mb-3">💎 Testing Benefits</h4>
                       <ul className="space-y-2 text-xs md:text-sm text-gray-600 dark:text-gray-400">
                         <li>✓ Track sperm value changes over time</li>
