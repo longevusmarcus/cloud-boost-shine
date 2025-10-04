@@ -156,7 +156,7 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
             isCompact 
               ? "h-11 px-5 text-sm" 
               : "h-12 md:h-14 px-6 md:px-8 text-base md:text-lg"
-          } bg-black hover:bg-gray-800 text-white rounded-[20px] font-semibold transition-all active:scale-[0.98]`}
+          } bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-black rounded-2xl font-semibold transition-all active:scale-[0.98]`}
         >
           <Upload className="w-4 h-4 md:w-5 md:h-5 mr-2" />
           {isCompact ? "Upload New" : "Upload YO Test"}
@@ -187,36 +187,36 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto">
-      <div className="bg-blue-50 rounded-2xl p-4 border border-blue-200">
-        <p className="text-sm text-blue-900">
+    <form onSubmit={handleSubmit} className="space-y-5 max-w-2xl mx-auto">
+      <div className="bg-blue-50 dark:bg-blue-950/30 rounded-xl p-4 border border-blue-200 dark:border-blue-900">
+        <p className="text-sm text-blue-900 dark:text-blue-300">
           <span className="font-semibold">ℹ️ YO Test Only:</span> Please upload your YO Home Sperm Test PDF. Other formats will not be processed.
         </p>
       </div>
 
       <div>
-        <Label className="text-black font-medium mb-2 block text-sm md:text-base">Test Date</Label>
+        <Label className="text-gray-900 dark:text-white font-medium mb-2 block text-sm md:text-base">Test Date</Label>
         <Input
           type="date"
           value={formData.test_date}
           onChange={(e) => setFormData({ ...formData, test_date: e.target.value })}
-          className="h-12 md:h-14 border-gray-300 focus:border-black focus:ring-black rounded-[16px] text-base"
+          className="h-12 md:h-14 bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:border-gray-900 dark:focus:border-white focus:ring-gray-900 dark:focus:ring-white rounded-2xl text-base"
           required
         />
       </div>
 
       <div>
-        <Label className="text-black font-medium mb-2 block text-sm md:text-base">Upload YO Test PDF</Label>
+        <Label className="text-gray-900 dark:text-white font-medium mb-2 block text-sm md:text-base">Upload YO Test PDF</Label>
         <Input
           type="file"
           accept=".pdf"
           onChange={handleFileUpload}
-          className="h-12 md:h-14 border-gray-300 focus:border-black focus:ring-black rounded-[16px] text-base"
+          className="h-12 md:h-14 bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:border-gray-900 dark:focus:border-white focus:ring-gray-900 dark:focus:ring-white rounded-2xl text-base file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-100 dark:file:bg-gray-800 file:text-gray-900 dark:file:text-white hover:file:bg-gray-200 dark:hover:file:bg-gray-700"
           required
           disabled={isUploading}
         />
         {formData.file && (
-          <div className="flex items-center gap-2 mt-2 text-sm text-gray-600">
+          <div className="flex items-center gap-2 mt-2 text-sm text-gray-600 dark:text-gray-400">
             <FileText className="w-4 h-4" />
             <span>{formData.file.name}</span>
           </div>
@@ -224,36 +224,36 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
       </div>
 
       {extractionStatus === "processing" && (
-        <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+        <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
-            <Loader2 className="w-5 h-5 text-gray-600 animate-spin" />
+            <Loader2 className="w-5 h-5 text-gray-600 dark:text-gray-400 animate-spin" />
             <div>
-              <div className="font-medium text-gray-900">Processing PDF...</div>
-              <div className="text-sm text-gray-600">Extracting test results</div>
+              <div className="font-medium text-gray-900 dark:text-white">Processing PDF...</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Extracting test results</div>
             </div>
           </div>
         </div>
       )}
 
       {extractionStatus === "success" && (
-        <div className="bg-green-50 rounded-2xl p-4 border border-green-200">
+        <div className="bg-green-50 dark:bg-green-950/30 rounded-xl p-4 border border-green-200 dark:border-green-900">
           <div className="flex items-center gap-3">
-            <CheckCircle className="w-5 h-5 text-green-600" />
+            <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
             <div>
-              <div className="font-medium text-green-900">Success!</div>
-              <div className="text-sm text-green-700">Test results extracted and saved</div>
+              <div className="font-medium text-green-900 dark:text-green-100">Success!</div>
+              <div className="text-sm text-green-700 dark:text-green-300">Test results extracted and saved</div>
             </div>
           </div>
         </div>
       )}
 
       {extractionStatus === "error" && (
-        <div className="bg-red-50 rounded-2xl p-4 border border-red-200">
+        <div className="bg-red-50 dark:bg-red-950/30 rounded-xl p-4 border border-red-200 dark:border-red-900">
           <div className="flex items-center gap-3">
-            <XCircle className="w-5 h-5 text-red-600" />
+            <XCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
             <div>
-              <div className="font-medium text-red-900">Processing Failed</div>
-              <div className="text-sm text-red-700">Unable to extract data. Please ensure this is a valid YO test PDF.</div>
+              <div className="font-medium text-red-900 dark:text-red-100">Processing Failed</div>
+              <div className="text-sm text-red-700 dark:text-red-300">Unable to extract data. Please ensure this is a valid YO test PDF.</div>
             </div>
           </div>
         </div>
@@ -262,7 +262,7 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
       <div className="flex flex-col gap-3 w-full">
         <Button
           type="submit"
-          className="w-full h-12 md:h-14 bg-black hover:bg-gray-800 text-white rounded-[20px] font-semibold text-base md:text-lg transition-all active:scale-[0.98]"
+          className="w-full h-12 md:h-14 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-black rounded-2xl font-semibold text-base md:text-lg transition-all active:scale-[0.98]"
           disabled={isUploading || !formData.file}
         >
           {isUploading ? (
@@ -284,7 +284,7 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
             setExtractionStatus(null);
           }}
           variant="outline"
-          className="w-full h-12 md:h-14 border-2 border-gray-300 text-black hover:bg-gray-100 rounded-[20px] text-base md:text-lg font-medium transition-all active:scale-[0.98]"
+          className="w-full h-12 md:h-14 border-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 rounded-2xl text-base md:text-lg font-medium transition-all active:scale-[0.98]"
           disabled={isUploading}
         >
           Cancel
