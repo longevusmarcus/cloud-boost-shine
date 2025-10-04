@@ -134,7 +134,7 @@ export default function Dashboard() {
         </div>
 
         {/* Calendar */}
-        <div className="relative">
+        <div className="relative mt-8">
           <div className="mb-2">
             <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Today</span>
           </div>
