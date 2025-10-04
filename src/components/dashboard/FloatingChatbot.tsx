@@ -22,6 +22,32 @@ export default function FloatingChatbot({ profile }: FloatingChatbotProps) {
   const [currentMessage, setCurrentMessage] = useState(messages[0]);
   const [showBubble, setShowBubble] = useState(false);
   const [bubbleDismissed, setBubbleDismissed] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Mobile visibility toggle every 10 seconds
+  useEffect(() => {
+    if (!isMobile) {
+      setIsVisible(true);
+      return;
+    }
+
+    const visibilityInterval = setInterval(() => {
+      setIsVisible(prev => !prev);
+    }, 10000);
+
+    return () => clearInterval(visibilityInterval);
+  }, [isMobile]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -56,12 +82,15 @@ export default function FloatingChatbot({ profile }: FloatingChatbotProps) {
   return (
     <>
       {/* Floating Button */}
-      <motion.div
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-        className="fixed bottom-24 right-6 md:bottom-8 md:right-8 z-40"
-      >
+      <AnimatePresence>
+        {isVisible && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 200 }}
+            className="fixed bottom-24 right-6 md:bottom-8 md:right-8 z-40"
+          >
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="relative w-16 h-16 rounded-full bg-black hover:bg-gray-800 shadow-lg flex items-center justify-center transition-all duration-200 group"
@@ -123,7 +152,9 @@ export default function FloatingChatbot({ profile }: FloatingChatbotProps) {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Chat Panel */}
       <AnimatePresence>
