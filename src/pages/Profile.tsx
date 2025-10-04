@@ -384,10 +384,362 @@ export default function Profile() {
               </div>
               <div className="text-xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1">{profile?.longest_streak || 0}</div>
               <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400 font-medium">Best</div>
+            </div>
           </div>
-        </div>
 
-        {/* MFA Settings */}
+          {/* Basic Info */}
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Basic Info</h2>
+              {!isEditingBasic ? (
+                <button
+                  onClick={() => setIsEditingBasic(true)}
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                >
+                  <Edit2 className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                </button>
+              ) : (
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      setIsEditingBasic(false);
+                      loadData();
+                    }}
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <X className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  </button>
+                  <button
+                    onClick={handleSaveBasic}
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <Check className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {isEditingBasic ? (
+              <div className="space-y-3">
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Name</Label>
+                  <Input
+                    value={basicForm.full_name}
+                    onChange={(e) => setBasicForm({ ...basicForm, full_name: e.target.value })}
+                    className="h-9 text-sm"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-xs text-gray-500 dark:text-gray-400">Age</Label>
+                    <Input
+                      type="number"
+                      value={basicForm.age}
+                      onChange={(e) => setBasicForm({ ...basicForm, age: e.target.value })}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-xs text-gray-500 dark:text-gray-400">Weight (lbs)</Label>
+                    <Input
+                      type="number"
+                      value={basicForm.weight}
+                      onChange={(e) => setBasicForm({ ...basicForm, weight: e.target.value })}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Height</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="number"
+                      value={basicForm.height_feet}
+                      onChange={(e) => setBasicForm({ ...basicForm, height_feet: e.target.value })}
+                      placeholder="Feet"
+                      className="h-9 text-sm"
+                    />
+                    <Input
+                      type="number"
+                      value={basicForm.height_inches}
+                      onChange={(e) => setBasicForm({ ...basicForm, height_inches: e.target.value })}
+                      placeholder="In"
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Goal</Label>
+                  <Input
+                    value={basicForm.goal}
+                    onChange={(e) => setBasicForm({ ...basicForm, goal: e.target.value })}
+                    className="h-9 text-sm"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Name</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.full_name || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Age</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.age || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Height</span>
+                  <span className="text-gray-900 dark:text-white font-medium">
+                    {profile?.height_feet && profile?.height_inches !== null 
+                      ? `${profile.height_feet}'${profile.height_inches}"` 
+                      : 'Not set'}
+                  </span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Weight</span>
+                  <span className="text-gray-900 dark:text-white font-medium">
+                    {profile?.weight ? `${profile.weight} lbs` : 'Not set'}
+                  </span>
+                </div>
+                <div className="flex justify-between col-span-2">
+                  <span className="text-gray-500 dark:text-gray-400">Goal</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.goal || 'Not set'}</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Lifestyle Info */}
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Lifestyle Info</h2>
+              {!isEditingLifestyle ? (
+                <button
+                  onClick={() => setIsEditingLifestyle(true)}
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                >
+                  <Edit2 className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                </button>
+              ) : (
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      setIsEditingLifestyle(false);
+                      loadData();
+                    }}
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <X className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  </button>
+                  <button
+                    onClick={handleSaveLifestyle}
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <Check className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {isEditingLifestyle ? (
+              <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Smoking</Label>
+                  <Select value={lifestyleForm.smoking} onValueChange={(value) => setLifestyleForm({...lifestyleForm, smoking: value})}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="never">Never</SelectItem>
+                      <SelectItem value="occasionally">Occasionally</SelectItem>
+                      <SelectItem value="regularly">Regularly</SelectItem>
+                      <SelectItem value="quit">Quit</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Alcohol</Label>
+                  <Select value={lifestyleForm.alcohol} onValueChange={(value) => setLifestyleForm({...lifestyleForm, alcohol: value})}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">None</SelectItem>
+                      <SelectItem value="light">Light</SelectItem>
+                      <SelectItem value="moderate">Moderate</SelectItem>
+                      <SelectItem value="heavy">Heavy</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Exercise</Label>
+                  <Select value={lifestyleForm.exercise} onValueChange={(value) => setLifestyleForm({...lifestyleForm, exercise: value})}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="sedentary">Sedentary</SelectItem>
+                      <SelectItem value="light">Light</SelectItem>
+                      <SelectItem value="moderate">Moderate</SelectItem>
+                      <SelectItem value="intense">Intense</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Diet</Label>
+                  <Select value={lifestyleForm.diet_quality} onValueChange={(value) => setLifestyleForm({...lifestyleForm, diet_quality: value})}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="poor">Poor</SelectItem>
+                      <SelectItem value="average">Average</SelectItem>
+                      <SelectItem value="good">Good</SelectItem>
+                      <SelectItem value="excellent">Excellent</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Sleep (hrs)</Label>
+                  <Input
+                    type="number"
+                    step="0.5"
+                    value={lifestyleForm.sleep_hours}
+                    onChange={(e) => setLifestyleForm({ ...lifestyleForm, sleep_hours: e.target.value })}
+                    className="h-9 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Stress</Label>
+                  <Select value={lifestyleForm.stress_level} onValueChange={(value) => setLifestyleForm({...lifestyleForm, stress_level: value})}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="moderate">Moderate</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                      <SelectItem value="extreme">Extreme</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Supplements</Label>
+                  <Select value={lifestyleForm.supplements} onValueChange={(value) => setLifestyleForm({...lifestyleForm, supplements: value})}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">None</SelectItem>
+                      <SelectItem value="basic">Basic</SelectItem>
+                      <SelectItem value="fertility">Fertility</SelectItem>
+                      <SelectItem value="comprehensive">Comprehensive</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="flex items-center gap-2 pt-2">
+                  <Checkbox
+                    id="tight"
+                    checked={lifestyleForm.tight_clothing}
+                    onCheckedChange={(checked) => setLifestyleForm({...lifestyleForm, tight_clothing: !!checked})}
+                  />
+                  <Label htmlFor="tight" className="text-xs cursor-pointer">Tight clothing</Label>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    id="hot"
+                    checked={lifestyleForm.hot_baths}
+                    onCheckedChange={(checked) => setLifestyleForm({...lifestyleForm, hot_baths: !!checked})}
+                  />
+                  <Label htmlFor="hot" className="text-xs cursor-pointer">Hot baths/saunas</Label>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Smoking</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.smoking || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Alcohol</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.alcohol || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Exercise</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.exercise || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Diet</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.diet_quality || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Sleep</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.sleep_hours ? `${profile.sleep_hours} hrs` : 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Stress</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.stress_level || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Supplements</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.supplements || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Tight clothing</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.tight_clothing ? 'Yes' : 'No'}</span>
+                </div>
+                <div className="flex justify-between col-span-2">
+                  <span className="text-gray-500 dark:text-gray-400">Hot baths</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.hot_baths ? 'Yes' : 'No'}</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Badges */}
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Achievements</h2>
+              <span className="text-xs text-gray-500 dark:text-gray-400">{badges.filter(b => b.earned).length}/{badges.length}</span>
+            </div>
+            
+            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+              {badges.map(badge => {
+                const Icon = badge.icon;
+                return (
+                  <div
+                    key={badge.id}
+                    className="flex flex-col items-center gap-2 flex-shrink-0"
+                  >
+                    <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-200 ${
+                      badge.earned 
+                        ? 'bg-gray-900 dark:bg-white' 
+                        : 'bg-gray-100 dark:bg-gray-700'
+                    }`}>
+                      <Icon className={`w-6 h-6 md:w-7 md:h-7 ${
+                        badge.earned ? 'text-white dark:text-black' : 'text-gray-400 dark:text-gray-500'
+                      }`} strokeWidth={2} />
+                    </div>
+                    <div className={`text-[10px] md:text-xs text-center font-medium max-w-[60px] leading-tight ${
+                      badge.earned ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500'
+                    }`}>
+                      {badge.name}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* MFA Settings */}
           <MFASettings />
 
           {/* Subscription Section */}
