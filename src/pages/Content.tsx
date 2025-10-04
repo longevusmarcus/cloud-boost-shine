@@ -1,11 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BookOpen, Sparkles, Clock, UserCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Content() {
   const [activeTab, setActiveTab] = useState("foryou");
   const navigate = useNavigate();
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+      const { data: profile } = await supabase
+        .from('user_profiles')
+        .select('profile_image_url')
+        .eq('user_id', session.user.id)
+        .single();
+      setProfileImageUrl(profile?.profile_image_url || null);
+    };
+    fetchProfile();
+  }, []);
 
   // Mock articles data
   const articles = [
@@ -75,9 +91,17 @@ export default function Content() {
         <div className="flex items-center justify-between md:hidden pb-1">
           <button
             onClick={() => navigate('/profile')}
-            className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center"
+            className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center"
           >
-            <UserCircle className="w-5 h-5 text-gray-600" />
+            {profileImageUrl ? (
+              <img 
+                src={profileImageUrl} 
+                alt="Profile" 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <UserCircle className="w-5 h-5 text-gray-600" />
+            )}
           </button>
           <button className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
             <span className="text-base">🔔</span>
