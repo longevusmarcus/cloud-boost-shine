@@ -166,14 +166,14 @@ export default function Analytics() {
             <div className="text-gray-600 text-xs md:text-sm">hours/night</div>
           </div>
 
-          {/* Avg Water */}
+          {/* Avg Exercise */}
           <div className="bg-white rounded-3xl p-4 md:p-6 border border-gray-200">
             <div className="flex items-center gap-2 text-gray-600 mb-2">
-              <Droplet className="w-4 h-4 md:w-5 md:h-5" />
-              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Water</span>
+              <Activity className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Exercise</span>
             </div>
-            <div className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">{avgWater}</div>
-            <div className="text-gray-600 text-xs md:text-sm">oz/day</div>
+            <div className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">{avgExercise}</div>
+            <div className="text-gray-600 text-xs md:text-sm">min/day</div>
           </div>
         </div>
 
