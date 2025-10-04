@@ -99,36 +99,30 @@ export default function Analytics() {
           <p className="text-sm md:text-base text-gray-600">Your sperm value insights over time</p>
         </div>
 
-        {/* Period Selector - TikTok Style */}
-        <div className="border-b border-gray-200">
-          <div className="flex gap-6 justify-center">
-            <button
-              onClick={() => setSelectedPeriod("7d")}
-              className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
-                selectedPeriod === "7d"
-                  ? "text-gray-900"
-                  : "text-gray-500"
-              }`}
-            >
-              7 Days
-              {selectedPeriod === "7d" && (
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 animate-scale-in" />
-              )}
-            </button>
-            <button
-              onClick={() => setSelectedPeriod("30d")}
-              className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
-                selectedPeriod === "30d"
-                  ? "text-gray-900"
-                  : "text-gray-500"
-              }`}
-            >
-              30 Days
-              {selectedPeriod === "30d" && (
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 animate-scale-in" />
-              )}
-            </button>
-          </div>
+        {/* Period Selector - Pill Style */}
+        <div className="flex gap-2 mt-4">
+          <button
+            onClick={() => setSelectedPeriod("7d")}
+            className={`flex-1 py-2.5 md:py-3 px-4 md:px-6 rounded-xl font-medium transition-all duration-200 text-sm md:text-base ${
+              selectedPeriod === "7d"
+                ? "bg-gray-900 text-white"
+                : "bg-white text-gray-700 border border-gray-200 hover:border-gray-400"
+            }`}
+          >
+            <Calendar className="w-4 h-4 md:w-5 md:h-5 inline mr-2" />
+            7 Days
+          </button>
+          <button
+            onClick={() => setSelectedPeriod("30d")}
+            className={`flex-1 py-2.5 md:py-3 px-4 md:px-6 rounded-xl font-medium transition-all duration-200 text-sm md:text-base ${
+              selectedPeriod === "30d"
+                ? "bg-gray-900 text-white"
+                : "bg-white text-gray-700 border border-gray-200 hover:border-gray-400"
+            }`}
+          >
+            <Calendar className="w-4 h-4 md:w-5 md:h-5 inline mr-2" />
+            30 Days
+          </button>
         </div>
 
         {/* Summary Cards Grid */}

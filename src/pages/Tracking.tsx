@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { CheckCircle, FlaskConical, TrendingUp, UserCircle } from "lucide-react";
+import { CheckCircle, FlaskConical, TrendingUp, UserCircle, Calendar } from "lucide-react";
 import Layout from "@/components/Layout";
 import DailyLogForm from "@/components/tracking/DailyLogForm";
 import TestResultUpload from "@/components/tracking/TestResultUpload";
@@ -183,47 +183,43 @@ export default function Tracking() {
             </button>
           </div>
 
-          {/* Desktop: Full header */}
-          <div className="hidden md:block mb-4">
-            <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Daily Check-in</h1>
-            <p className="text-sm md:text-base text-gray-600">{format(new Date(), "EEEE, MMMM d, yyyy")}</p>
-          </div>
+        {/* Desktop: Full header */}
+        <div className="hidden md:block mb-4">
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Daily Check-in</h1>
+          <p className="text-sm md:text-base text-gray-600">{format(new Date(), "EEEE, MMMM d, yyyy")}</p>
         </div>
+      </div>
 
-        {/* Tabs - TikTok Style */}
-        <div className="border-b border-gray-200">
-          <div className="flex gap-6 justify-center">
-            <button
-              onClick={() => setActiveTab("daily")}
-              className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
-                activeTab === "daily"
-                  ? "text-gray-900"
-                  : "text-gray-500"
-              }`}
-            >
-              Daily Log
-              {activeTab === "daily" && (
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 animate-scale-in" />
-              )}
-            </button>
-            <button
-              onClick={() => setActiveTab("results")}
-              className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
-                activeTab === "results"
-                  ? "text-gray-900"
-                  : "text-gray-500"
-              }`}
-            >
-              Testing
-              {testResults.length > 0 && (
-                <span className="ml-1 text-xs opacity-70">({testResults.length})</span>
-              )}
-              {activeTab === "results" && (
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 animate-scale-in" />
-              )}
-            </button>
-          </div>
-        </div>
+      {/* Tabs - Pill Style */}
+      <div className="flex gap-2 mb-4">
+        <button
+          onClick={() => setActiveTab("daily")}
+          className={`flex-1 py-2.5 md:py-3 px-4 md:px-6 rounded-xl font-medium transition-all duration-200 text-sm md:text-base ${
+            activeTab === "daily"
+              ? "bg-gray-900 text-white"
+              : "bg-white text-gray-700 border border-gray-200 hover:border-gray-400"
+          }`}
+        >
+          <Calendar className="w-4 h-4 md:w-5 md:h-5 inline mr-2" />
+          Daily Log
+        </button>
+        <button
+          onClick={() => setActiveTab("results")}
+          className={`flex-1 py-2.5 md:py-3 px-4 md:px-6 rounded-xl font-medium transition-all duration-200 text-sm md:text-base ${
+            activeTab === "results"
+              ? "bg-gray-900 text-white"
+              : "bg-white text-gray-700 border border-gray-200 hover:border-gray-400"
+          }`}
+        >
+          <FlaskConical className="w-4 h-4 md:w-5 md:h-5 inline mr-2" />
+          Testing
+          {testResults.length > 0 && (
+            <span className="ml-2 px-2 py-0.5 rounded-full bg-white text-gray-900 text-xs font-bold">
+              {testResults.length}
+            </span>
+          )}
+        </button>
+      </div>
 
         {/* Content */}
         <div className="pb-24 md:pb-6">{activeTab === "daily" ? (
