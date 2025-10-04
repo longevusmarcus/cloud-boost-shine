@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format, subDays } from "date-fns";
-import { TrendingUp, Calendar, Activity, Droplet, Moon, UserCircle, FileText } from "lucide-react";
+import { TrendingUp, Calendar, Activity, Moon, UserCircle, FileText, Zap } from "lucide-react";
 import Layout from "@/components/Layout";
 import TestResultDisplay from "@/components/tracking/TestResultDisplay";
 
@@ -190,31 +190,110 @@ export default function Analytics() {
           </div>
         )}
 
-        {/* Recent Activity */}
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Activity</h2>
-          {logs.length === 0 ? (
-            <div className="text-center py-12">
-              <Activity className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600">No activity data yet</p>
-              <p className="text-sm text-gray-500 mt-1">Start logging your daily metrics</p>
+        {/* Activity Summary */}
+        <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Activity Summary</h2>
+          <div className="space-y-4">
+            {/* Avg Exercise */}
+            <div className="flex items-center gap-4 py-3">
+              <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                <Zap className="w-6 h-6 text-gray-700" />
+              </div>
+              <div className="flex-1">
+                <div className="text-xl font-semibold text-gray-900">Avg Exercise</div>
+                <div className="text-gray-600 text-base">{avgExercise} min/day</div>
+              </div>
             </div>
-          ) : (
-            <div className="space-y-3">
-              {logs.slice(-7).reverse().map((log) => (
-                <div key={log.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-200">
-                  <span className="font-medium text-gray-900">
-                    {format(new Date(log.date), 'MMM dd')}
-                  </span>
-                  <div className="flex gap-4 text-sm text-gray-600">
-                    {log.sleep_hours && <span>{log.sleep_hours}h sleep</span>}
-                    {log.exercise_minutes && <span>{log.exercise_minutes}min exercise</span>}
-                  </div>
-                </div>
-              ))}
+
+            {/* Current Streak */}
+            <div className="flex items-center gap-4 py-3 border-t border-gray-100">
+              <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                <TrendingUp className="w-6 h-6 text-gray-700" />
+              </div>
+              <div className="flex-1">
+                <div className="text-xl font-semibold text-gray-900">Current Streak</div>
+                <div className="text-gray-600 text-base">{profile?.current_streak || 0} days</div>
+              </div>
             </div>
-          )}
+
+            {/* Best Streak */}
+            <div className="flex items-center gap-4 py-3 border-t border-gray-100">
+              <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                <Calendar className="w-6 h-6 text-gray-700" />
+              </div>
+              <div className="flex-1">
+                <div className="text-xl font-semibold text-gray-900">Best Streak</div>
+                <div className="text-gray-600 text-base">{profile?.longest_streak || 0} days</div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Sleep Trends */}
+        {logs.length > 0 && (
+          <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-200">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Sleep Trends</h2>
+            <p className="text-gray-600 text-sm mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
+            <div className="h-48 flex items-end justify-center gap-1 md:gap-2">
+              {logs.length === 0 ? (
+                <div className="text-center text-gray-500">No sleep data</div>
+              ) : (
+                logs.map((log, index) => {
+                  const maxSleep = 12;
+                  const height = ((log.sleep_hours || 0) / maxSleep) * 100;
+                  return (
+                    <div key={log.id} className="flex-1 flex flex-col items-center gap-2 max-w-[40px]">
+                      <div className="w-full bg-gray-100 rounded-t-lg relative" style={{ height: '100%' }}>
+                        <div 
+                          className="absolute bottom-0 w-full bg-gray-900 rounded-t-lg transition-all"
+                          style={{ height: `${height}%` }}
+                        />
+                      </div>
+                      {(index === 0 || index === logs.length - 1 || logs.length < 8) && (
+                        <span className="text-xs text-gray-500">
+                          {format(new Date(log.date), 'MMM d')}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Stress Levels */}
+        {logs.length > 0 && (
+          <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-200">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Stress Levels</h2>
+            <p className="text-gray-600 text-sm mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
+            <div className="h-48 flex items-end justify-center gap-1 md:gap-2">
+              {logs.length === 0 ? (
+                <div className="text-center text-gray-500">No stress data</div>
+              ) : (
+                logs.map((log, index) => {
+                  const maxStress = 10;
+                  const height = ((log.stress_level || 0) / maxStress) * 100;
+                  return (
+                    <div key={log.id} className="flex-1 flex flex-col items-center gap-2 max-w-[40px]">
+                      <div className="w-full bg-gray-100 rounded-t-lg relative" style={{ height: '100%' }}>
+                        <div 
+                          className="absolute bottom-0 w-full bg-gray-900 rounded-t-lg transition-all"
+                          style={{ height: `${height}%` }}
+                        />
+                      </div>
+                      {(index === 0 || index === logs.length - 1 || logs.length < 8) && (
+                        <span className="text-xs text-gray-500">
+                          {format(new Date(log.date), 'MMM d')}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
