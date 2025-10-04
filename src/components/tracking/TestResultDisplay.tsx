@@ -35,6 +35,10 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
   const pmscStatus = getStatus(result.progressive_motile_sperm_concentration, 5, 3);
   const morphologyStatus = getStatus(result.morphology, 4, 2);
 
+  const hasAnyMetrics = result.concentration || result.motility || result.morphology || 
+                        result.progressive_motility || result.motile_sperm_concentration || 
+                        result.progressive_motile_sperm_concentration || result.volume;
+
   return (
     <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200">
       {/* Header */}
@@ -62,9 +66,27 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
         )}
       </div>
 
+      {/* No Metrics Message */}
+      {!hasAnyMetrics && (
+        <div className="bg-amber-50 rounded-2xl p-6 border-2 border-amber-200 mb-6">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+              <Activity className="w-5 h-5 text-amber-700" />
+            </div>
+            <div>
+              <h4 className="font-semibold text-amber-900 mb-1">No Metrics Available</h4>
+              <p className="text-sm text-amber-800">
+                This test result was uploaded without metric values. You can edit it from the Tracking page to add concentration, motility, morphology, and other measurements.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Primary Stats */}
-      <div className="grid md:grid-cols-3 gap-4 mb-6">
-        {result.concentration && (
+      {hasAnyMetrics && (
+        <div className="grid md:grid-cols-3 gap-4 mb-6">
+          {result.concentration && (
           <div className="bg-gray-50 rounded-3xl p-6 border border-gray-200">
             <div className="flex items-center gap-2 mb-3 text-gray-600">
               <Users className="w-5 h-5" />
@@ -110,12 +132,14 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
               {morphologyStatus.text}
             </div>
           </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       {/* Advanced Metrics */}
-      <div className="space-y-3 mb-6">
-        <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Advanced Metrics</h4>
+      {hasAnyMetrics && (
+        <div className="space-y-3 mb-6">
+          <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Advanced Metrics</h4>
         
         {result.progressive_motility && (
           <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
@@ -187,14 +211,17 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
             </div>
           </div>
         )}
-      </div>
+        </div>
+      )}
 
       {/* WHO Reference Info */}
-      <div className="bg-blue-50 rounded-2xl p-4 border border-blue-200">
+      {hasAnyMetrics && (
+        <div className="bg-blue-50 rounded-2xl p-4 border border-blue-200">
         <p className="text-sm text-blue-900">
           <span className="font-semibold">ℹ️ WHO 6th Edition Reference:</span> These results are compared against World Health Organization standards for optimal fertility parameters.
         </p>
-      </div>
+        </div>
+      )}
 
       {/* Notes */}
       {result.notes && (
