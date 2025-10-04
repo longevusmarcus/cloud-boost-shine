@@ -164,7 +164,7 @@ export default function Tracking() {
     <Layout>
       <div className="max-w-3xl mx-auto space-y-4">
         {/* Header - Fixed and Sticky */}
-        <div className="sticky top-0 z-10 bg-gray-50">
+        <div className="sticky top-0 z-10 bg-gray-50 dark:bg-gray-950">
           {/* Mobile: Minimal header with icons */}
           <div className="flex items-center justify-between md:hidden mb-2">
             <button 
@@ -273,15 +273,15 @@ export default function Tracking() {
                   </div>
                 ) : (
                   <div className="space-y-3 md:space-y-4">
-                    <div className="bg-gray-50 rounded-2xl p-4 md:p-6 border border-gray-200">
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
                       <div className="flex items-center justify-between mb-3">
                         <div className="min-w-0">
-                          <h4 className="font-semibold text-base md:text-lg text-gray-900">Last Test</h4>
-                          <p className="text-gray-600 text-xs md:text-sm">{format(new Date(testResults[0].test_date), "MMM d, yyyy")}</p>
+                          <h4 className="font-semibold text-base md:text-lg text-gray-900 dark:text-white">Last Test</h4>
+                          <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">{format(new Date(testResults[0].test_date), "MMM d, yyyy")}</p>
                         </div>
                         <div className="text-right flex-shrink-0">
-                          <div className="text-2xl md:text-3xl font-bold text-gray-900">{testResults.length}</div>
-                          <div className="text-gray-600 text-xs">Total Tests</div>
+                          <div className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{testResults.length}</div>
+                          <div className="text-gray-600 dark:text-gray-400 text-xs">Total Tests</div>
                         </div>
                       </div>
                     </div>
@@ -289,19 +289,19 @@ export default function Tracking() {
                     {daysUntilNext !== null && (
                       <div className={`rounded-2xl p-4 md:p-6 border-2 ${
                         daysUntilNext <= 0 
-                          ? 'bg-green-50 border-green-500' 
-                          : 'bg-gray-50 border-gray-200'
+                          ? 'bg-green-50 dark:bg-green-950 border-green-500' 
+                          : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
                       }`}>
-                        <h4 className="font-semibold text-base md:text-lg text-gray-900 mb-2">
+                        <h4 className="font-semibold text-base md:text-lg text-gray-900 dark:text-white mb-2">
                           {daysUntilNext <= 0 ? '⏰ Test Due!' : '📅 Next Quarterly Test'}
                         </h4>
-                        <p className="text-gray-600 text-xs md:text-sm mb-2">
+                        <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-2">
                           {daysUntilNext <= 0 
                             ? 'It\'s time for your quarterly check-up to track progress!'
                             : `${daysUntilNext} day${daysUntilNext !== 1 ? 's' : ''} until your next recommended test`}
                         </p>
                         {nextTestDate && (
-                          <p className="text-gray-500 text-xs mb-4">
+                          <p className="text-gray-500 dark:text-gray-500 text-xs mb-4">
                             Scheduled: {format(nextTestDate, "MMMM d, yyyy")}
                           </p>
                         )}
@@ -309,17 +309,17 @@ export default function Tracking() {
                     )}
 
                     {/* Always show upload button */}
-                    <div className="bg-gray-50 rounded-2xl p-4 md:p-6 border border-gray-200">
-                      <h4 className="font-semibold text-sm md:text-base text-gray-900 mb-2">Upload New Test</h4>
-                      <p className="text-gray-600 text-xs md:text-sm mb-4">
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+                      <h4 className="font-semibold text-sm md:text-base text-gray-900 dark:text-white mb-2">Upload New Test</h4>
+                      <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4">
                         Upload anytime to track your progress
                       </p>
                       <TestResultUpload onUpload={handleTestUpload} isCompact />
                     </div>
 
-                    <div className="bg-gray-50 rounded-2xl p-4 md:p-6 border border-gray-200">
-                      <h4 className="font-semibold text-sm md:text-base text-gray-900 mb-3">💎 Testing Benefits</h4>
-                      <ul className="space-y-2 text-xs md:text-sm text-gray-600">
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+                      <h4 className="font-semibold text-sm md:text-base text-gray-900 dark:text-white mb-3">💎 Testing Benefits</h4>
+                      <ul className="space-y-2 text-xs md:text-sm text-gray-600 dark:text-gray-400">
                         <li>✓ Track sperm value changes over time</li>
                         <li>✓ Measure lifestyle optimization impact</li>
                         <li>✓ Unlock achievement badges</li>
@@ -354,8 +354,8 @@ export default function Tracking() {
                       return (
                         <>
                           {concentrationChange !== null && (
-                            <div className="bg-gray-50 rounded-2xl p-3 md:p-4 border border-gray-200">
-                              <div className="text-[10px] md:text-xs text-gray-600 mb-1">Concentration</div>
+                            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-3 md:p-4 border border-gray-200 dark:border-gray-700">
+                              <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400 mb-1">Concentration</div>
                               <div className={`flex items-center gap-1 ${parseFloat(concentrationChange) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                                 <TrendingUp className={`w-3 h-3 md:w-4 md:h-4 flex-shrink-0 ${parseFloat(concentrationChange) < 0 ? 'rotate-180' : ''}`} />
                                 <span className="text-base md:text-lg font-bold truncate">{Math.abs(parseFloat(concentrationChange))}%</span>
@@ -363,8 +363,8 @@ export default function Tracking() {
                             </div>
                           )}
                           {motilityChange !== null && (
-                            <div className="bg-gray-50 rounded-2xl p-3 md:p-4 border border-gray-200">
-                              <div className="text-[10px] md:text-xs text-gray-600 mb-1">Motility</div>
+                            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-3 md:p-4 border border-gray-200 dark:border-gray-700">
+                              <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400 mb-1">Motility</div>
                               <div className={`flex items-center gap-1 ${parseFloat(motilityChange) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                                 <TrendingUp className={`w-3 h-3 md:w-4 md:h-4 flex-shrink-0 ${parseFloat(motilityChange) < 0 ? 'rotate-180' : ''}`} />
                                 <span className="text-base md:text-lg font-bold truncate">{Math.abs(parseFloat(motilityChange))}%</span>
@@ -372,8 +372,8 @@ export default function Tracking() {
                             </div>
                           )}
                           {progressiveChange !== null && (
-                            <div className="bg-gray-50 rounded-2xl p-3 md:p-4 border border-gray-200">
-                              <div className="text-[10px] md:text-xs text-gray-600 mb-1">Progressive</div>
+                            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-3 md:p-4 border border-gray-200 dark:border-gray-700">
+                              <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400 mb-1">Progressive</div>
                               <div className={`flex items-center gap-1 ${parseFloat(progressiveChange) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                                 <TrendingUp className={`w-3 h-3 md:w-4 md:h-4 flex-shrink-0 ${parseFloat(progressiveChange) < 0 ? 'rotate-180' : ''}`} />
                                 <span className="text-base md:text-lg font-bold truncate">{Math.abs(parseFloat(progressiveChange))}%</span>
@@ -381,8 +381,8 @@ export default function Tracking() {
                             </div>
                           )}
                           {mscChange !== null && (
-                            <div className="bg-gray-50 rounded-2xl p-3 md:p-4 border border-gray-200">
-                              <div className="text-[10px] md:text-xs text-gray-600 mb-1">MSC</div>
+                            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-3 md:p-4 border border-gray-200 dark:border-gray-700">
+                              <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400 mb-1">MSC</div>
                               <div className={`flex items-center gap-1 ${parseFloat(mscChange) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                                 <TrendingUp className={`w-3 h-3 md:w-4 md:h-4 flex-shrink-0 ${parseFloat(mscChange) < 0 ? 'rotate-180' : ''}`} />
                                 <span className="text-base md:text-lg font-bold truncate">{Math.abs(parseFloat(mscChange))}%</span>
@@ -393,7 +393,7 @@ export default function Tracking() {
                       );
                     })()}
                   </div>
-                  <p className="text-center text-xs md:text-sm text-gray-600 mt-3 md:mt-4">
+                  <p className="text-center text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-3 md:mt-4">
                     View detailed results in Analytics →
                   </p>
                 </div>
