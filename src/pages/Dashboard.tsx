@@ -99,35 +99,39 @@ export default function Dashboard() {
     <Layout>
       <div className="max-w-3xl mx-auto space-y-6">
         {/* Floating Icons - Mobile Only */}
-        <button
-          onClick={() => navigate('/profile')}
-          className="fixed top-4 left-4 z-50 md:hidden w-9 h-9 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg"
-        >
-          {profile?.profile_image_url ? (
-            <img 
-              src={profile.profile_image_url} 
-              alt="Profile" 
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <UserCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-          )}
-        </button>
-        
-        <button 
-          onClick={toggleTheme}
-          className="fixed top-4 right-14 z-50 md:hidden w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
-        >
-          {theme === "light" ? (
-            <Moon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-          ) : (
-            <Sun className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-          )}
-        </button>
-        
-        <button className="fixed top-4 right-4 z-50 md:hidden w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg">
-          <span className="text-base">🔔</span>
-        </button>
+        <div className="fixed top-4 left-4 right-4 z-50 md:hidden flex items-center justify-between">
+          <button
+            onClick={() => navigate('/profile')}
+            className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg"
+          >
+            {profile?.profile_image_url ? (
+              <img 
+                src={profile.profile_image_url} 
+                alt="Profile" 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <UserCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            )}
+          </button>
+          
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={toggleTheme}
+              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
+            >
+              {theme === "light" ? (
+                <Moon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+              ) : (
+                <Sun className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+              )}
+            </button>
+            
+            <button className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg">
+              <span className="text-base">🔔</span>
+            </button>
+          </div>
+        </div>
 
         {/* Calendar */}
         <div className="relative">
