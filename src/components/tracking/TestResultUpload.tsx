@@ -135,12 +135,12 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
           onClick={() => setShowForm(true)}
           className={`${
             isCompact 
-              ? "h-12 px-6 text-sm rounded-full" 
-              : "h-14 px-8 text-base rounded-full"
-          } bg-gray-900 hover:bg-gray-800 text-white font-medium shadow-lg transition-all active:scale-95`}
+              ? "h-11 px-5 text-sm" 
+              : "h-12 md:h-14 px-6 md:px-8 text-base md:text-lg"
+          } bg-black hover:bg-gray-800 text-white rounded-[20px] font-semibold transition-all active:scale-[0.98]`}
         >
           <Upload className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-          {isCompact ? "Upload Test" : "Upload YO Test"}
+          {isCompact ? "Upload New" : "Upload YO Test"}
         </Button>
 
         {!isCompact && (
@@ -240,22 +240,21 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
         </div>
       )}
 
-      {/* Floating Action Buttons */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md flex flex-col gap-3">
+      <div className="flex flex-col gap-3 w-full">
         <Button
           type="submit"
-          className="w-full h-14 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-medium text-base shadow-lg transition-all active:scale-95"
+          className="w-full h-12 md:h-14 bg-black hover:bg-gray-800 text-white rounded-[20px] font-semibold text-base md:text-lg transition-all active:scale-[0.98]"
           disabled={isUploading || !formData.file}
         >
           {isUploading ? (
             <>
-              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-              Processing...
+              <Loader2 className="w-5 h-5 mr-2 animate-spin flex-shrink-0" />
+              <span className="truncate">Processing...</span>
             </>
           ) : (
             <>
-              <Upload className="w-5 h-5 mr-2" />
-              Upload & Process
+              <Upload className="w-5 h-5 mr-2 flex-shrink-0" />
+              <span className="truncate">Upload & Process</span>
             </>
           )}
         </Button>
@@ -265,8 +264,8 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
             setShowForm(false);
             setExtractionStatus(null);
           }}
-          variant="ghost"
-          className="w-full h-12 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full font-medium transition-all active:scale-95"
+          variant="outline"
+          className="w-full h-12 md:h-14 border-2 border-gray-300 text-black hover:bg-gray-100 rounded-[20px] text-base md:text-lg font-medium transition-all active:scale-[0.98]"
           disabled={isUploading}
         >
           Cancel
