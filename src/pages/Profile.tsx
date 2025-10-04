@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { UserCircle, LogOut, Award, TrendingUp, Flame, Calendar, Target, Zap, Trophy, Camera, Moon, Sun, ArrowLeft, Edit2, Check, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import Layout from "@/components/Layout";
+
 import SubscriptionSection from "@/components/profile/SubscriptionSection";
 import MFASettings from "@/components/profile/MFASettings";
 import { useTheme } from "@/components/ThemeProvider";
@@ -280,8 +280,7 @@ export default function Profile() {
   ];
 
   return (
-    <Layout>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-3 md:p-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-3 md:p-8">
         {/* Floating Buttons - Mobile Only */}
         <div className="fixed top-4 left-0 right-0 z-50 md:hidden flex items-center justify-between px-4">
           <button 
@@ -757,6 +756,5 @@ export default function Profile() {
           </Button>
         </div>
       </div>
-    </Layout>
   );
 }
