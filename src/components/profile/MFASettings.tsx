@@ -76,8 +76,17 @@ export default function MFASettings() {
 
       if (!factorId) throw new Error("No MFA factor found");
 
-      const { error } = await supabase.auth.mfa.challengeAndVerify({
+      // Create a challenge for the factor
+      const { data: challengeData, error: challengeError } = await supabase.auth.mfa.challenge({
+        factorId
+      });
+
+      if (challengeError) throw challengeError;
+
+      // Verify the challenge with the code
+      const { error } = await supabase.auth.mfa.verify({
         factorId,
+        challengeId: challengeData.id,
         code: verifyCode,
       });
 
