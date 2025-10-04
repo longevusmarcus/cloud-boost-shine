@@ -167,20 +167,20 @@ export default function CalculatorResults({ userData, onComplete, onBack }) {
       </div>
 
       {/* Test Kit CTA */}
-      <div className="border border-gray-200 rounded-2xl p-4 mb-4 bg-gray-50 overflow-hidden">
+      <div className="border border-gray-200 rounded-2xl p-3 mb-4 bg-gray-50">
         <h4 className="font-semibold text-black text-sm mb-1">Get Accurate Testing</h4>
-        <p className="text-xs text-gray-600 mb-3">
+        <p className="text-xs text-gray-600 mb-2">
           Confirm your sperm value with professional analysis
         </p>
-        <div className="flex gap-2 w-full">
+        <div className="flex flex-col sm:flex-row gap-2 w-full">
           <a
             href="https://www.hellosperm.com/products/yo-home-sperm-test"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 min-w-0"
+            className="flex-1"
           >
-            <Button variant="outline" className="w-full h-9 border-gray-300 text-black hover:bg-white rounded-xl text-xs whitespace-nowrap overflow-hidden text-ellipsis">
-              Test Sperm Health (YO)
+            <Button variant="outline" className="w-full h-8 px-2 border-gray-300 text-black hover:bg-white rounded-lg text-[11px] sm:text-xs font-medium">
+              <span className="truncate">Test Health (YO)</span>
               <ExternalLink className="w-3 h-3 ml-1 flex-shrink-0" />
             </Button>
           </a>
@@ -188,10 +188,10 @@ export default function CalculatorResults({ userData, onComplete, onBack }) {
             href="https://www.givelegacy.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 min-w-0"
+            className="flex-1"
           >
-            <Button variant="outline" className="w-full h-9 border-gray-300 text-black hover:bg-white rounded-xl text-xs whitespace-nowrap overflow-hidden text-ellipsis">
-              Freeze Sperm (Legacy)
+            <Button variant="outline" className="w-full h-8 px-2 border-gray-300 text-black hover:bg-white rounded-lg text-[11px] sm:text-xs font-medium">
+              <span className="truncate">Freeze (Legacy)</span>
               <ExternalLink className="w-3 h-3 ml-1 flex-shrink-0" />
             </Button>
           </a>
