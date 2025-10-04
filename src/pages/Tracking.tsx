@@ -164,7 +164,7 @@ export default function Tracking() {
     <Layout>
       <div className="max-w-3xl mx-auto space-y-4">
         {/* Header - Fixed and Sticky */}
-        <div className="sticky top-0 z-10 bg-gray-50 pb-2 md:pb-4">
+        <div className="sticky top-0 z-10 bg-gray-50">
           {/* Mobile: Minimal header with icons */}
           <div className="flex items-center justify-between md:hidden mb-2">
             <button 
@@ -179,7 +179,7 @@ export default function Tracking() {
           </div>
 
           {/* Desktop: Full header */}
-          <div className="hidden md:block">
+          <div className="hidden md:block mb-4">
             <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Daily Check-in</h1>
             <p className="text-sm md:text-base text-gray-600">{format(new Date(), "EEEE, MMMM d, yyyy")}</p>
           </div>
