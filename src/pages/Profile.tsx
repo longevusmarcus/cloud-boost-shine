@@ -284,7 +284,7 @@ export default function Profile() {
         {/* Floating Buttons - Mobile Only */}
         <div className="fixed top-4 left-0 right-0 z-50 md:hidden flex items-center justify-between px-4">
           <button 
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/dashboard')}
             className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
           >
             <ArrowLeft className="w-4 h-4 text-gray-600 dark:text-gray-400" />
