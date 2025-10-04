@@ -184,7 +184,7 @@ export default function TestResultDisplay({ result, onDelete }: TestResultDispla
           <h4 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wide">Advanced Metrics</h4>
         
         {result.progressive_motility && (
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 flex items-center justify-center">
@@ -203,7 +203,7 @@ export default function TestResultDisplay({ result, onDelete }: TestResultDispla
         )}
 
         {result.motile_sperm_concentration && (
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 flex items-center justify-center">
@@ -222,7 +222,7 @@ export default function TestResultDisplay({ result, onDelete }: TestResultDispla
         )}
 
         {result.progressive_motile_sperm_concentration && (
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 flex items-center justify-center">
@@ -241,7 +241,7 @@ export default function TestResultDisplay({ result, onDelete }: TestResultDispla
         )}
 
         {result.volume && (
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 flex items-center justify-center">
                 <Droplets className="w-5 h-5 text-gray-700 dark:text-gray-300" />
