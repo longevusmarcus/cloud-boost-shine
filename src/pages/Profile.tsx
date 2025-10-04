@@ -4,6 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { UserCircle, LogOut, Award, TrendingUp, Flame, Calendar, Target, Zap, Trophy, Camera, Moon, Sun, ArrowLeft, Edit2, Check, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
@@ -20,12 +22,19 @@ export default function Profile() {
   const [uploading, setUploading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({
-    full_name: '',
-    age: '',
-    goal: '',
-    height_feet: '',
-    height_inches: '',
-    weight: ''
+    smoking: '',
+    alcohol: '',
+    exercise: '',
+    diet_quality: '',
+    sleep_hours: '',
+    stress_level: '',
+    masturbation_frequency: '',
+    sexual_activity: '',
+    supplements: '',
+    career_status: '',
+    family_pledge: '',
+    tight_clothing: false,
+    hot_baths: false
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -52,12 +61,19 @@ export default function Profile() {
 
       setProfile(profileData);
       setEditForm({
-        full_name: profileData?.full_name || '',
-        age: profileData?.age?.toString() || '',
-        goal: profileData?.goal || '',
-        height_feet: profileData?.height_feet?.toString() || '',
-        height_inches: profileData?.height_inches?.toString() || '',
-        weight: profileData?.weight?.toString() || ''
+        smoking: profileData?.smoking || '',
+        alcohol: profileData?.alcohol || '',
+        exercise: profileData?.exercise || '',
+        diet_quality: profileData?.diet_quality || '',
+        sleep_hours: profileData?.sleep_hours?.toString() || '',
+        stress_level: profileData?.stress_level || '',
+        masturbation_frequency: profileData?.masturbation_frequency || '',
+        sexual_activity: profileData?.sexual_activity || '',
+        supplements: profileData?.supplements || '',
+        career_status: profileData?.career_status || '',
+        family_pledge: profileData?.family_pledge || '',
+        tight_clothing: profileData?.tight_clothing || false,
+        hot_baths: profileData?.hot_baths || false
       });
     } catch (error) {
       console.error('Error loading data:', error);
@@ -161,12 +177,19 @@ export default function Profile() {
       const { error } = await supabase
         .from('user_profiles')
         .update({
-          full_name: editForm.full_name,
-          age: editForm.age ? parseInt(editForm.age) : null,
-          goal: editForm.goal,
-          height_feet: editForm.height_feet ? parseInt(editForm.height_feet) : null,
-          height_inches: editForm.height_inches ? parseInt(editForm.height_inches) : null,
-          weight: editForm.weight ? parseInt(editForm.weight) : null,
+          smoking: editForm.smoking,
+          alcohol: editForm.alcohol,
+          exercise: editForm.exercise,
+          diet_quality: editForm.diet_quality,
+          sleep_hours: editForm.sleep_hours ? parseFloat(editForm.sleep_hours) : null,
+          stress_level: editForm.stress_level,
+          masturbation_frequency: editForm.masturbation_frequency,
+          sexual_activity: editForm.sexual_activity,
+          supplements: editForm.supplements,
+          career_status: editForm.career_status,
+          family_pledge: editForm.family_pledge,
+          tight_clothing: editForm.tight_clothing,
+          hot_baths: editForm.hot_baths,
         })
         .eq('user_id', session.user.id);
 
@@ -174,7 +197,7 @@ export default function Profile() {
 
       toast({
         title: "Success!",
-        description: "Profile updated",
+        description: "Lifestyle info updated",
       });
 
       setIsEditing(false);
@@ -312,10 +335,10 @@ export default function Profile() {
             </div>
           </div>
 
-          {/* Personal Info */}
+          {/* Lifestyle Info */}
           <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Personal Info</h2>
+              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Lifestyle Info</h2>
               {!isEditing ? (
                 <button
                   onClick={() => setIsEditing(true)}
@@ -328,14 +351,7 @@ export default function Profile() {
                   <button
                     onClick={() => {
                       setIsEditing(false);
-                      setEditForm({
-                        full_name: profile?.full_name || '',
-                        age: profile?.age?.toString() || '',
-                        goal: profile?.goal || '',
-                        height_feet: profile?.height_feet?.toString() || '',
-                        height_inches: profile?.height_inches?.toString() || '',
-                        weight: profile?.weight?.toString() || ''
-                      });
+                      loadData();
                     }}
                     className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                   >
@@ -352,90 +368,163 @@ export default function Profile() {
             </div>
 
             {isEditing ? (
-              <div className="space-y-3">
+              <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
                 <div>
-                  <Label className="text-xs text-gray-500 dark:text-gray-400">Name</Label>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Smoking</Label>
+                  <Select value={editForm.smoking} onValueChange={(value) => setEditForm({...editForm, smoking: value})}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="never">Never</SelectItem>
+                      <SelectItem value="occasionally">Occasionally</SelectItem>
+                      <SelectItem value="regularly">Regularly</SelectItem>
+                      <SelectItem value="quit">Quit</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Alcohol</Label>
+                  <Select value={editForm.alcohol} onValueChange={(value) => setEditForm({...editForm, alcohol: value})}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">None</SelectItem>
+                      <SelectItem value="light">Light</SelectItem>
+                      <SelectItem value="moderate">Moderate</SelectItem>
+                      <SelectItem value="heavy">Heavy</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Exercise</Label>
+                  <Select value={editForm.exercise} onValueChange={(value) => setEditForm({...editForm, exercise: value})}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="sedentary">Sedentary</SelectItem>
+                      <SelectItem value="light">Light</SelectItem>
+                      <SelectItem value="moderate">Moderate</SelectItem>
+                      <SelectItem value="intense">Intense</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Diet</Label>
+                  <Select value={editForm.diet_quality} onValueChange={(value) => setEditForm({...editForm, diet_quality: value})}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="poor">Poor</SelectItem>
+                      <SelectItem value="average">Average</SelectItem>
+                      <SelectItem value="good">Good</SelectItem>
+                      <SelectItem value="excellent">Excellent</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Sleep (hrs)</Label>
                   <Input
-                    value={editForm.full_name}
-                    onChange={(e) => setEditForm({ ...editForm, full_name: e.target.value })}
+                    type="number"
+                    step="0.5"
+                    value={editForm.sleep_hours}
+                    onChange={(e) => setEditForm({ ...editForm, sleep_hours: e.target.value })}
                     className="h-9 text-sm"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <Label className="text-xs text-gray-500 dark:text-gray-400">Age</Label>
-                    <Input
-                      type="number"
-                      value={editForm.age}
-                      onChange={(e) => setEditForm({ ...editForm, age: e.target.value })}
-                      className="h-9 text-sm"
-                    />
-                  </div>
-                  <div>
-                    <Label className="text-xs text-gray-500 dark:text-gray-400">Weight (lbs)</Label>
-                    <Input
-                      type="number"
-                      value={editForm.weight}
-                      onChange={(e) => setEditForm({ ...editForm, weight: e.target.value })}
-                      className="h-9 text-sm"
-                    />
-                  </div>
-                </div>
+
                 <div>
-                  <Label className="text-xs text-gray-500 dark:text-gray-400">Height</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      type="number"
-                      value={editForm.height_feet}
-                      onChange={(e) => setEditForm({ ...editForm, height_feet: e.target.value })}
-                      placeholder="Feet"
-                      className="h-9 text-sm"
-                    />
-                    <Input
-                      type="number"
-                      value={editForm.height_inches}
-                      onChange={(e) => setEditForm({ ...editForm, height_inches: e.target.value })}
-                      placeholder="In"
-                      className="h-9 text-sm"
-                    />
-                  </div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Stress</Label>
+                  <Select value={editForm.stress_level} onValueChange={(value) => setEditForm({...editForm, stress_level: value})}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="moderate">Moderate</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                      <SelectItem value="extreme">Extreme</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
+
                 <div>
-                  <Label className="text-xs text-gray-500 dark:text-gray-400">Goal</Label>
-                  <Input
-                    value={editForm.goal}
-                    onChange={(e) => setEditForm({ ...editForm, goal: e.target.value })}
-                    className="h-9 text-sm"
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Supplements</Label>
+                  <Select value={editForm.supplements} onValueChange={(value) => setEditForm({...editForm, supplements: value})}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">None</SelectItem>
+                      <SelectItem value="basic">Basic</SelectItem>
+                      <SelectItem value="fertility">Fertility</SelectItem>
+                      <SelectItem value="comprehensive">Comprehensive</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="flex items-center gap-2 pt-2">
+                  <Checkbox
+                    id="tight"
+                    checked={editForm.tight_clothing}
+                    onCheckedChange={(checked) => setEditForm({...editForm, tight_clothing: !!checked})}
                   />
+                  <Label htmlFor="tight" className="text-xs cursor-pointer">Tight clothing</Label>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    id="hot"
+                    checked={editForm.hot_baths}
+                    onCheckedChange={(checked) => setEditForm({...editForm, hot_baths: !!checked})}
+                  />
+                  <Label htmlFor="hot" className="text-xs cursor-pointer">Hot baths/saunas</Label>
                 </div>
               </div>
             ) : (
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-500 dark:text-gray-400">Name</span>
-                  <span className="text-gray-900 dark:text-white font-medium">{profile?.full_name || 'Not set'}</span>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Smoking</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.smoking || 'Not set'}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500 dark:text-gray-400">Age</span>
-                  <span className="text-gray-900 dark:text-white font-medium">{profile?.age || 'N/A'}</span>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Alcohol</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.alcohol || 'Not set'}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500 dark:text-gray-400">Height</span>
-                  <span className="text-gray-900 dark:text-white font-medium">
-                    {profile?.height_feet && profile?.height_inches !== null 
-                      ? `${profile.height_feet}'${profile.height_inches}"` 
-                      : 'Not set'}
-                  </span>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Exercise</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.exercise || 'Not set'}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500 dark:text-gray-400">Weight</span>
-                  <span className="text-gray-900 dark:text-white font-medium">
-                    {profile?.weight ? `${profile.weight} lbs` : 'Not set'}
-                  </span>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Diet</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.diet_quality || 'Not set'}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500 dark:text-gray-400">Goal</span>
-                  <span className="text-gray-900 dark:text-white font-medium">{profile?.goal || 'Not set'}</span>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Sleep</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.sleep_hours ? `${profile.sleep_hours} hrs` : 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Stress</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.stress_level || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Supplements</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.supplements || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Tight clothing</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.tight_clothing ? 'Yes' : 'No'}</span>
+                </div>
+                <div className="flex justify-between col-span-2">
+                  <span className="text-gray-500 dark:text-gray-400">Hot baths</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.hot_baths ? 'Yes' : 'No'}</span>
                 </div>
               </div>
             )}

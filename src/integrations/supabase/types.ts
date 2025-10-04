@@ -161,54 +161,93 @@ export type Database = {
       user_profiles: {
         Row: {
           age: number | null
+          alcohol: string | null
+          career_status: string | null
           created_at: string | null
           current_streak: number | null
+          diet_quality: string | null
+          exercise: string | null
+          family_pledge: string | null
           full_name: string | null
           goal: string | null
           height_feet: number | null
           height_inches: number | null
+          hot_baths: boolean | null
           id: string
           longest_streak: number | null
+          masturbation_frequency: string | null
           onboarding_completed: boolean | null
           profile_image_url: string | null
+          sexual_activity: string | null
+          sleep_hours: number | null
+          smoking: string | null
           sperm_level: number | null
           sperm_value: number | null
+          stress_level: string | null
+          supplements: string | null
+          tight_clothing: boolean | null
           updated_at: string | null
           user_id: string
           weight: number | null
         }
         Insert: {
           age?: number | null
+          alcohol?: string | null
+          career_status?: string | null
           created_at?: string | null
           current_streak?: number | null
+          diet_quality?: string | null
+          exercise?: string | null
+          family_pledge?: string | null
           full_name?: string | null
           goal?: string | null
           height_feet?: number | null
           height_inches?: number | null
+          hot_baths?: boolean | null
           id?: string
           longest_streak?: number | null
+          masturbation_frequency?: string | null
           onboarding_completed?: boolean | null
           profile_image_url?: string | null
+          sexual_activity?: string | null
+          sleep_hours?: number | null
+          smoking?: string | null
           sperm_level?: number | null
           sperm_value?: number | null
+          stress_level?: string | null
+          supplements?: string | null
+          tight_clothing?: boolean | null
           updated_at?: string | null
           user_id: string
           weight?: number | null
         }
         Update: {
           age?: number | null
+          alcohol?: string | null
+          career_status?: string | null
           created_at?: string | null
           current_streak?: number | null
+          diet_quality?: string | null
+          exercise?: string | null
+          family_pledge?: string | null
           full_name?: string | null
           goal?: string | null
           height_feet?: number | null
           height_inches?: number | null
+          hot_baths?: boolean | null
           id?: string
           longest_streak?: number | null
+          masturbation_frequency?: string | null
           onboarding_completed?: boolean | null
           profile_image_url?: string | null
+          sexual_activity?: string | null
+          sleep_hours?: number | null
+          smoking?: string | null
           sperm_level?: number | null
           sperm_value?: number | null
+          stress_level?: string | null
+          supplements?: string | null
+          tight_clothing?: boolean | null
           updated_at?: string | null
           user_id?: string
           weight?: number | null
