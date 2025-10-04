@@ -1,8 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,8 +13,6 @@ export default function Layout({ children }: LayoutProps) {
     const saved = localStorage.getItem('sidebarCollapsed');
     return saved ? JSON.parse(saved) : false;
   });
-  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
-  const [fullName, setFullName] = useState<string>("");
 
   useEffect(() => {
     localStorage.setItem('sidebarCollapsed', JSON.stringify(sidebarCollapsed));
@@ -25,25 +21,6 @@ export default function Layout({ children }: LayoutProps) {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
-
-  useEffect(() => {
-    const loadProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: profile } = await supabase
-          .from('user_profiles')
-          .select('profile_image_url, full_name')
-          .eq('user_id', user.id)
-          .single();
-        
-        if (profile) {
-          setProfileImageUrl(profile.profile_image_url);
-          setFullName(profile.full_name || "");
-        }
-      }
-    };
-    loadProfile();
-  }, []);
 
   const navItems = [
     { name: "Dashboard", path: "/dashboard", icon: Home },
@@ -92,8 +69,6 @@ export default function Layout({ children }: LayoutProps) {
             {navItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);
-              const isProfile = item.name === "Profile";
-              
               return (
                 <Link
                   key={item.name}
@@ -105,16 +80,7 @@ export default function Layout({ children }: LayoutProps) {
                   } ${sidebarCollapsed ? 'justify-center' : ''}`}
                   title={sidebarCollapsed ? item.name : ''}
                 >
-                  {isProfile ? (
-                    <Avatar className="w-5 h-5 flex-shrink-0">
-                      <AvatarImage src={profileImageUrl || undefined} />
-                      <AvatarFallback className="bg-gray-200 text-gray-600 text-xs">
-                        {fullName ? fullName.charAt(0).toUpperCase() : <User className="w-3 h-3" />}
-                      </AvatarFallback>
-                    </Avatar>
-                  ) : (
-                    <Icon className="w-5 h-5 flex-shrink-0" strokeWidth={active ? 2.5 : 2} />
-                  )}
+                  <Icon className="w-5 h-5 flex-shrink-0" strokeWidth={active ? 2.5 : 2} />
                   {!sidebarCollapsed && <span className="font-medium">{item.name}</span>}
                 </Link>
               );
@@ -172,11 +138,9 @@ export default function Layout({ children }: LayoutProps) {
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
         <div className="bg-white border-t border-gray-200 shadow-lg">
           <div className="flex justify-around items-center px-2 py-2">
-            {navItems.map((item) => {
+            {navItems.filter(item => item.name !== "Profile").map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);
-              const isProfile = item.name === "Profile";
-              
               return (
                 <Link
                   key={item.name}
@@ -187,16 +151,7 @@ export default function Layout({ children }: LayoutProps) {
                       : 'text-gray-400'
                   }`}
                 >
-                  {isProfile ? (
-                    <Avatar className="w-5 h-5">
-                      <AvatarImage src={profileImageUrl || undefined} />
-                      <AvatarFallback className="bg-gray-200 text-gray-600 text-[8px]">
-                        {fullName ? fullName.charAt(0).toUpperCase() : <User className="w-3 h-3" />}
-                      </AvatarFallback>
-                    </Avatar>
-                  ) : (
-                    <Icon className="w-5 h-5" strokeWidth={active ? 2.5 : 2} />
-                  )}
+                  <Icon className="w-5 h-5" strokeWidth={active ? 2.5 : 2} />
                   <span className="text-[10px] font-medium">{item.name}</span>
                 </Link>
               );
