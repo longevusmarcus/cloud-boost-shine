@@ -155,16 +155,6 @@ export default function Layout({ children }: LayoutProps) {
         sidebarCollapsed ? 'md:ml-20' : 'md:ml-72'
       }`}>
         <div className="w-full max-w-4xl mx-auto px-4 pt-4 md:pt-6">
-          {/* Conditional Back button for Profile page - Mobile only */}
-          {location.pathname === "/profile" && (
-            <button
-              onClick={() => navigate("/dashboard")}
-              className="md:hidden flex items-center gap-1.5 text-gray-500 hover:text-gray-700 text-sm font-medium mb-4"
-            >
-              <ChevronLeft className="w-4 h-4" strokeWidth={2.5} />
-              Back
-            </button>
-          )}
           {children}
         </div>
       </div>
