@@ -387,6 +387,41 @@ export default function Profile() {
             </div>
           </div>
 
+          {/* Badges */}
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Achievements</h2>
+              <span className="text-xs text-gray-500 dark:text-gray-400">{badges.filter(b => b.earned).length}/{badges.length}</span>
+            </div>
+            
+            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+              {badges.map(badge => {
+                const Icon = badge.icon;
+                return (
+                  <div
+                    key={badge.id}
+                    className="flex flex-col items-center gap-2 flex-shrink-0"
+                  >
+                    <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-200 ${
+                      badge.earned 
+                        ? 'bg-gray-900 dark:bg-white' 
+                        : 'bg-gray-100 dark:bg-gray-700'
+                    }`}>
+                      <Icon className={`w-6 h-6 md:w-7 md:h-7 ${
+                        badge.earned ? 'text-white dark:text-black' : 'text-gray-400 dark:text-gray-500'
+                      }`} strokeWidth={2} />
+                    </div>
+                    <div className={`text-[10px] md:text-xs text-center font-medium max-w-[60px] leading-tight ${
+                      badge.earned ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500'
+                    }`}>
+                      {badge.name}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Basic Info */}
           <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-4">
@@ -704,40 +739,6 @@ export default function Profile() {
             )}
           </div>
 
-          {/* Badges */}
-          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Achievements</h2>
-              <span className="text-xs text-gray-500 dark:text-gray-400">{badges.filter(b => b.earned).length}/{badges.length}</span>
-            </div>
-            
-            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-              {badges.map(badge => {
-                const Icon = badge.icon;
-                return (
-                  <div
-                    key={badge.id}
-                    className="flex flex-col items-center gap-2 flex-shrink-0"
-                  >
-                    <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-200 ${
-                      badge.earned 
-                        ? 'bg-gray-900 dark:bg-white' 
-                        : 'bg-gray-100 dark:bg-gray-700'
-                    }`}>
-                      <Icon className={`w-6 h-6 md:w-7 md:h-7 ${
-                        badge.earned ? 'text-white dark:text-black' : 'text-gray-400 dark:text-gray-500'
-                      }`} strokeWidth={2} />
-                    </div>
-                    <div className={`text-[10px] md:text-xs text-center font-medium max-w-[60px] leading-tight ${
-                      badge.earned ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500'
-                    }`}>
-                      {badge.name}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
 
           {/* MFA Settings */}
           <MFASettings />
