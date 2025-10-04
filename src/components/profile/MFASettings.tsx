@@ -25,8 +25,20 @@ export default function MFASettings() {
       const { data, error } = await supabase.auth.mfa.listFactors();
       if (error) throw error;
       
-      const totpFactor = data?.totp?.find(factor => factor.status === 'verified');
-      setMfaEnabled(!!totpFactor);
+      const allFactors = data?.totp || [];
+      const verifiedFactor = allFactors.find(factor => factor.status === 'verified');
+      const unverifiedFactor = allFactors.find(factor => factor.status !== 'verified');
+      
+      setMfaEnabled(!!verifiedFactor);
+      
+      // If there's an unverified factor lingering, clean it up
+      if (unverifiedFactor && !verifiedFactor) {
+        try {
+          await supabase.auth.mfa.unenroll({ factorId: unverifiedFactor.id });
+        } catch (err) {
+          console.error('Error cleaning up unverified factor:', err);
+        }
+      }
     } catch (error) {
       console.error("Error checking MFA status:", error);
     }
@@ -35,13 +47,22 @@ export default function MFASettings() {
   const enrollMFA = async () => {
     setLoading(true);
     try {
-      // First, check for and remove any existing unverified factors
+      // First, check for and remove ALL existing factors (both verified and unverified)
       const { data: factors } = await supabase.auth.mfa.listFactors();
-      const unverifiedFactors = factors?.totp?.filter(f => f.status !== 'verified') || [];
+      const allFactors = factors?.totp || [];
       
-      for (const factor of unverifiedFactors) {
-        await supabase.auth.mfa.unenroll({ factorId: factor.id });
+      // Remove all existing factors to start fresh
+      for (const factor of allFactors) {
+        try {
+          await supabase.auth.mfa.unenroll({ factorId: factor.id });
+        } catch (err) {
+          console.error('Error removing factor:', err);
+          // Continue even if one fails
+        }
       }
+
+      // Small delay to ensure cleanup completes
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       const { data, error } = await supabase.auth.mfa.enroll({
         factorType: 'totp',
