@@ -7,6 +7,7 @@ import Layout from "@/components/Layout";
 import DailyLogForm from "@/components/tracking/DailyLogForm";
 import TestResultUpload from "@/components/tracking/TestResultUpload";
 import TestResultDisplay from "@/components/tracking/TestResultDisplay";
+import { toast } from "@/hooks/use-toast";
 
 export default function Tracking() {
   const navigate = useNavigate();
@@ -15,7 +16,6 @@ export default function Tracking() {
   const [testResults, setTestResults] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("daily");
   const [loading, setLoading] = useState(true);
-  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -106,17 +106,24 @@ export default function Tracking() {
         }
       }
 
-      setShowSuccess(true);
-      setTimeout(() => {
-        setShowSuccess(false);
-        loadData();
-      }, 2000);
+      toast({
+        title: "✓ Saved",
+        description: "Daily check-in complete",
+        className: "bg-black text-white border-none",
+      });
+      
+      await loadData();
     } catch (error: any) {
       console.error("Error saving log:", error);
     }
   };
 
   const handleTestUpload = async () => {
+    toast({
+      title: "✓ Uploaded",
+      description: "Test results saved successfully",
+      className: "bg-black text-white border-none",
+    });
     await loadData();
     setActiveTab("results");
   };
@@ -125,20 +132,6 @@ export default function Tracking() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-900 border-t-transparent" />
-      </div>
-    );
-  }
-
-  if (showSuccess) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-        <div className="bg-white rounded-3xl p-12 text-center shadow-xl border border-gray-200 max-w-md mx-auto">
-          <div className="w-20 h-20 rounded-full bg-gray-900 flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-10 h-10 text-white" />
-          </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Saved! 🎉</h2>
-          <p className="text-gray-600">Your daily check-in is complete</p>
-        </div>
       </div>
     );
   }
