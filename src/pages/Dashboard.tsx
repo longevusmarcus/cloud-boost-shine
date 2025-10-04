@@ -220,6 +220,35 @@ export default function Dashboard() {
                   <path d="M12 8 Q16 10, 20 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
                 </svg>
               </div>
+
+              {/* Sperm entering and exploding animations */}
+              <div className="absolute -left-20 top-1/2 animate-enter-explode" style={{ animationDelay: '0s', animationDuration: '3s' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400">
+                  <circle cx="8" cy="8" r="4" fill="currentColor" />
+                  <path d="M12 8 Q16 6, 22 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                </svg>
+              </div>
+
+              <div className="absolute -right-20 top-1/3 animate-enter-explode" style={{ animationDelay: '1.5s', animationDuration: '3.5s' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400">
+                  <circle cx="8" cy="8" r="4" fill="currentColor" />
+                  <path d="M12 8 Q14 10, 18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                </svg>
+              </div>
+
+              <div className="absolute left-1/3 -top-20 animate-enter-explode" style={{ animationDelay: '3s', animationDuration: '3.2s' }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400">
+                  <circle cx="8" cy="8" r="4" fill="currentColor" />
+                  <path d="M12 8 Q16 4, 20 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                </svg>
+              </div>
+
+              <div className="absolute right-1/4 -bottom-20 animate-enter-explode" style={{ animationDelay: '4.5s', animationDuration: '3s' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400">
+                  <circle cx="8" cy="8" r="4" fill="currentColor" />
+                  <path d="M12 8 Q14 12, 16 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
@@ -338,6 +367,72 @@ export default function Dashboard() {
       </div>
       {/* Floating Chatbot */}
       <FloatingChatbot profile={profile} />
+      
+      <style>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translate(0, 0) rotate(0deg);
+          }
+          25% {
+            transform: translate(10px, -15px) rotate(5deg);
+          }
+          50% {
+            transform: translate(-5px, -25px) rotate(-5deg);
+          }
+          75% {
+            transform: translate(-15px, -10px) rotate(3deg);
+          }
+        }
+        
+        .animate-float {
+          animation: float infinite ease-in-out;
+        }
+
+        @keyframes enter-explode {
+          0% {
+            transform: translate(0, 0) scale(1) rotate(0deg);
+            opacity: 1;
+          }
+          70% {
+            transform: translate(var(--enter-x, 0), var(--enter-y, 0)) scale(1) rotate(360deg);
+            opacity: 1;
+          }
+          85% {
+            transform: translate(var(--enter-x, 0), var(--enter-y, 0)) scale(2) rotate(360deg);
+            opacity: 0.8;
+          }
+          100% {
+            transform: translate(var(--enter-x, 0), var(--enter-y, 0)) scale(0) rotate(360deg);
+            opacity: 0;
+          }
+        }
+        
+        .animate-enter-explode {
+          animation: enter-explode infinite ease-in-out;
+          --enter-x: 140px;
+          --enter-y: 0;
+        }
+
+        .animate-enter-explode:nth-child(5) {
+          --enter-x: 140px;
+          --enter-y: 0;
+        }
+
+        .animate-enter-explode:nth-child(6) {
+          --enter-x: -140px;
+          --enter-y: 20px;
+        }
+
+        .animate-enter-explode:nth-child(7) {
+          --enter-x: 0;
+          --enter-y: 140px;
+        }
+
+        .animate-enter-explode:nth-child(8) {
+          --enter-x: 0;
+          --enter-y: -140px;
+        }
+      `}</style>
     </Layout>
   );
 }
