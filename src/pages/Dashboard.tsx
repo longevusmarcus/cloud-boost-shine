@@ -162,7 +162,7 @@ export default function Dashboard() {
             <div className="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-700 opacity-10 animate-pulse" style={{ animationDuration: '2s' }} />
 
             {/* Main Circle */}
-            <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex flex-col items-center justify-center shadow-lg border border-transparent dark:border-gray-700">
+            <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-950 dark:to-gray-900 flex flex-col items-center justify-center shadow-lg border border-transparent dark:border-gray-700">
               <div className="flex items-center gap-1 mb-2">
                 <Activity className="w-5 h-5 text-gray-600 dark:text-gray-300" />
                 <span className="text-xs text-gray-600 dark:text-gray-300 font-medium">Sperm Value</span>
@@ -194,28 +194,28 @@ export default function Dashboard() {
             {/* Floating Sperm Animations */}
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute top-4 left-2 animate-float" style={{ animationDelay: '0s', animationDuration: '4s' }}>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-600 opacity-40">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-300 opacity-40">
                   <circle cx="8" cy="8" r="4" fill="currentColor" />
                   <path d="M12 8 Q16 4, 20 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
                 </svg>
               </div>
 
               <div className="absolute top-6 right-3 animate-float" style={{ animationDelay: '1s', animationDuration: '5s' }}>
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-600 opacity-30">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-300 opacity-30">
                   <circle cx="8" cy="8" r="4" fill="currentColor" />
                   <path d="M12 8 Q16 12, 18 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
                 </svg>
               </div>
 
               <div className="absolute bottom-8 left-4 animate-float" style={{ animationDelay: '2s', animationDuration: '6s' }}>
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-600 opacity-25">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-300 opacity-25">
                   <circle cx="8" cy="8" r="4" fill="currentColor" />
                   <path d="M12 8 Q14 6, 18 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
                 </svg>
               </div>
 
               <div className="absolute bottom-10 right-2 animate-float" style={{ animationDelay: '3s', animationDuration: '5.5s' }}>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-600 opacity-35">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-300 opacity-35">
                   <circle cx="8" cy="8" r="4" fill="currentColor" />
                   <path d="M12 8 Q16 10, 20 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
                 </svg>
