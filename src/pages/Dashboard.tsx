@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
 import { Activity, TrendingUp, Flame, Calendar, UserCircle, Moon, Apple, Heart } from "lucide-react";
 import Layout from "@/components/Layout";
+import FloatingChatbot from "@/components/dashboard/FloatingChatbot";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -283,6 +284,9 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Floating Chatbot */}
+      <FloatingChatbot profile={profile} />
     </Layout>
   );
 }
