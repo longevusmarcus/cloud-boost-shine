@@ -21,8 +21,8 @@ export default function FertilityGoal({ onNext, onBack }) {
 
   return (
     <div>
-      <h2 className="text-2xl md:text-3xl font-bold text-black mb-2">Your Goal</h2>
-      <p className="text-sm md:text-base text-gray-600 mb-5">What brings you here today?</p>
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-2">Your Goal</h2>
+      <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-5">What brings you here today?</p>
 
       <div className="grid grid-cols-1 gap-3 mb-6">
         {goals.map((goal) => {
@@ -52,7 +52,7 @@ export default function FertilityGoal({ onNext, onBack }) {
         })}
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex gap-2 sm:gap-3">
         <Button
           onClick={onBack}
           variant="outline"

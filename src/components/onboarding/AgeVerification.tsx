@@ -55,8 +55,8 @@ export default function AgeVerification({ onNext }: { onNext: (data: any) => voi
 
   return (
     <div>
-      <h2 className="text-2xl md:text-3xl font-bold text-black mb-1">Basic Info</h2>
-      <p className="text-sm md:text-base text-gray-600 mb-4">Let's start with some basic information</p>
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-1">Basic Info</h2>
+      <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-4">Let's start with some basic information</p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>

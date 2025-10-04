@@ -70,8 +70,8 @@ export default function CalculatorResults({ userData, onComplete, onBack }) {
 
   return (
     <div>
-      <h2 className="text-2xl md:text-3xl font-bold text-black mb-1">Your Sperm Value</h2>
-      <p className="text-sm text-gray-600 mb-4">Based on your lifestyle factors</p>
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-1">Your Sperm Value</h2>
+      <p className="text-xs sm:text-sm text-gray-600 mb-4">Based on your lifestyle factors</p>
 
       {/* Value Display with Pulsing Effect */}
       <div className="border border-gray-200 rounded-3xl p-6 text-center mb-4 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
@@ -199,7 +199,7 @@ export default function CalculatorResults({ userData, onComplete, onBack }) {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-3">
+      <div className="flex gap-2 sm:gap-3">
         <Button
           onClick={onBack}
           variant="outline"

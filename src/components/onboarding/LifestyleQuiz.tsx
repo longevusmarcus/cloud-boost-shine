@@ -43,10 +43,10 @@ export default function LifestyleQuiz({ onNext, onBack }) {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-black mb-2">Lifestyle Assessment</h2>
-      <p className="text-gray-600 mb-8">Help us understand your current habits</p>
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-2">Lifestyle Assessment</h2>
+      <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-8">Help us understand your current habits</p>
 
-      <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-2">
+      <div className="space-y-4 sm:space-y-6 max-h-[55vh] sm:max-h-[60vh] overflow-y-auto pr-2">
         <div>
           <Label className="text-black text-sm font-medium mb-2 block">Smoking Status</Label>
           <Select value={formData.smoking} onValueChange={(value) => setFormData({...formData, smoking: value})}>
@@ -242,7 +242,7 @@ export default function LifestyleQuiz({ onNext, onBack }) {
         </div>
       </div>
 
-      <div className="flex gap-3 mt-8">
+      <div className="flex gap-2 sm:gap-3 mt-4 sm:mt-8">
         <Button
           onClick={onBack}
           variant="outline"

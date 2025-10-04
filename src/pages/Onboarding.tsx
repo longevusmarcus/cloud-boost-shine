@@ -29,12 +29,12 @@ export default function Onboarding() {
     setStep(2);
   };
 
-  const handleLifestyleQuiz = (data: any) => {
+  const handleFertilityGoal = (data: any) => {
     setUserData({ ...userData, ...data });
     setStep(3);
   };
 
-  const handleFertilityGoal = (data: any) => {
+  const handleLifestyleQuiz = (data: any) => {
     setUserData({ ...userData, ...data });
     setStep(4);
   };
@@ -134,10 +134,10 @@ export default function Onboarding() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 md:p-8 shadow-lg border border-gray-200">
+        <div className="bg-white rounded-3xl p-4 sm:p-6 md:p-8 shadow-lg border border-gray-200">
           {step === 1 && <AgeVerification onNext={handleAgeVerification} />}
-          {step === 2 && <LifestyleQuiz onNext={handleLifestyleQuiz} onBack={handleBack} />}
-          {step === 3 && <FertilityGoal onNext={handleFertilityGoal} onBack={handleBack} />}
+          {step === 2 && <FertilityGoal onNext={handleFertilityGoal} onBack={handleBack} />}
+          {step === 3 && <LifestyleQuiz onNext={handleLifestyleQuiz} onBack={handleBack} />}
           {step === 4 && (
             <CalculatorResults 
               userData={userData} 
