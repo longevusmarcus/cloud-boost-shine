@@ -191,19 +191,6 @@ export default function Layout({ children }: LayoutProps) {
                 </Link>
               );
             })}
-            
-            {/* Theme Toggle in Mobile Nav */}
-            <button
-              onClick={toggleTheme}
-              className="flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all duration-200 text-gray-400 dark:text-gray-500"
-            >
-              {theme === "light" ? (
-                <Moon className="w-5 h-5" strokeWidth={2} />
-              ) : (
-                <Sun className="w-5 h-5" strokeWidth={2} />
-              )}
-              <span className="text-[10px] font-medium">Theme</span>
-            </button>
           </div>
         </div>
       </nav>
