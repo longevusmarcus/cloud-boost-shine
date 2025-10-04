@@ -2,15 +2,17 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { CheckCircle, FlaskConical, TrendingUp, UserCircle } from "lucide-react";
+import { CheckCircle, FlaskConical, TrendingUp, UserCircle, Moon, Sun } from "lucide-react";
 import Layout from "@/components/Layout";
 import DailyLogForm from "@/components/tracking/DailyLogForm";
 import TestResultUpload from "@/components/tracking/TestResultUpload";
 import TestResultDisplay from "@/components/tracking/TestResultDisplay";
 import { toast } from "@/hooks/use-toast";
+import { useTheme } from "@/components/ThemeProvider";
 
 export default function Tracking() {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [todayLog, setTodayLog] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [testResults, setTestResults] = useState<any[]>([]);
@@ -167,7 +169,7 @@ export default function Tracking() {
           <div className="flex items-center justify-between md:hidden mb-2">
             <button 
               onClick={() => navigate('/profile')}
-              className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center"
+              className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center"
             >
               {profile?.profile_image_url ? (
                 <img 
@@ -176,12 +178,24 @@ export default function Tracking() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <UserCircle className="w-5 h-5 text-gray-600" />
+                <UserCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />
               )}
             </button>
-            <button className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
-              <span className="text-base">🔔</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={toggleTheme}
+                className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors"
+              >
+                {theme === "light" ? (
+                  <Moon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                ) : (
+                  <Sun className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                )}
+              </button>
+              <button className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                <span className="text-base">🔔</span>
+              </button>
+            </div>
           </div>
 
           {/* Desktop: Full header */}

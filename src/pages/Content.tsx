@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { BookOpen, Sparkles, Clock, UserCircle } from "lucide-react";
+import { BookOpen, Sparkles, Clock, UserCircle, Moon, Sun } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { supabase } from "@/integrations/supabase/client";
+import { useTheme } from "@/components/ThemeProvider";
 
 export default function Content() {
   const [activeTab, setActiveTab] = useState("foryou");
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -91,7 +93,7 @@ export default function Content() {
         <div className="flex items-center justify-between md:hidden pb-1">
           <button
             onClick={() => navigate('/profile')}
-            className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center"
+            className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center"
           >
             {profileImageUrl ? (
               <img 
@@ -100,12 +102,24 @@ export default function Content() {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <UserCircle className="w-5 h-5 text-gray-600" />
+              <UserCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />
             )}
           </button>
-          <button className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
-            <span className="text-base">🔔</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={toggleTheme}
+              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors"
+            >
+              {theme === "light" ? (
+                <Moon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+              ) : (
+                <Sun className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+              )}
+            </button>
+            <button className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+              <span className="text-base">🔔</span>
+            </button>
+          </div>
         </div>
 
         {/* Header */}
