@@ -97,10 +97,10 @@ export default function Content() {
 
           {/* Tabs - TikTok Style */}
           <div className="border-b border-gray-200 mb-6">
-            <div className="flex gap-8 justify-center">
+            <div className="flex gap-6 justify-center">
               <button
                 onClick={() => setActiveTab("foryou")}
-                className={`relative py-3 px-1 font-semibold transition-all duration-200 text-base ${
+                className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
                   activeTab === "foryou"
                     ? "text-gray-900"
                     : "text-gray-500"
@@ -108,12 +108,12 @@ export default function Content() {
               >
                 For You
                 {activeTab === "foryou" && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 animate-scale-in" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 animate-scale-in" />
                 )}
               </button>
               <button
                 onClick={() => setActiveTab("all")}
-                className={`relative py-3 px-1 font-semibold transition-all duration-200 text-base ${
+                className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
                   activeTab === "all"
                     ? "text-gray-900"
                     : "text-gray-500"
@@ -121,7 +121,7 @@ export default function Content() {
               >
                 All Articles
                 {activeTab === "all" && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 animate-scale-in" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 animate-scale-in" />
                 )}
               </button>
             </div>
