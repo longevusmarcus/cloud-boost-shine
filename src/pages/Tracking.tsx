@@ -242,7 +242,7 @@ export default function Tracking() {
 
         {/* Content */}
         <div className="pb-24 md:pb-6">{activeTab === "daily" ? (
-          <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
             <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">Daily Check-in</h1>
             <DailyLogForm
               initialData={todayLog}
@@ -252,7 +252,7 @@ export default function Tracking() {
           ) : (
             <div className="space-y-4 md:space-y-6">
               {/* Testing Roadmap */}
-              <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">
                     <FlaskConical className="w-5 h-5 md:w-6 md:h-6 text-gray-900 dark:text-white" />
@@ -332,7 +332,7 @@ export default function Tracking() {
 
               {/* Progress Summary (if multiple tests) */}
               {testResults.length > 1 && (
-                <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
                   <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">Your Progress</h3>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
                     {(() => {

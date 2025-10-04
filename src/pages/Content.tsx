@@ -167,10 +167,10 @@ export default function Content() {
         {/* Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 pb-24 md:pb-6">
           {articles.map((article) => (
-            <div
-              key={article.id}
-              className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-200 cursor-pointer"
-            >
+          <div
+            key={article.id}
+            className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-200 cursor-pointer"
+          >
               <img
                 src={article.image_url}
                 alt={article.title}

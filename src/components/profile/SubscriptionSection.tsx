@@ -11,7 +11,7 @@ export default function SubscriptionSection() {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200 dark:border-gray-700">
+    <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200 dark:border-gray-700">
       <div className="text-center mb-6">
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full mb-4">
           <Sparkles className="w-4 h-4 text-gray-900 dark:text-white" />

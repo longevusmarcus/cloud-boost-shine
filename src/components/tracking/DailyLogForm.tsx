@@ -64,7 +64,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="max-h-[60vh] overflow-y-auto pr-2 space-y-6 scrollbar-hide">
         {/* Masturbation Frequency Section */}
-        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Masturbation</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">How many times did you masturbate today?</p>
           <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide">
@@ -96,7 +96,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
 
         {/* Sleep Quality Section */}
-        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Sleep Quality</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">How well did you sleep?</p>
           <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide">
@@ -140,7 +140,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
 
         {/* Diet Quality Section */}
-        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Diet Quality</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">How was your nutrition today?</p>
           <div className="flex gap-3 overflow-x-auto pb-2">
@@ -172,7 +172,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
 
         {/* Stress Level Section */}
-        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Stress Level</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">How stressed were you today?</p>
           <div className="flex gap-3 overflow-x-auto pb-2">
@@ -204,7 +204,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
 
         {/* Exercise Section */}
-        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Exercise</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Minutes of physical activity</p>
           <input
@@ -217,7 +217,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
 
         {/* Electrolytes Section */}
-        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Electrolytes</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Did you take electrolytes?</p>
           <div className="flex gap-3 justify-start">
@@ -237,7 +237,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
 
         {/* AI Tracker Section */}
-        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">AI Tracker</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Advanced tracking features coming soon</p>
           
@@ -273,7 +273,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
 
         {/* Notes Section */}
-        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Notes</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Log a symptom or make a note</p>
           <textarea

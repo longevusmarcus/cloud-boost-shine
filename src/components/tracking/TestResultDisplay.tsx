@@ -40,7 +40,7 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
                         result.progressive_motile_sperm_concentration || result.volume;
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200 dark:border-gray-700">
+    <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200 dark:border-gray-700">
       {/* Header */}
       <div className="flex items-start justify-between mb-6">
         <div>

@@ -152,7 +152,7 @@ export default function Profile() {
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-3 md:p-8">
         <div className="max-w-2xl mx-auto space-y-4 md:space-y-6">
           {/* Profile Header */}
-          <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-8 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-8 shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="flex flex-col items-center text-center mb-6">
               <div className="relative group">
                 {profile?.profile_image_url ? (
@@ -200,7 +200,7 @@ export default function Profile() {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-3 gap-3 md:gap-4">
-            <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 md:p-6 text-center shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 text-center shadow-sm border border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-center mb-2">
                 <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-gray-900 dark:text-white" />
               </div>
@@ -211,7 +211,7 @@ export default function Profile() {
               <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400 font-medium">Sperm Value</div>
             </div>
 
-            <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 md:p-6 text-center shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 text-center shadow-sm border border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-center mb-2">
                 <Flame className="w-5 h-5 md:w-6 md:h-6 text-gray-900 dark:text-white" />
               </div>
@@ -219,7 +219,7 @@ export default function Profile() {
               <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400 font-medium">Streak</div>
             </div>
 
-            <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 md:p-6 text-center shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 text-center shadow-sm border border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-center mb-2">
                 <Calendar className="w-5 h-5 md:w-6 md:h-6 text-gray-900 dark:text-white" />
               </div>
@@ -229,7 +229,7 @@ export default function Profile() {
           </div>
 
           {/* Badges */}
-          <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Achievements</h2>
               <span className="text-xs text-gray-500 dark:text-gray-400">{badges.filter(b => b.earned).length}/{badges.length}</span>

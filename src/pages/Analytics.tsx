@@ -177,7 +177,7 @@ export default function Analytics() {
           </div>
 
           {/* Days Logged */}
-          <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
               <Calendar className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Days Logged</span>
@@ -187,7 +187,7 @@ export default function Analytics() {
           </div>
 
           {/* Avg Sleep */}
-          <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
               <Moon className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Sleep</span>
@@ -197,7 +197,7 @@ export default function Analytics() {
           </div>
 
           {/* Avg Exercise */}
-          <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
               <Activity className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Exercise</span>
@@ -296,7 +296,7 @@ export default function Analytics() {
         </div>
 
         {/* Activity Summary */}
-        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">Activity Summary</h2>
           <div className="space-y-3 md:space-y-4">
             {/* Avg Exercise */}
@@ -336,7 +336,7 @@ export default function Analytics() {
 
         {/* Sleep Trends */}
         {logs.length > 0 && (
-          <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">Sleep Trends</h2>
             <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4 md:mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
             <div className="h-40 md:h-48 flex items-end justify-center gap-1 md:gap-2">
@@ -372,7 +372,7 @@ export default function Analytics() {
 
         {/* Stress Levels */}
         {logs.length > 0 && (
-          <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">Stress Levels</h2>
             <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4 md:mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
             <div className="h-40 md:h-48 flex items-end justify-center gap-1 md:gap-2">
