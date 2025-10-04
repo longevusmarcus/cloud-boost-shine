@@ -94,47 +94,41 @@ export default function Dashboard() {
         </div>
 
         {/* Calendar */}
-        <div className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200">
-          <div className="relative">
-            <div className="mb-3">
-              <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">Today</span>
-            </div>
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-              {daysInMonth.map((day, idx) => {
-                const dateStr = format(day, "yyyy-MM-dd");
-                const isToday = format(day, "yyyy-MM-dd") === format(today, "yyyy-MM-dd");
-                const isLogged = loggedDates.has(dateStr);
-                const isPast = day < today;
-                const dayNum = format(day, "d");
-                
-                // Days before yesterday that are logged: light solid
-                // Yesterday that is logged: solid black
-                // Today: solid black
-                // Future: dashed outline
-                const yesterdayDate = new Date(today);
-                yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-                const isYesterday = format(day, "yyyy-MM-dd") === format(yesterdayDate, "yyyy-MM-dd");
+        <div className="relative">
+          <div className="mb-3">
+            <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">Today</span>
+          </div>
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            {daysInMonth.map((day, idx) => {
+              const dateStr = format(day, "yyyy-MM-dd");
+              const isToday = format(day, "yyyy-MM-dd") === format(today, "yyyy-MM-dd");
+              const isLogged = loggedDates.has(dateStr);
+              const isPast = day < today;
+              const dayNum = format(day, "d");
+              
+              const yesterdayDate = new Date(today);
+              yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+              const isYesterday = format(day, "yyyy-MM-dd") === format(yesterdayDate, "yyyy-MM-dd");
 
-                return (
-                  <div
-                    key={idx}
-                    className={`flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-semibold transition-all text-sm ${
-                      isToday
-                        ? 'bg-black text-white'
-                        : isYesterday && isLogged
-                        ? 'bg-black text-white'
-                        : isLogged && isPast
-                        ? 'bg-gray-200 text-gray-400'
-                        : isPast
-                        ? 'border-2 border-gray-200 text-gray-300'
-                        : 'border-2 border-dashed border-gray-300 text-gray-400'
-                    }`}
-                  >
-                    {dayNum}
-                  </div>
-                );
-              })}
-            </div>
+              return (
+                <div
+                  key={idx}
+                  className={`flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-semibold transition-all text-sm ${
+                    isToday
+                      ? 'bg-black text-white'
+                      : isYesterday && isLogged
+                      ? 'bg-black text-white'
+                      : isLogged && isPast
+                      ? 'bg-gray-200 text-gray-400'
+                      : isPast
+                      ? 'border-2 border-gray-200 text-gray-300'
+                      : 'border-2 border-dashed border-gray-300 text-gray-400'
+                  }`}
+                >
+                  {dayNum}
+                </div>
+              );
+            })}
           </div>
         </div>
 
