@@ -2,14 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { UserCircle, LogOut, Award, TrendingUp, Flame, Calendar, Target, Zap, Trophy, Camera } from "lucide-react";
+import { UserCircle, LogOut, Award, TrendingUp, Flame, Calendar, Target, Zap, Trophy, Camera, Moon, Sun } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
 import SubscriptionSection from "@/components/profile/SubscriptionSection";
 import MFASettings from "@/components/profile/MFASettings";
+import { useTheme } from "@/components/ThemeProvider";
 
 export default function Profile() {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -151,7 +153,42 @@ export default function Profile() {
   return (
     <Layout>
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-3 md:p-8">
-        <div className="max-w-2xl mx-auto space-y-4 md:space-y-6">
+        {/* Floating Icons - Mobile Only */}
+        <div className="fixed top-4 left-4 right-4 z-50 md:hidden flex items-center justify-between">
+          <button
+            onClick={() => navigate('/profile')}
+            className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg"
+          >
+            {profile?.profile_image_url ? (
+              <img 
+                src={profile.profile_image_url} 
+                alt="Profile" 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <UserCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            )}
+          </button>
+          
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={toggleTheme}
+              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
+            >
+              {theme === "light" ? (
+                <Moon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+              ) : (
+                <Sun className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+              )}
+            </button>
+            
+            <button className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg">
+              <span className="text-base">🔔</span>
+            </button>
+          </div>
+        </div>
+
+        <div className="max-w-2xl mx-auto space-y-4 md:space-y-6 mt-16 md:mt-0">
           {/* Profile Header */}
           <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-8 shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="flex flex-col items-center text-center mb-6">
