@@ -191,39 +191,39 @@ export default function Analytics() {
         )}
 
         {/* Activity Summary */}
-        <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Activity Summary</h2>
-          <div className="space-y-4">
+        <div className="bg-white rounded-3xl p-5 md:p-8 border border-gray-200">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 md:mb-6">Activity Summary</h2>
+          <div className="space-y-3 md:space-y-4">
             {/* Avg Exercise */}
-            <div className="flex items-center gap-4 py-3">
-              <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                <Zap className="w-6 h-6 text-gray-700" />
+            <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                <Zap className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
               </div>
               <div className="flex-1">
-                <div className="text-xl font-semibold text-gray-900">Avg Exercise</div>
-                <div className="text-gray-600 text-base">{avgExercise} min/day</div>
+                <div className="text-base md:text-xl font-semibold text-gray-900">Avg Exercise</div>
+                <div className="text-gray-600 text-sm md:text-base">{avgExercise} min/day</div>
               </div>
             </div>
 
             {/* Current Streak */}
-            <div className="flex items-center gap-4 py-3 border-t border-gray-100">
-              <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                <TrendingUp className="w-6 h-6 text-gray-700" />
+            <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3 border-t border-gray-100">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
               </div>
               <div className="flex-1">
-                <div className="text-xl font-semibold text-gray-900">Current Streak</div>
-                <div className="text-gray-600 text-base">{profile?.current_streak || 0} days</div>
+                <div className="text-base md:text-xl font-semibold text-gray-900">Current Streak</div>
+                <div className="text-gray-600 text-sm md:text-base">{profile?.current_streak || 0} days</div>
               </div>
             </div>
 
             {/* Best Streak */}
-            <div className="flex items-center gap-4 py-3 border-t border-gray-100">
-              <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                <Calendar className="w-6 h-6 text-gray-700" />
+            <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3 border-t border-gray-100">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                <Calendar className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
               </div>
               <div className="flex-1">
-                <div className="text-xl font-semibold text-gray-900">Best Streak</div>
-                <div className="text-gray-600 text-base">{profile?.longest_streak || 0} days</div>
+                <div className="text-base md:text-xl font-semibold text-gray-900">Best Streak</div>
+                <div className="text-gray-600 text-sm md:text-base">{profile?.longest_streak || 0} days</div>
               </div>
             </div>
           </div>
@@ -231,26 +231,30 @@ export default function Analytics() {
 
         {/* Sleep Trends */}
         {logs.length > 0 && (
-          <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-200">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Sleep Trends</h2>
-            <p className="text-gray-600 text-sm mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
-            <div className="h-48 flex items-end justify-center gap-1 md:gap-2">
+          <div className="bg-white rounded-3xl p-5 md:p-8 border border-gray-200">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1 md:mb-2">Sleep Trends</h2>
+            <p className="text-gray-600 text-xs md:text-sm mb-4 md:mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
+            <div className="h-40 md:h-48 flex items-end justify-center gap-1 md:gap-2">
               {logs.length === 0 ? (
-                <div className="text-center text-gray-500">No sleep data</div>
+                <div className="text-center text-gray-500 text-sm">No sleep data</div>
               ) : (
                 logs.map((log, index) => {
                   const maxSleep = 12;
-                  const height = ((log.sleep_hours || 0) / maxSleep) * 100;
+                  const sleepValue = Number(log.sleep_hours) || 0;
+                  const height = (sleepValue / maxSleep) * 100;
                   return (
-                    <div key={log.id} className="flex-1 flex flex-col items-center gap-2 max-w-[40px]">
-                      <div className="w-full bg-gray-100 rounded-t-lg relative" style={{ height: '100%' }}>
+                    <div key={log.id} className="flex-1 flex flex-col items-center gap-1 md:gap-2 max-w-[32px] md:max-w-[40px]">
+                      <div className="w-full rounded-t-lg relative h-full">
                         <div 
-                          className="absolute bottom-0 w-full bg-gray-900 rounded-t-lg transition-all"
-                          style={{ height: `${height}%` }}
+                          className="absolute bottom-0 w-full rounded-t-lg transition-all"
+                          style={{ 
+                            height: `${Math.max(height, 2)}%`,
+                            backgroundColor: '#111827'
+                          }}
                         />
                       </div>
                       {(index === 0 || index === logs.length - 1 || logs.length < 8) && (
-                        <span className="text-xs text-gray-500">
+                        <span className="text-[10px] md:text-xs text-gray-500">
                           {format(new Date(log.date), 'MMM d')}
                         </span>
                       )}
@@ -264,26 +268,30 @@ export default function Analytics() {
 
         {/* Stress Levels */}
         {logs.length > 0 && (
-          <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-200">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Stress Levels</h2>
-            <p className="text-gray-600 text-sm mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
-            <div className="h-48 flex items-end justify-center gap-1 md:gap-2">
+          <div className="bg-white rounded-3xl p-5 md:p-8 border border-gray-200">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1 md:mb-2">Stress Levels</h2>
+            <p className="text-gray-600 text-xs md:text-sm mb-4 md:mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
+            <div className="h-40 md:h-48 flex items-end justify-center gap-1 md:gap-2">
               {logs.length === 0 ? (
-                <div className="text-center text-gray-500">No stress data</div>
+                <div className="text-center text-gray-500 text-sm">No stress data</div>
               ) : (
                 logs.map((log, index) => {
                   const maxStress = 10;
-                  const height = ((log.stress_level || 0) / maxStress) * 100;
+                  const stressValue = Number(log.stress_level) || 0;
+                  const height = (stressValue / maxStress) * 100;
                   return (
-                    <div key={log.id} className="flex-1 flex flex-col items-center gap-2 max-w-[40px]">
-                      <div className="w-full bg-gray-100 rounded-t-lg relative" style={{ height: '100%' }}>
+                    <div key={log.id} className="flex-1 flex flex-col items-center gap-1 md:gap-2 max-w-[32px] md:max-w-[40px]">
+                      <div className="w-full rounded-t-lg relative h-full">
                         <div 
-                          className="absolute bottom-0 w-full bg-gray-900 rounded-t-lg transition-all"
-                          style={{ height: `${height}%` }}
+                          className="absolute bottom-0 w-full rounded-t-lg transition-all"
+                          style={{ 
+                            height: `${Math.max(height, 2)}%`,
+                            backgroundColor: '#111827'
+                          }}
                         />
                       </div>
                       {(index === 0 || index === logs.length - 1 || logs.length < 8) && (
-                        <span className="text-xs text-gray-500">
+                        <span className="text-[10px] md:text-xs text-gray-500">
                           {format(new Date(log.date), 'MMM d')}
                         </span>
                       )}
