@@ -222,59 +222,59 @@ export default function Tracking() {
 
         {/* Content */}
         <div className="pb-24 md:pb-6">{activeTab === "daily" ? (
-            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200">
+            <div className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200">
               <DailyLogForm
                 initialData={todayLog}
                 onSubmit={handleSubmit}
               />
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               {/* Testing Roadmap */}
-              <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center">
-                    <FlaskConical className="w-6 h-6 text-gray-900" />
+              <div className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200">
+                <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <FlaskConical className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
                   </div>
-                  <div>
-                    <h3 className="text-xl md:text-2xl font-bold text-gray-900">Testing Roadmap</h3>
-                    <p className="text-gray-600 text-sm">Maximize your sperm value tracking</p>
+                  <div className="min-w-0">
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900">Testing Roadmap</h3>
+                    <p className="text-gray-600 text-xs md:text-sm">Maximize your sperm value tracking</p>
                   </div>
                 </div>
 
                 {testResults.length === 0 ? (
-                  <div className="bg-gray-50 rounded-2xl p-6 mb-6 border border-gray-200">
-                    <h4 className="font-semibold text-lg text-gray-900 mb-2">🎯 Take Your First Test</h4>
-                    <p className="text-gray-600 text-sm mb-4">
+                  <div className="bg-gray-50 rounded-2xl p-4 md:p-6 mb-4 md:mb-6 border border-gray-200">
+                    <h4 className="font-semibold text-base md:text-lg text-gray-900 mb-2">🎯 Take Your First Test</h4>
+                    <p className="text-gray-600 text-xs md:text-sm mb-4">
                       Establish your baseline. Get a complete sperm analysis to start your optimization journey.
                     </p>
                     <TestResultUpload onUpload={handleTestUpload} />
                   </div>
                 ) : (
-                  <div className="space-y-4">
-                    <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                  <div className="space-y-3 md:space-y-4">
+                    <div className="bg-gray-50 rounded-2xl p-4 md:p-6 border border-gray-200">
                       <div className="flex items-center justify-between mb-3">
-                        <div>
-                          <h4 className="font-semibold text-lg text-gray-900">Last Test</h4>
-                          <p className="text-gray-600 text-sm">{format(new Date(testResults[0].test_date), "MMM d, yyyy")}</p>
+                        <div className="min-w-0">
+                          <h4 className="font-semibold text-base md:text-lg text-gray-900">Last Test</h4>
+                          <p className="text-gray-600 text-xs md:text-sm">{format(new Date(testResults[0].test_date), "MMM d, yyyy")}</p>
                         </div>
-                        <div className="text-right">
-                          <div className="text-3xl font-bold text-gray-900">{testResults.length}</div>
+                        <div className="text-right flex-shrink-0">
+                          <div className="text-2xl md:text-3xl font-bold text-gray-900">{testResults.length}</div>
                           <div className="text-gray-600 text-xs">Total Tests</div>
                         </div>
                       </div>
                     </div>
 
                     {daysUntilNext !== null && (
-                      <div className={`rounded-2xl p-6 border-2 ${
+                      <div className={`rounded-2xl p-4 md:p-6 border-2 ${
                         daysUntilNext <= 0 
                           ? 'bg-green-50 border-green-500' 
                           : 'bg-gray-50 border-gray-200'
                       }`}>
-                        <h4 className="font-semibold text-lg text-gray-900 mb-2">
+                        <h4 className="font-semibold text-base md:text-lg text-gray-900 mb-2">
                           {daysUntilNext <= 0 ? '⏰ Test Due!' : '📅 Next Quarterly Test'}
                         </h4>
-                        <p className="text-gray-600 text-sm mb-2">
+                        <p className="text-gray-600 text-xs md:text-sm mb-2">
                           {daysUntilNext <= 0 
                             ? 'It\'s time for your quarterly check-up to track progress!'
                             : `${daysUntilNext} day${daysUntilNext !== 1 ? 's' : ''} until your next recommended test`}
@@ -288,17 +288,17 @@ export default function Tracking() {
                     )}
 
                     {/* Always show upload button */}
-                    <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-                      <h4 className="font-semibold text-gray-900 mb-2">Upload New Test</h4>
-                      <p className="text-gray-600 text-sm mb-4">
+                    <div className="bg-gray-50 rounded-2xl p-4 md:p-6 border border-gray-200">
+                      <h4 className="font-semibold text-sm md:text-base text-gray-900 mb-2">Upload New Test</h4>
+                      <p className="text-gray-600 text-xs md:text-sm mb-4">
                         Upload anytime to track your progress
                       </p>
                       <TestResultUpload onUpload={handleTestUpload} isCompact />
                     </div>
 
-                    <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-                      <h4 className="font-semibold text-gray-900 mb-3">💎 Testing Benefits</h4>
-                      <ul className="space-y-2 text-sm text-gray-600">
+                    <div className="bg-gray-50 rounded-2xl p-4 md:p-6 border border-gray-200">
+                      <h4 className="font-semibold text-sm md:text-base text-gray-900 mb-3">💎 Testing Benefits</h4>
+                      <ul className="space-y-2 text-xs md:text-sm text-gray-600">
                         <li>✓ Track sperm value changes over time</li>
                         <li>✓ Measure lifestyle optimization impact</li>
                         <li>✓ Unlock achievement badges</li>
@@ -311,9 +311,9 @@ export default function Tracking() {
 
               {/* Progress Summary (if multiple tests) */}
               {testResults.length > 1 && (
-                <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Your Progress</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 md:mb-4">Your Progress</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
                     {(() => {
                       const latest = testResults[0];
                       const previous = testResults[1];
@@ -333,38 +333,38 @@ export default function Tracking() {
                       return (
                         <>
                           {concentrationChange !== null && (
-                            <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
-                              <div className="text-xs text-gray-600 mb-1">Concentration</div>
+                            <div className="bg-gray-50 rounded-2xl p-3 md:p-4 border border-gray-200">
+                              <div className="text-[10px] md:text-xs text-gray-600 mb-1">Concentration</div>
                               <div className={`flex items-center gap-1 ${parseFloat(concentrationChange) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                <TrendingUp className={`w-4 h-4 ${parseFloat(concentrationChange) < 0 ? 'rotate-180' : ''}`} />
-                                <span className="text-lg font-bold">{Math.abs(parseFloat(concentrationChange))}%</span>
+                                <TrendingUp className={`w-3 h-3 md:w-4 md:h-4 flex-shrink-0 ${parseFloat(concentrationChange) < 0 ? 'rotate-180' : ''}`} />
+                                <span className="text-base md:text-lg font-bold truncate">{Math.abs(parseFloat(concentrationChange))}%</span>
                               </div>
                             </div>
                           )}
                           {motilityChange !== null && (
-                            <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
-                              <div className="text-xs text-gray-600 mb-1">Motility</div>
+                            <div className="bg-gray-50 rounded-2xl p-3 md:p-4 border border-gray-200">
+                              <div className="text-[10px] md:text-xs text-gray-600 mb-1">Motility</div>
                               <div className={`flex items-center gap-1 ${parseFloat(motilityChange) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                <TrendingUp className={`w-4 h-4 ${parseFloat(motilityChange) < 0 ? 'rotate-180' : ''}`} />
-                                <span className="text-lg font-bold">{Math.abs(parseFloat(motilityChange))}%</span>
+                                <TrendingUp className={`w-3 h-3 md:w-4 md:h-4 flex-shrink-0 ${parseFloat(motilityChange) < 0 ? 'rotate-180' : ''}`} />
+                                <span className="text-base md:text-lg font-bold truncate">{Math.abs(parseFloat(motilityChange))}%</span>
                               </div>
                             </div>
                           )}
                           {progressiveChange !== null && (
-                            <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
-                              <div className="text-xs text-gray-600 mb-1">Progressive</div>
+                            <div className="bg-gray-50 rounded-2xl p-3 md:p-4 border border-gray-200">
+                              <div className="text-[10px] md:text-xs text-gray-600 mb-1">Progressive</div>
                               <div className={`flex items-center gap-1 ${parseFloat(progressiveChange) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                <TrendingUp className={`w-4 h-4 ${parseFloat(progressiveChange) < 0 ? 'rotate-180' : ''}`} />
-                                <span className="text-lg font-bold">{Math.abs(parseFloat(progressiveChange))}%</span>
+                                <TrendingUp className={`w-3 h-3 md:w-4 md:h-4 flex-shrink-0 ${parseFloat(progressiveChange) < 0 ? 'rotate-180' : ''}`} />
+                                <span className="text-base md:text-lg font-bold truncate">{Math.abs(parseFloat(progressiveChange))}%</span>
                               </div>
                             </div>
                           )}
                           {mscChange !== null && (
-                            <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
-                              <div className="text-xs text-gray-600 mb-1">MSC</div>
+                            <div className="bg-gray-50 rounded-2xl p-3 md:p-4 border border-gray-200">
+                              <div className="text-[10px] md:text-xs text-gray-600 mb-1">MSC</div>
                               <div className={`flex items-center gap-1 ${parseFloat(mscChange) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                <TrendingUp className={`w-4 h-4 ${parseFloat(mscChange) < 0 ? 'rotate-180' : ''}`} />
-                                <span className="text-lg font-bold">{Math.abs(parseFloat(mscChange))}%</span>
+                                <TrendingUp className={`w-3 h-3 md:w-4 md:h-4 flex-shrink-0 ${parseFloat(mscChange) < 0 ? 'rotate-180' : ''}`} />
+                                <span className="text-base md:text-lg font-bold truncate">{Math.abs(parseFloat(mscChange))}%</span>
                               </div>
                             </div>
                           )}
@@ -372,7 +372,7 @@ export default function Tracking() {
                       );
                     })()}
                   </div>
-                  <p className="text-center text-sm text-gray-600 mt-4">
+                  <p className="text-center text-xs md:text-sm text-gray-600 mt-3 md:mt-4">
                     View detailed results in Analytics →
                   </p>
                 </div>
