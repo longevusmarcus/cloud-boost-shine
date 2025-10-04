@@ -160,17 +160,6 @@ export default function Content() {
             </div>
           ))}
         </div>
-
-        {/* Coming Soon Banner */}
-        <div className="mb-6 bg-gradient-to-r from-gray-900 to-gray-800 rounded-3xl p-6 md:p-8 text-center">
-          <div className="text-4xl md:text-5xl mb-4">📚</div>
-          <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
-            More Content Coming Soon
-          </h3>
-          <p className="text-gray-300 text-sm md:text-base">
-            We're constantly adding new articles, videos, and expert insights to help you maximize your results
-          </p>
-        </div>
       </div>
     </Layout>
   );
