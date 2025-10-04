@@ -1,35 +1,10 @@
 import { useState, useEffect } from "react";
-import { UserCircle, Moon, Sun, Apple, Heart, Droplet, Clock } from "lucide-react";
+import { UserCircle, Moon, Sun, Apple, Heart, Droplet } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import InsightCard from "@/components/dashboard/InsightCard";
 import { supabase } from "@/integrations/supabase/client";
 import { useTheme } from "@/components/ThemeProvider";
-import { Card, CardContent } from "@/components/ui/card";
-
-const articles = [
-  {
-    id: 1,
-    title: "The Science of Sleep and Sperm Health",
-    category: "Sleep",
-    readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800&q=80",
-  },
-  {
-    id: 2,
-    title: "Nutrition Tips for Optimal Fertility",
-    category: "Nutrition",
-    readTime: "7 min read",
-    image: "https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=800&q=80",
-  },
-  {
-    id: 3,
-    title: "Exercise and Male Reproductive Health",
-    category: "Exercise",
-    readTime: "6 min read",
-    image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80",
-  },
-];
 
 export default function Content() {
   const navigate = useNavigate();
@@ -157,28 +132,6 @@ export default function Content() {
                 backgroundImage="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80"
               />
             </div>
-            {/* Articles */}
-            <div className="space-y-4 pb-24 md:pb-6">
-              {articles.map((article) => (
-                <Card key={article.id} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
-                  <CardContent className="p-0 flex gap-4">
-                    <img 
-                      src={article.image} 
-                      alt={article.title}
-                      className="w-32 h-32 object-cover"
-                    />
-                    <div className="flex-1 p-4">
-                      <span className="text-xs font-medium text-primary">{article.category}</span>
-                      <h3 className="font-semibold mt-1 mb-2">{article.title}</h3>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Clock className="w-3 h-3" />
-                        {article.readTime}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
           </div>
         )}
 
@@ -217,29 +170,6 @@ export default function Content() {
                 icon={Droplet}
                 backgroundImage="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80"
               />
-            </div>
-
-            {/* Articles */}
-            <div className="space-y-4 pb-24 md:pb-6">
-              {articles.map((article) => (
-                <Card key={article.id} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
-                  <CardContent className="p-0 flex gap-4">
-                    <img 
-                      src={article.image} 
-                      alt={article.title}
-                      className="w-32 h-32 object-cover"
-                    />
-                    <div className="flex-1 p-4">
-                      <span className="text-xs font-medium text-primary">{article.category}</span>
-                      <h3 className="font-semibold mt-1 mb-2">{article.title}</h3>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Clock className="w-3 h-3" />
-                        {article.readTime}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
             </div>
           </div>
         )}
