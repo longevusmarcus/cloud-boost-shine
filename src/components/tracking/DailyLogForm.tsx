@@ -13,7 +13,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
     diet_quality: "",
     sleep_hours: "",
     sleep_quality: "",
-    stress_level: "",
+    stress_level: null,
     exercise_minutes: "",
     electrolytes: null,
     notes: ""
@@ -30,7 +30,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
       formData.sleep_quality !== "" &&
       formData.sleep_hours !== "" &&
       formData.diet_quality !== "" &&
-      formData.stress_level !== "" &&
+      formData.stress_level !== null &&
       formData.exercise_minutes !== "" &&
       formData.electrolytes !== null
     );
@@ -177,26 +177,26 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
           <p className="text-sm text-gray-600 mb-4">How stressed were you today?</p>
           <div className="flex gap-3 overflow-x-auto pb-2">
             <CircularButton
-              selected={formData.stress_level === 'low'}
-              onClick={() => setFormData({ ...formData, stress_level: 'low' })}
+              selected={formData.stress_level === 1}
+              onClick={() => setFormData({ ...formData, stress_level: 1 })}
               icon={Smile}
               label="Low"
             />
             <CircularButton
-              selected={formData.stress_level === 'moderate'}
-              onClick={() => setFormData({ ...formData, stress_level: 'moderate' })}
+              selected={formData.stress_level === 2}
+              onClick={() => setFormData({ ...formData, stress_level: 2 })}
               icon={Meh}
               label="Moderate"
             />
             <CircularButton
-              selected={formData.stress_level === 'high'}
-              onClick={() => setFormData({ ...formData, stress_level: 'high' })}
+              selected={formData.stress_level === 3}
+              onClick={() => setFormData({ ...formData, stress_level: 3 })}
               icon={Frown}
               label="High"
             />
             <CircularButton
-              selected={formData.stress_level === 'extreme'}
-              onClick={() => setFormData({ ...formData, stress_level: 'extreme' })}
+              selected={formData.stress_level === 4}
+              onClick={() => setFormData({ ...formData, stress_level: 4 })}
               icon={AlertCircle}
               label="Extreme"
             />

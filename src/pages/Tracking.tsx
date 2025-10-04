@@ -70,9 +70,14 @@ export default function Tracking() {
       const dataToSave = {
         user_id: session.user.id,
         date: today,
-        ...logData,
+        masturbation_count: logData.masturbation_count !== null ? parseInt(logData.masturbation_count) : null,
         sleep_hours: logData.sleep_hours ? parseFloat(logData.sleep_hours) : null,
+        sleep_quality: logData.sleep_quality || null,
+        diet_quality: logData.diet_quality || null,
+        stress_level: logData.stress_level ? parseInt(logData.stress_level) : null,
         exercise_minutes: logData.exercise_minutes ? parseInt(logData.exercise_minutes) : null,
+        electrolytes: logData.electrolytes,
+        notes: logData.notes || null
       };
 
       if (todayLog) {
