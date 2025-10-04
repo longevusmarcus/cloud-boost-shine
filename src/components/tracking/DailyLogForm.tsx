@@ -61,9 +61,10 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
   );
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="max-h-[60vh] overflow-y-auto pr-2 space-y-6 scrollbar-hide">
-        {/* Masturbation Frequency Section */}
+    <>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="max-h-[60vh] overflow-y-auto pr-2 space-y-6 scrollbar-hide">
+          {/* Masturbation Frequency Section */}
         <div className="bg-white rounded-3xl p-5 md:p-6 border border-gray-200">
           <h3 className="text-lg font-bold text-gray-900 mb-1">Masturbation</h3>
           <p className="text-sm text-gray-600 mb-4">How many times did you masturbate today?</p>
@@ -283,12 +284,14 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
             className="w-full h-24 bg-gray-50 rounded-2xl px-4 py-3 text-gray-900 border-none focus:outline-none focus:ring-2 focus:ring-gray-300 resize-none"
           />
         </div>
-      </div>
+        </div>
+      </form>
 
       {/* Floating Save Button */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md">
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md px-4">
         <Button
-          type="submit"
+          onClick={handleSubmit}
+          type="button"
           className="w-full h-14 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-medium text-base shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
           disabled={!isFormComplete()}
         >
@@ -296,6 +299,6 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
           Save Check-in
         </Button>
       </div>
-    </form>
+    </>
   );
 }
