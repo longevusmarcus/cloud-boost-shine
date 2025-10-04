@@ -6,6 +6,7 @@ import { Upload, Loader2, ExternalLink, FileText, CheckCircle, XCircle } from "l
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import * as pdfjsLib from 'pdfjs-dist';
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?worker';
 
 interface TestResultUploadProps {
   onUpload: () => void;
@@ -23,7 +24,7 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
   const { toast } = useToast();
 
   // Set up PDF.js worker
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+  pdfjsLib.GlobalWorkerOptions.workerPort = new pdfjsWorker();
 
   const convertPdfToImage = async (file: File): Promise<string> => {
     const arrayBuffer = await file.arrayBuffer();
