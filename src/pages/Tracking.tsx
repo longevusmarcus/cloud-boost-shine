@@ -163,7 +163,7 @@ export default function Tracking() {
   return (
     <Layout>
       <div className="min-h-screen bg-gray-50 flex flex-col">
-        <div className="max-w-3xl mx-auto w-full flex flex-col min-h-screen">
+        <div className="w-full flex flex-col min-h-screen">
           {/* Header - Fixed and Sticky */}
           <div className="flex-shrink-0 sticky top-0 z-10 bg-gray-50 px-4 pt-3 pb-2 md:p-6">
             {/* Mobile: Minimal header with icons */}

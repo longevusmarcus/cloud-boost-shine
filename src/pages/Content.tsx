@@ -71,7 +71,7 @@ export default function Content() {
   return (
     <Layout>
       <div className="min-h-screen bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 py-3 md:py-8">
+        <div className="w-full px-4 py-3 md:py-8">
           {/* Mobile Header */}
           <div className="flex items-center justify-between md:hidden mb-4">
             <button
