@@ -222,6 +222,7 @@ export default function Dashboard() {
               </div>
 
               {/* Sperm entering and exploding animations */}
+              {/* From left - head faces right toward center */}
               <div className="absolute -left-20 top-1/2 animate-enter-explode" style={{ animationDelay: '0s', animationDuration: '3s' }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400">
                   <circle cx="8" cy="8" r="4" fill="currentColor" />
@@ -229,24 +230,27 @@ export default function Dashboard() {
                 </svg>
               </div>
 
+              {/* From right - rotated 180° so head faces left toward center */}
               <div className="absolute -right-20 top-1/3 animate-enter-explode" style={{ animationDelay: '1.5s', animationDuration: '3.5s' }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400" style={{ transform: 'rotate(180deg)' }}>
                   <circle cx="8" cy="8" r="4" fill="currentColor" />
-                  <path d="M12 8 Q14 10, 18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                  <path d="M12 8 Q16 6, 22 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
                 </svg>
               </div>
 
+              {/* From top - rotated 90° so head faces down toward center */}
               <div className="absolute left-1/3 -top-20 animate-enter-explode" style={{ animationDelay: '3s', animationDuration: '3.2s' }}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400" style={{ transform: 'rotate(90deg)' }}>
                   <circle cx="8" cy="8" r="4" fill="currentColor" />
-                  <path d="M12 8 Q16 4, 20 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                  <path d="M12 8 Q16 6, 22 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
                 </svg>
               </div>
 
+              {/* From bottom - rotated -90° so head faces up toward center */}
               <div className="absolute right-1/4 -bottom-20 animate-enter-explode" style={{ animationDelay: '4.5s', animationDuration: '3s' }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400" style={{ transform: 'rotate(-90deg)' }}>
                   <circle cx="8" cy="8" r="4" fill="currentColor" />
-                  <path d="M12 8 Q14 12, 16 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                  <path d="M12 8 Q16 6, 22 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
                 </svg>
               </div>
             </div>
