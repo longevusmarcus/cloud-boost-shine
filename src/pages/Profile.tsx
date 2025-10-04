@@ -20,8 +20,17 @@ export default function Profile() {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editForm, setEditForm] = useState({
+  const [isEditingBasic, setIsEditingBasic] = useState(false);
+  const [isEditingLifestyle, setIsEditingLifestyle] = useState(false);
+  const [basicForm, setBasicForm] = useState({
+    full_name: '',
+    age: '',
+    goal: '',
+    height_feet: '',
+    height_inches: '',
+    weight: ''
+  });
+  const [lifestyleForm, setLifestyleForm] = useState({
     smoking: '',
     alcohol: '',
     exercise: '',
@@ -60,7 +69,15 @@ export default function Profile() {
         .single();
 
       setProfile(profileData);
-      setEditForm({
+      setBasicForm({
+        full_name: profileData?.full_name || '',
+        age: profileData?.age?.toString() || '',
+        goal: profileData?.goal || '',
+        height_feet: profileData?.height_feet?.toString() || '',
+        height_inches: profileData?.height_inches?.toString() || '',
+        weight: profileData?.weight?.toString() || ''
+      });
+      setLifestyleForm({
         smoking: profileData?.smoking || '',
         alcohol: profileData?.alcohol || '',
         exercise: profileData?.exercise || '',
@@ -169,7 +186,7 @@ export default function Profile() {
     }
   };
 
-  const handleSaveProfile = async () => {
+  const handleSaveBasic = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("Not authenticated");
@@ -177,19 +194,54 @@ export default function Profile() {
       const { error } = await supabase
         .from('user_profiles')
         .update({
-          smoking: editForm.smoking,
-          alcohol: editForm.alcohol,
-          exercise: editForm.exercise,
-          diet_quality: editForm.diet_quality,
-          sleep_hours: editForm.sleep_hours ? parseFloat(editForm.sleep_hours) : null,
-          stress_level: editForm.stress_level,
-          masturbation_frequency: editForm.masturbation_frequency,
-          sexual_activity: editForm.sexual_activity,
-          supplements: editForm.supplements,
-          career_status: editForm.career_status,
-          family_pledge: editForm.family_pledge,
-          tight_clothing: editForm.tight_clothing,
-          hot_baths: editForm.hot_baths,
+          full_name: basicForm.full_name,
+          age: basicForm.age ? parseInt(basicForm.age) : null,
+          goal: basicForm.goal,
+          height_feet: basicForm.height_feet ? parseInt(basicForm.height_feet) : null,
+          height_inches: basicForm.height_inches ? parseInt(basicForm.height_inches) : null,
+          weight: basicForm.weight ? parseInt(basicForm.weight) : null,
+        })
+        .eq('user_id', session.user.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success!",
+        description: "Profile updated",
+      });
+
+      setIsEditingBasic(false);
+      loadData();
+    } catch (error: any) {
+      toast({
+        title: "Update failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSaveLifestyle = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
+
+      const { error } = await supabase
+        .from('user_profiles')
+        .update({
+          smoking: lifestyleForm.smoking,
+          alcohol: lifestyleForm.alcohol,
+          exercise: lifestyleForm.exercise,
+          diet_quality: lifestyleForm.diet_quality,
+          sleep_hours: lifestyleForm.sleep_hours ? parseFloat(lifestyleForm.sleep_hours) : null,
+          stress_level: lifestyleForm.stress_level,
+          masturbation_frequency: lifestyleForm.masturbation_frequency,
+          sexual_activity: lifestyleForm.sexual_activity,
+          supplements: lifestyleForm.supplements,
+          career_status: lifestyleForm.career_status,
+          family_pledge: lifestyleForm.family_pledge,
+          tight_clothing: lifestyleForm.tight_clothing,
+          hot_baths: lifestyleForm.hot_baths,
         })
         .eq('user_id', session.user.id);
 
@@ -200,7 +252,7 @@ export default function Profile() {
         description: "Lifestyle info updated",
       });
 
-      setIsEditing(false);
+      setIsEditingLifestyle(false);
       loadData();
     } catch (error: any) {
       toast({
@@ -335,13 +387,13 @@ export default function Profile() {
             </div>
           </div>
 
-          {/* Lifestyle Info */}
+          {/* Basic Info */}
           <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Lifestyle Info</h2>
-              {!isEditing ? (
+              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Basic Info</h2>
+              {!isEditingBasic ? (
                 <button
-                  onClick={() => setIsEditing(true)}
+                  onClick={() => setIsEditingBasic(true)}
                   className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                 >
                   <Edit2 className="w-4 h-4 text-gray-600 dark:text-gray-400" />
@@ -350,7 +402,7 @@ export default function Profile() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => {
-                      setIsEditing(false);
+                      setIsEditingBasic(false);
                       loadData();
                     }}
                     className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
@@ -358,7 +410,7 @@ export default function Profile() {
                     <X className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                   </button>
                   <button
-                    onClick={handleSaveProfile}
+                    onClick={handleSaveBasic}
                     className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                   >
                     <Check className="w-4 h-4 text-gray-600 dark:text-gray-400" />
@@ -367,11 +419,133 @@ export default function Profile() {
               )}
             </div>
 
-            {isEditing ? (
+            {isEditingBasic ? (
+              <div className="space-y-3">
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Name</Label>
+                  <Input
+                    value={basicForm.full_name}
+                    onChange={(e) => setBasicForm({ ...basicForm, full_name: e.target.value })}
+                    className="h-9 text-sm"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-xs text-gray-500 dark:text-gray-400">Age</Label>
+                    <Input
+                      type="number"
+                      value={basicForm.age}
+                      onChange={(e) => setBasicForm({ ...basicForm, age: e.target.value })}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-xs text-gray-500 dark:text-gray-400">Weight (lbs)</Label>
+                    <Input
+                      type="number"
+                      value={basicForm.weight}
+                      onChange={(e) => setBasicForm({ ...basicForm, weight: e.target.value })}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Height</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="number"
+                      value={basicForm.height_feet}
+                      onChange={(e) => setBasicForm({ ...basicForm, height_feet: e.target.value })}
+                      placeholder="Feet"
+                      className="h-9 text-sm"
+                    />
+                    <Input
+                      type="number"
+                      value={basicForm.height_inches}
+                      onChange={(e) => setBasicForm({ ...basicForm, height_inches: e.target.value })}
+                      placeholder="In"
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Goal</Label>
+                  <Input
+                    value={basicForm.goal}
+                    onChange={(e) => setBasicForm({ ...basicForm, goal: e.target.value })}
+                    className="h-9 text-sm"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Name</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.full_name || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Age</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.age || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Height</span>
+                  <span className="text-gray-900 dark:text-white font-medium">
+                    {profile?.height_feet && profile?.height_inches !== null 
+                      ? `${profile.height_feet}'${profile.height_inches}"` 
+                      : 'Not set'}
+                  </span>
+                </div>
+                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <span className="text-gray-500 dark:text-gray-400">Weight</span>
+                  <span className="text-gray-900 dark:text-white font-medium">
+                    {profile?.weight ? `${profile.weight} lbs` : 'Not set'}
+                  </span>
+                </div>
+                <div className="flex justify-between col-span-2">
+                  <span className="text-gray-500 dark:text-gray-400">Goal</span>
+                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.goal || 'Not set'}</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Lifestyle Info */}
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Lifestyle Info</h2>
+              {!isEditingLifestyle ? (
+                <button
+                  onClick={() => setIsEditingLifestyle(true)}
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                >
+                  <Edit2 className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                </button>
+              ) : (
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      setIsEditingLifestyle(false);
+                      loadData();
+                    }}
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <X className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  </button>
+                  <button
+                    onClick={handleSaveLifestyle}
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <Check className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {isEditingLifestyle ? (
               <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
                 <div>
                   <Label className="text-xs text-gray-500 dark:text-gray-400">Smoking</Label>
-                  <Select value={editForm.smoking} onValueChange={(value) => setEditForm({...editForm, smoking: value})}>
+                  <Select value={lifestyleForm.smoking} onValueChange={(value) => setLifestyleForm({...lifestyleForm, smoking: value})}>
                     <SelectTrigger className="h-9 text-sm">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
@@ -386,7 +560,7 @@ export default function Profile() {
 
                 <div>
                   <Label className="text-xs text-gray-500 dark:text-gray-400">Alcohol</Label>
-                  <Select value={editForm.alcohol} onValueChange={(value) => setEditForm({...editForm, alcohol: value})}>
+                  <Select value={lifestyleForm.alcohol} onValueChange={(value) => setLifestyleForm({...lifestyleForm, alcohol: value})}>
                     <SelectTrigger className="h-9 text-sm">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
@@ -401,7 +575,7 @@ export default function Profile() {
 
                 <div>
                   <Label className="text-xs text-gray-500 dark:text-gray-400">Exercise</Label>
-                  <Select value={editForm.exercise} onValueChange={(value) => setEditForm({...editForm, exercise: value})}>
+                  <Select value={lifestyleForm.exercise} onValueChange={(value) => setLifestyleForm({...lifestyleForm, exercise: value})}>
                     <SelectTrigger className="h-9 text-sm">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
@@ -416,7 +590,7 @@ export default function Profile() {
 
                 <div>
                   <Label className="text-xs text-gray-500 dark:text-gray-400">Diet</Label>
-                  <Select value={editForm.diet_quality} onValueChange={(value) => setEditForm({...editForm, diet_quality: value})}>
+                  <Select value={lifestyleForm.diet_quality} onValueChange={(value) => setLifestyleForm({...lifestyleForm, diet_quality: value})}>
                     <SelectTrigger className="h-9 text-sm">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
@@ -434,15 +608,15 @@ export default function Profile() {
                   <Input
                     type="number"
                     step="0.5"
-                    value={editForm.sleep_hours}
-                    onChange={(e) => setEditForm({ ...editForm, sleep_hours: e.target.value })}
+                    value={lifestyleForm.sleep_hours}
+                    onChange={(e) => setLifestyleForm({ ...lifestyleForm, sleep_hours: e.target.value })}
                     className="h-9 text-sm"
                   />
                 </div>
 
                 <div>
                   <Label className="text-xs text-gray-500 dark:text-gray-400">Stress</Label>
-                  <Select value={editForm.stress_level} onValueChange={(value) => setEditForm({...editForm, stress_level: value})}>
+                  <Select value={lifestyleForm.stress_level} onValueChange={(value) => setLifestyleForm({...lifestyleForm, stress_level: value})}>
                     <SelectTrigger className="h-9 text-sm">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
@@ -457,7 +631,7 @@ export default function Profile() {
 
                 <div>
                   <Label className="text-xs text-gray-500 dark:text-gray-400">Supplements</Label>
-                  <Select value={editForm.supplements} onValueChange={(value) => setEditForm({...editForm, supplements: value})}>
+                  <Select value={lifestyleForm.supplements} onValueChange={(value) => setLifestyleForm({...lifestyleForm, supplements: value})}>
                     <SelectTrigger className="h-9 text-sm">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
@@ -473,8 +647,8 @@ export default function Profile() {
                 <div className="flex items-center gap-2 pt-2">
                   <Checkbox
                     id="tight"
-                    checked={editForm.tight_clothing}
-                    onCheckedChange={(checked) => setEditForm({...editForm, tight_clothing: !!checked})}
+                    checked={lifestyleForm.tight_clothing}
+                    onCheckedChange={(checked) => setLifestyleForm({...lifestyleForm, tight_clothing: !!checked})}
                   />
                   <Label htmlFor="tight" className="text-xs cursor-pointer">Tight clothing</Label>
                 </div>
@@ -482,8 +656,8 @@ export default function Profile() {
                 <div className="flex items-center gap-2">
                   <Checkbox
                     id="hot"
-                    checked={editForm.hot_baths}
-                    onCheckedChange={(checked) => setEditForm({...editForm, hot_baths: !!checked})}
+                    checked={lifestyleForm.hot_baths}
+                    onCheckedChange={(checked) => setLifestyleForm({...lifestyleForm, hot_baths: !!checked})}
                   />
                   <Label htmlFor="hot" className="text-xs cursor-pointer">Hot baths/saunas</Label>
                 </div>
