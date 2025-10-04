@@ -10,7 +10,7 @@ export default function Privacy() {
       {/* Header */}
       <div className="fixed top-4 left-0 right-0 z-50 md:hidden flex items-center justify-between px-4">
         <button 
-          onClick={() => navigate('/dashboard')}
+          onClick={() => navigate('/profile')}
           className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
         >
           <ArrowLeft className="w-4 h-4 text-gray-600 dark:text-gray-400" />
@@ -20,12 +20,12 @@ export default function Privacy() {
       <div className="max-w-4xl mx-auto mt-16 md:mt-0">
         {/* Desktop Back Button */}
         <Button
-          onClick={() => navigate('/dashboard')}
+          onClick={() => navigate('/profile')}
           variant="ghost"
           className="hidden md:flex items-center gap-2 mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Dashboard
+          Back to Profile
         </Button>
 
         <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 md:p-10 shadow-sm border border-gray-200 dark:border-gray-700">
