@@ -257,23 +257,23 @@ export default function Dashboard() {
             {/* Progress Preview Card */}
             <div className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 border-2 border-gray-700 p-3 md:p-5 flex flex-col">
               <h3 className="font-semibold text-white text-[11px] md:text-sm mb-2">Progress</h3>
-              <div className="flex-1 flex flex-col justify-center space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-[9px] md:text-xs text-white/70">Value</span>
-                  <span className="text-[11px] md:text-sm text-white font-bold">${profile?.sperm_value || 50}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[9px] md:text-xs text-white/70">Streak</span>
-                  <span className="text-[11px] md:text-sm text-white font-bold">{profile?.current_streak || 0}d</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[9px] md:text-xs text-white/70">Level</span>
-                  <span className="text-[11px] md:text-sm text-white font-bold">{profile?.sperm_level || 1}</span>
-                </div>
+              <div className="flex-1 flex items-end justify-center gap-0.5 md:gap-1">
+                {/* Mini bar chart showing recent days */}
+                {recentLogs.slice(0, 7).reverse().map((log, index) => {
+                  const height = log.sleep_hours ? (log.sleep_hours / 12) * 100 : 10;
+                  return (
+                    <div key={index} className="flex-1 flex flex-col items-center justify-end h-full max-w-3">
+                      <div 
+                        className="w-full bg-white/90 rounded-t transition-all"
+                        style={{ height: `${height}%` }}
+                      />
+                    </div>
+                  );
+                })}
               </div>
               <button
                 onClick={() => navigate('/analytics')}
-                className="mt-2 text-[9px] md:text-xs text-white/70 hover:text-white transition-colors"
+                className="mt-2 text-[9px] md:text-xs text-white/70 hover:text-white transition-colors text-center"
               >
                 View All →
               </button>
