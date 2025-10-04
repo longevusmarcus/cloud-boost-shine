@@ -211,8 +211,8 @@ export default function Analytics() {
         {testResults.length > 0 && (
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <FileText className="w-5 h-5 text-gray-600" />
-              <h2 className="text-xl font-bold text-gray-900">Test Results</h2>
+              <FileText className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Test Results</h2>
             </div>
             {testResults.map((result) => (
               <TestResultDisplay key={result.id} result={result} />
@@ -221,50 +221,50 @@ export default function Analytics() {
         )}
 
         {/* Sexual Activity Analytics */}
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-5 md:p-8 border border-gray-700 overflow-hidden relative animate-fade-in">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700 overflow-hidden relative animate-fade-in">
           {/* Background decoration */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gray-200/30 dark:bg-white/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gray-200/30 dark:bg-white/5 rounded-full blur-3xl" />
           
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                <Heart className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                <Heart className="w-5 h-5 md:w-6 md:h-6 text-gray-900 dark:text-white" />
               </div>
               <div>
-                <h2 className="text-xl md:text-2xl font-bold text-white">Ejaculation Analytics</h2>
-                <p className="text-white/60 text-xs md:text-sm">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
+                <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Ejaculation Analytics</h2>
+                <p className="text-gray-600 dark:text-white/60 text-xs md:text-sm">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
               </div>
             </div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-3 gap-3 md:gap-4 mb-6">
               {/* Total Count */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 md:p-4 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <div className="text-white/70 text-[10px] md:text-xs font-medium uppercase tracking-wide mb-1">Total</div>
-                <div className="text-2xl md:text-3xl font-bold text-white">{totalMasturbation}</div>
-                <div className="text-white/60 text-[10px] md:text-xs mt-0.5">times</div>
+              <div className="bg-gray-100 dark:bg-white/10 backdrop-blur-sm rounded-2xl p-3 md:p-4 hover:bg-gray-200 dark:hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <div className="text-gray-600 dark:text-white/70 text-[10px] md:text-xs font-medium uppercase tracking-wide mb-1">Total</div>
+                <div className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{totalMasturbation}</div>
+                <div className="text-gray-600 dark:text-white/60 text-[10px] md:text-xs mt-0.5">times</div>
               </div>
 
               {/* Weekly Average */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 md:p-4 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <div className="text-white/70 text-[10px] md:text-xs font-medium uppercase tracking-wide mb-1">Weekly Avg</div>
-                <div className="text-2xl md:text-3xl font-bold text-white">{avgMasturbationPerWeek}</div>
-                <div className="text-white/60 text-[10px] md:text-xs mt-0.5">per week</div>
+              <div className="bg-gray-100 dark:bg-white/10 backdrop-blur-sm rounded-2xl p-3 md:p-4 hover:bg-gray-200 dark:hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <div className="text-gray-600 dark:text-white/70 text-[10px] md:text-xs font-medium uppercase tracking-wide mb-1">Weekly Avg</div>
+                <div className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{avgMasturbationPerWeek}</div>
+                <div className="text-gray-600 dark:text-white/60 text-[10px] md:text-xs mt-0.5">per week</div>
               </div>
 
               {/* Activity Rate */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 md:p-4 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <div className="text-white/70 text-[10px] md:text-xs font-medium uppercase tracking-wide mb-1">Activity Rate</div>
-                <div className="text-2xl md:text-3xl font-bold text-white">{activityRate}%</div>
-                <div className="text-white/60 text-[10px] md:text-xs mt-0.5">of days</div>
+              <div className="bg-gray-100 dark:bg-white/10 backdrop-blur-sm rounded-2xl p-3 md:p-4 hover:bg-gray-200 dark:hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <div className="text-gray-600 dark:text-white/70 text-[10px] md:text-xs font-medium uppercase tracking-wide mb-1">Activity Rate</div>
+                <div className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{activityRate}%</div>
+                <div className="text-gray-600 dark:text-white/60 text-[10px] md:text-xs mt-0.5">of days</div>
               </div>
             </div>
 
             {/* Frequency Chart */}
             {logs.length > 0 && (
               <div>
-                <div className="text-white/70 text-xs md:text-sm font-medium mb-3">Frequency Trend</div>
+                <div className="text-gray-600 dark:text-white/70 text-xs md:text-sm font-medium mb-3">Frequency Trend</div>
                 <div className="h-32 md:h-40 flex items-end justify-center gap-1 md:gap-2">
                   {logs.map((log, index) => {
                     const maxCount = 5;
@@ -274,15 +274,18 @@ export default function Analytics() {
                       <div key={log.id} className="flex-1 flex flex-col items-center gap-1 md:gap-2 max-w-[32px] md:max-w-[40px] group">
                         <div className="w-full rounded-t-lg relative h-full">
                           <div 
-                            className="absolute bottom-0 w-full rounded-t-lg transition-all duration-500 group-hover:opacity-80"
+                            className={`absolute bottom-0 w-full rounded-t-lg transition-all duration-500 group-hover:opacity-80 ${
+                              count > 0 
+                                ? 'bg-gray-900 dark:bg-white' 
+                                : 'bg-gray-900/10 dark:bg-white/10'
+                            }`}
                             style={{ 
-                              height: `${Math.max(height, count > 0 ? 5 : 0)}%`,
-                              backgroundColor: count > 0 ? '#ffffff' : '#ffffff20'
+                              height: `${Math.max(height, count > 0 ? 5 : 0)}%`
                             }}
                           />
                         </div>
                         {(index === 0 || index === logs.length - 1 || logs.length < 8) && (
-                          <span className="text-[10px] md:text-xs text-white/50">
+                          <span className="text-[10px] md:text-xs text-gray-500 dark:text-white/50">
                             {format(new Date(log.date), 'MMM d')}
                           </span>
                         )}
