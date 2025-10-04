@@ -240,22 +240,10 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
         </div>
       )}
 
-      <div className="flex gap-3 w-full">
-        <Button
-          type="button"
-          onClick={() => {
-            setShowForm(false);
-            setExtractionStatus(null);
-          }}
-          variant="outline"
-          className="flex-1 min-w-0 h-12 border-gray-300 text-black hover:bg-gray-100 rounded-xl"
-          disabled={isUploading}
-        >
-          Cancel
-        </Button>
+      <div className="flex flex-col gap-3 w-full">
         <Button
           type="submit"
-          className="flex-1 min-w-0 h-12 bg-black hover:bg-gray-800 text-white rounded-xl font-semibold"
+          className="w-full h-12 bg-black hover:bg-gray-800 text-white rounded-xl font-semibold"
           disabled={isUploading || !formData.file}
         >
           {isUploading ? (
@@ -269,6 +257,18 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
               <span className="truncate">Upload & Process</span>
             </>
           )}
+        </Button>
+        <Button
+          type="button"
+          onClick={() => {
+            setShowForm(false);
+            setExtractionStatus(null);
+          }}
+          variant="outline"
+          className="w-full h-12 border-gray-300 text-black hover:bg-gray-100 rounded-xl"
+          disabled={isUploading}
+        >
+          Cancel
         </Button>
       </div>
     </form>
