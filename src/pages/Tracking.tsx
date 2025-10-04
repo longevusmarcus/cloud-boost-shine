@@ -226,7 +226,7 @@ export default function Tracking() {
         </div>
 
         {/* Content */}
-        <div className="pb-32 md:pb-6">{activeTab === "daily" ? (
+        <div className="pb-24 md:pb-6">{activeTab === "daily" ? (
             <div className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200">
               <DailyLogForm
                 initialData={todayLog}
