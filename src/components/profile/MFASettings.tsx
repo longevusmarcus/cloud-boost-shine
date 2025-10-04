@@ -42,7 +42,8 @@ export default function MFASettings() {
 
       if (error) throw error;
 
-      setQrCode(data.totp.qr_code);
+      // Use the URI for QR code generation, not the pre-generated qr_code
+      setQrCode(data.totp.uri);
       setSecret(data.totp.secret);
       setShowSetup(true);
       
@@ -144,14 +145,20 @@ export default function MFASettings() {
           </Button>
         )}
 
-        {showSetup && !mfaEnabled && (
+        {showSetup && !mfaEnabled && qrCode && (
           <div className="space-y-4">
-            <div className="p-4 bg-white rounded-lg border">
+            <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border">
               <p className="text-sm font-medium mb-3">
                 1. Scan this QR code with your authenticator app
               </p>
-              <div className="flex justify-center p-4 bg-white">
-                <QRCode value={qrCode} size={200} />
+              <div className="flex justify-center p-4 bg-white rounded">
+                {qrCode && (
+                  <QRCode 
+                    value={qrCode} 
+                    size={200}
+                    level="M"
+                  />
+                )}
               </div>
               
               <p className="text-sm text-muted-foreground mt-3 mb-2">
