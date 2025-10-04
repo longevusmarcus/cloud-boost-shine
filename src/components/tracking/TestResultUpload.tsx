@@ -40,23 +40,55 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("Not authenticated");
 
-      // For now, create a placeholder test result
-      // In production, you'd implement PDF extraction
-      const { error } = await supabase
+      // Convert PDF to base64
+      const reader = new FileReader();
+      const base64Promise = new Promise<string>((resolve, reject) => {
+        reader.onload = () => {
+          const base64 = reader.result as string;
+          resolve(base64);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(formData.file!);
+      });
+
+      const pdfBase64 = await base64Promise;
+
+      // Call AI function to extract metrics
+      const { data: parseData, error: parseError } = await supabase.functions.invoke('parse-test-pdf', {
+        body: { pdfBase64 }
+      });
+
+      if (parseError) {
+        console.error('Parse error:', parseError);
+        throw new Error(parseError.message || 'Failed to parse PDF');
+      }
+
+      const metrics = parseData?.metrics || {};
+      console.log('Extracted metrics:', metrics);
+
+      // Insert test result with extracted metrics
+      const { error: insertError } = await supabase
         .from('test_results')
         .insert({
           user_id: session.user.id,
           test_date: formData.test_date,
           provider: "yo",
-          notes: "Uploaded via web interface"
+          concentration: metrics.concentration,
+          motility: metrics.motility,
+          progressive_motility: metrics.progressive_motility,
+          morphology: metrics.morphology,
+          volume: metrics.volume,
+          motile_sperm_concentration: metrics.motile_sperm_concentration,
+          progressive_motile_sperm_concentration: metrics.progressive_motile_sperm_concentration,
+          notes: "Uploaded and auto-processed via AI"
         });
 
-      if (error) throw error;
+      if (insertError) throw insertError;
 
       setExtractionStatus("success");
       toast({
         title: "Success!",
-        description: "Test result uploaded successfully",
+        description: "Test results extracted and saved",
       });
 
       setTimeout(() => {
@@ -69,13 +101,13 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
       console.error("Upload error:", error);
       setExtractionStatus("error");
       toast({
-        title: "Upload failed",
-        description: error.message,
+        title: "Processing failed",
+        description: error.message || "Unable to extract data from PDF",
         variant: "destructive",
       });
+    } finally {
+      setIsUploading(false);
     }
-
-    setIsUploading(false);
   };
 
   if (!showForm) {
