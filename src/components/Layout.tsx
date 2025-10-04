@@ -1,8 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,27 +13,6 @@ export default function Layout({ children }: LayoutProps) {
     const saved = localStorage.getItem('sidebarCollapsed');
     return saved ? JSON.parse(saved) : false;
   });
-  const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [userName, setUserName] = useState<string>("");
-
-  useEffect(() => {
-    const loadProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: profile } = await supabase
-          .from('user_profiles')
-          .select('profile_image_url, full_name')
-          .eq('user_id', user.id)
-          .single();
-        
-        if (profile) {
-          setProfileImage(profile.profile_image_url);
-          setUserName(profile.full_name || user.email?.split('@')[0] || 'User');
-        }
-      }
-    };
-    loadProfile();
-  }, []);
 
   useEffect(() => {
     localStorage.setItem('sidebarCollapsed', JSON.stringify(sidebarCollapsed));
@@ -110,31 +87,10 @@ export default function Layout({ children }: LayoutProps) {
             })}
           </nav>
 
-          {/* Profile Section */}
-          <Link
-            to="/profile"
-            className={`mt-auto pt-6 border-t border-gray-200 flex items-center gap-3 rounded-lg hover:bg-gray-50 transition-all duration-200 ${
-              sidebarCollapsed ? 'justify-center px-2 py-3' : 'px-3 py-3'
-            }`}
-          >
-            <Avatar className="w-8 h-8 flex-shrink-0">
-              <AvatarImage src={profileImage || undefined} />
-              <AvatarFallback className="bg-black text-white text-sm">
-                {userName.charAt(0).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            {!sidebarCollapsed && (
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">{userName}</p>
-                <p className="text-xs text-gray-500">View Profile</p>
-              </div>
-            )}
-          </Link>
-
           {/* Collapse Button */}
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className={`mt-4 flex items-center gap-2 rounded-lg text-gray-400 hover:text-gray-600 transition-all duration-200 ${
+            className={`mt-auto pt-6 border-t border-gray-200 flex items-center gap-2 rounded-lg text-gray-400 hover:text-gray-600 transition-all duration-200 ${
               sidebarCollapsed ? 'justify-center px-2 py-2' : 'px-3 py-2'
             }`}
             title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
@@ -200,18 +156,6 @@ export default function Layout({ children }: LayoutProps) {
                 </Link>
               );
             })}
-            <Link
-              to="/profile"
-              className="flex flex-col items-center gap-0.5 px-2 py-1.5"
-            >
-              <Avatar className="w-5 h-5">
-                <AvatarImage src={profileImage || undefined} />
-                <AvatarFallback className="bg-black text-white text-[8px]">
-                  {userName.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <span className={`text-[10px] font-medium ${isActive("/profile") ? 'text-black' : 'text-gray-400'}`}>Profile</span>
-            </Link>
           </div>
         </div>
       </nav>
