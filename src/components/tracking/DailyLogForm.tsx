@@ -285,13 +285,17 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
       </div>
 
-      <Button
-        type="submit"
-        className="w-full h-12 md:h-14 bg-gray-900 hover:bg-gray-800 text-white rounded-[20px] font-semibold text-base md:text-lg mt-6 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
-        disabled={!isFormComplete()}
-      >
-        Save Check-in
-      </Button>
+      {/* Floating Save Button */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md">
+        <Button
+          type="submit"
+          className="w-full h-14 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-medium text-base shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
+          disabled={!isFormComplete()}
+        >
+          <Check className="w-5 h-5 mr-2" />
+          Save Check-in
+        </Button>
+      </div>
     </form>
   );
 }
