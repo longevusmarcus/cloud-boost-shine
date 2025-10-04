@@ -10,7 +10,6 @@ import TestResultDisplay from "@/components/tracking/TestResultDisplay";
 
 export default function Tracking() {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [todayLog, setTodayLog] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [testResults, setTestResults] = useState<any[]>([]);
