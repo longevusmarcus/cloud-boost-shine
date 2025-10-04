@@ -135,9 +135,9 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
           onClick={() => setShowForm(true)}
           className={`${
             isCompact 
-              ? "h-10 px-4 text-sm" 
-              : "h-12 md:h-14 px-6 md:px-8 text-sm md:text-base"
-          } bg-black hover:bg-gray-800 text-white rounded-xl font-semibold`}
+              ? "h-11 px-5 text-sm" 
+              : "h-12 md:h-14 px-6 md:px-8 text-base md:text-lg"
+          } bg-black hover:bg-gray-800 text-white rounded-[20px] font-semibold transition-all active:scale-[0.98]`}
         >
           <Upload className="w-4 h-4 md:w-5 md:h-5 mr-2" />
           {isCompact ? "Upload New" : "Upload YO Test"}
@@ -176,23 +176,23 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
       </div>
 
       <div>
-        <Label className="text-black font-medium mb-2 block text-sm">Test Date</Label>
+        <Label className="text-black font-medium mb-2 block text-sm md:text-base">Test Date</Label>
         <Input
           type="date"
           value={formData.test_date}
           onChange={(e) => setFormData({ ...formData, test_date: e.target.value })}
-          className="h-12 border-gray-300 focus:border-black focus:ring-black rounded-xl"
+          className="h-12 md:h-14 border-gray-300 focus:border-black focus:ring-black rounded-[16px] text-base"
           required
         />
       </div>
 
       <div>
-        <Label className="text-black font-medium mb-2 block text-sm">Upload YO Test PDF</Label>
+        <Label className="text-black font-medium mb-2 block text-sm md:text-base">Upload YO Test PDF</Label>
         <Input
           type="file"
           accept=".pdf"
           onChange={handleFileUpload}
-          className="h-12 border-gray-300 focus:border-black focus:ring-black rounded-xl"
+          className="h-12 md:h-14 border-gray-300 focus:border-black focus:ring-black rounded-[16px] text-base"
           required
           disabled={isUploading}
         />
@@ -243,7 +243,7 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
       <div className="flex flex-col gap-3 w-full">
         <Button
           type="submit"
-          className="w-full h-12 bg-black hover:bg-gray-800 text-white rounded-xl font-semibold"
+          className="w-full h-12 md:h-14 bg-black hover:bg-gray-800 text-white rounded-[20px] font-semibold text-base md:text-lg transition-all active:scale-[0.98]"
           disabled={isUploading || !formData.file}
         >
           {isUploading ? (
@@ -265,7 +265,7 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
             setExtractionStatus(null);
           }}
           variant="outline"
-          className="w-full h-12 border-gray-300 text-black hover:bg-gray-100 rounded-xl"
+          className="w-full h-12 md:h-14 border-2 border-gray-300 text-black hover:bg-gray-100 rounded-[20px] text-base md:text-lg font-medium transition-all active:scale-[0.98]"
           disabled={isUploading}
         >
           Cancel
