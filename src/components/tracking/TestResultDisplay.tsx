@@ -40,25 +40,25 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
                         result.progressive_motile_sperm_concentration || result.volume;
 
   return (
-    <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200">
+    <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200 dark:border-gray-700">
       {/* Header */}
       <div className="flex items-start justify-between mb-6">
         <div>
-          <div className="flex items-center gap-2 text-gray-600 mb-2">
+          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
             <Activity className="w-5 h-5" />
             <span className="text-sm font-medium">Test Results</span>
           </div>
-          <h3 className="text-2xl font-bold text-gray-900">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
             {format(new Date(result.test_date), "MMM d, yyyy")}
           </h3>
-          <p className="text-gray-600 text-sm capitalize">Via {result.provider}</p>
+          <p className="text-gray-600 dark:text-gray-400 text-sm capitalize">Via {result.provider}</p>
         </div>
         {result.file_url && (
           <a
             href={result.file_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-2xl transition-all duration-200 text-sm font-medium"
+            className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-2xl transition-all duration-200 text-sm font-medium"
           >
             PDF
             <ExternalLink className="w-4 h-4" />
@@ -87,14 +87,14 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
       {hasAnyMetrics && (
         <div className="grid md:grid-cols-3 gap-4 mb-6">
           {result.concentration && (
-          <div className="bg-gray-50 rounded-3xl p-6 border border-gray-200">
-            <div className="flex items-center gap-2 mb-3 text-gray-600">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-3xl p-6 border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-2 mb-3 text-gray-600 dark:text-gray-400">
               <Users className="w-5 h-5" />
               <span className="text-xs font-medium uppercase tracking-wide">Concentration</span>
             </div>
-            <div className="text-4xl font-bold text-gray-900 mb-2">
+            <div className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
               {result.concentration}
-              <span className="text-lg text-gray-600 ml-1">M/ml</span>
+              <span className="text-lg text-gray-600 dark:text-gray-400 ml-1">M/ml</span>
             </div>
             <div className={`text-sm font-medium ${concentrationStatus.color}`}>
               {concentrationStatus.text}
@@ -103,14 +103,14 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
         )}
 
         {result.motility && (
-          <div className="bg-gray-50 rounded-3xl p-6 border border-gray-200">
-            <div className="flex items-center gap-2 mb-3 text-gray-600">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-3xl p-6 border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-2 mb-3 text-gray-600 dark:text-gray-400">
               <TrendingUp className="w-5 h-5" />
               <span className="text-xs font-medium uppercase tracking-wide">Motility</span>
             </div>
-            <div className="text-4xl font-bold text-gray-900 mb-2">
+            <div className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
               {result.motility}
-              <span className="text-lg text-gray-600 ml-1">%</span>
+              <span className="text-lg text-gray-600 dark:text-gray-400 ml-1">%</span>
             </div>
             <div className={`text-sm font-medium ${motilityStatus.color}`}>
               {motilityStatus.text}
@@ -119,14 +119,14 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
         )}
 
         {result.morphology && (
-          <div className="bg-gray-50 rounded-3xl p-6 border border-gray-200">
-            <div className="flex items-center gap-2 mb-3 text-gray-600">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-3xl p-6 border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-2 mb-3 text-gray-600 dark:text-gray-400">
               <Shapes className="w-5 h-5" />
               <span className="text-xs font-medium uppercase tracking-wide">Morphology</span>
             </div>
-            <div className="text-4xl font-bold text-gray-900 mb-2">
+            <div className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
               {result.morphology}
-              <span className="text-lg text-gray-600 ml-1">%</span>
+              <span className="text-lg text-gray-600 dark:text-gray-400 ml-1">%</span>
             </div>
             <div className={`text-sm font-medium ${morphologyStatus.color}`}>
               {morphologyStatus.text}
@@ -139,18 +139,18 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
       {/* Advanced Metrics */}
       {hasAnyMetrics && (
         <div className="space-y-3 mb-6">
-          <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Advanced Metrics</h4>
+          <h4 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wide">Advanced Metrics</h4>
         
         {result.progressive_motility && (
-          <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center">
-                  <Target className="w-5 h-5 text-gray-700" />
+                <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 flex items-center justify-center">
+                  <Target className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-gray-600">Progressive Motility</div>
-                  <div className="text-2xl font-bold text-gray-900">{result.progressive_motility}%</div>
+                  <div className="text-sm font-medium text-gray-600 dark:text-gray-400">Progressive Motility</div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">{result.progressive_motility}%</div>
                 </div>
               </div>
               <div className={`text-sm font-semibold ${progressiveMotilityStatus.color}`}>
@@ -161,15 +161,15 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
         )}
 
         {result.motile_sperm_concentration && (
-          <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center">
-                  <Zap className="w-5 h-5 text-gray-700" />
+                <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-gray-600">Motile Sperm Concentration (MSC)</div>
-                  <div className="text-2xl font-bold text-gray-900">{result.motile_sperm_concentration} M/ml</div>
+                  <div className="text-sm font-medium text-gray-600 dark:text-gray-400">Motile Sperm Concentration (MSC)</div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">{result.motile_sperm_concentration} M/ml</div>
                 </div>
               </div>
               <div className={`text-sm font-semibold ${mscStatus.color}`}>
@@ -180,15 +180,15 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
         )}
 
         {result.progressive_motile_sperm_concentration && (
-          <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center">
-                  <Activity className="w-5 h-5 text-gray-700" />
+                <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 flex items-center justify-center">
+                  <Activity className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-gray-600">Progressive MSC (PMSC)</div>
-                  <div className="text-2xl font-bold text-gray-900">{result.progressive_motile_sperm_concentration} M/ml</div>
+                  <div className="text-sm font-medium text-gray-600 dark:text-gray-400">Progressive MSC (PMSC)</div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">{result.progressive_motile_sperm_concentration} M/ml</div>
                 </div>
               </div>
               <div className={`text-sm font-semibold ${pmscStatus.color}`}>
@@ -199,14 +199,14 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
         )}
 
         {result.volume && (
-          <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center">
-                <Droplets className="w-5 h-5 text-gray-700" />
+              <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 flex items-center justify-center">
+                <Droplets className="w-5 h-5 text-gray-700 dark:text-gray-300" />
               </div>
               <div>
-                <div className="text-sm font-medium text-gray-600">Sample Volume</div>
-                <div className="text-2xl font-bold text-gray-900">{result.volume} ml</div>
+                <div className="text-sm font-medium text-gray-600 dark:text-gray-400">Sample Volume</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">{result.volume} ml</div>
               </div>
             </div>
           </div>
@@ -225,9 +225,9 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
 
       {/* Notes */}
       {result.notes && (
-        <div className="mt-4 bg-gray-50 rounded-2xl p-4 border border-gray-200">
-          <h4 className="text-sm font-semibold text-gray-900 mb-2">Notes</h4>
-          <p className="text-sm text-gray-700">{result.notes}</p>
+        <div className="mt-4 bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
+          <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Notes</h4>
+          <p className="text-sm text-gray-700 dark:text-gray-300">{result.notes}</p>
         </div>
       )}
     </div>

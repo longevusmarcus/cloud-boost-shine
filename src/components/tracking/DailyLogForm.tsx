@@ -42,18 +42,18 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         type="button"
         onClick={onClick}
         className={`relative w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-200 ${
-          selected ? 'bg-gray-900' : 'bg-gray-100 hover:bg-gray-200'
+          selected ? 'bg-gray-900 dark:bg-white' : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
         }`}
       >
-        <Icon className={`w-5 h-5 md:w-6 md:h-6 ${selected ? 'text-white' : 'text-gray-600'}`} strokeWidth={2} />
+        <Icon className={`w-5 h-5 md:w-6 md:h-6 ${selected ? 'text-white dark:text-black' : 'text-gray-600 dark:text-gray-400'}`} strokeWidth={2} />
         {selected && (
-          <div className="absolute -top-1 -right-1 w-5 h-5 bg-gray-900 border-2 border-white rounded-full flex items-center justify-center">
-            <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
+          <div className="absolute -top-1 -right-1 w-5 h-5 bg-gray-900 dark:bg-white border-2 border-white dark:border-gray-950 rounded-full flex items-center justify-center">
+            <Check className="w-2.5 h-2.5 text-white dark:text-black" strokeWidth={3} />
           </div>
         )}
       </button>
       <span className={`text-[10px] md:text-xs text-center font-medium max-w-[70px] leading-tight ${
-        selected ? 'text-gray-900' : 'text-gray-600'
+        selected ? 'text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-400'
       }`}>
         {label}
       </span>
@@ -64,9 +64,9 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="max-h-[60vh] overflow-y-auto pr-2 space-y-6 scrollbar-hide">
         {/* Masturbation Frequency Section */}
-        <div className="bg-white rounded-3xl p-5 md:p-6 border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Masturbation</h3>
-          <p className="text-sm text-gray-600 mb-4">How many times did you masturbate today?</p>
+        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Masturbation</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">How many times did you masturbate today?</p>
           <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide">
             <CircularButton
               selected={formData.masturbation_count === 0}
@@ -96,9 +96,9 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
 
         {/* Sleep Quality Section */}
-        <div className="bg-white rounded-3xl p-5 md:p-6 border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Sleep Quality</h3>
-          <p className="text-sm text-gray-600 mb-4">How well did you sleep?</p>
+        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Sleep Quality</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">How well did you sleep?</p>
           <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide">
             <CircularButton
               selected={formData.sleep_quality === 'excellent'}
@@ -126,23 +126,23 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
             />
           </div>
 
-          <div className="mt-4 pt-4 border-t border-gray-100">
-            <label className="text-sm font-medium text-gray-700 mb-2 block">Hours slept</label>
+          <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">Hours slept</label>
             <input
               type="number"
               step="0.5"
               value={formData.sleep_hours}
               onChange={(e) => setFormData({ ...formData, sleep_hours: e.target.value })}
               placeholder="7.5"
-              className="w-full bg-gray-50 rounded-2xl px-4 py-3 text-gray-900 border-none focus:outline-none focus:ring-2 focus:ring-gray-300"
+              className="w-full bg-gray-50 dark:bg-gray-800 rounded-2xl px-4 py-3 text-gray-900 dark:text-white border-none focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600"
             />
           </div>
         </div>
 
         {/* Diet Quality Section */}
-        <div className="bg-white rounded-3xl p-5 md:p-6 border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Diet Quality</h3>
-          <p className="text-sm text-gray-600 mb-4">How was your nutrition today?</p>
+        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Diet Quality</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">How was your nutrition today?</p>
           <div className="flex gap-3 overflow-x-auto pb-2">
             <CircularButton
               selected={formData.diet_quality === 'excellent'}
@@ -172,9 +172,9 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
 
         {/* Stress Level Section */}
-        <div className="bg-white rounded-3xl p-5 md:p-6 border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Stress Level</h3>
-          <p className="text-sm text-gray-600 mb-4">How stressed were you today?</p>
+        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Stress Level</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">How stressed were you today?</p>
           <div className="flex gap-3 overflow-x-auto pb-2">
             <CircularButton
               selected={formData.stress_level === 1}
@@ -204,22 +204,22 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
 
         {/* Exercise Section */}
-        <div className="bg-white rounded-3xl p-5 md:p-6 border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Exercise</h3>
-          <p className="text-sm text-gray-600 mb-4">Minutes of physical activity</p>
+        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Exercise</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Minutes of physical activity</p>
           <input
             type="number"
             value={formData.exercise_minutes}
             onChange={(e) => setFormData({ ...formData, exercise_minutes: e.target.value })}
             placeholder="30"
-            className="w-full bg-gray-50 rounded-2xl px-4 py-3 text-gray-900 border-none focus:outline-none focus:ring-2 focus:ring-gray-300"
+            className="w-full bg-gray-50 dark:bg-gray-800 rounded-2xl px-4 py-3 text-gray-900 dark:text-white border-none focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600"
           />
         </div>
 
         {/* Electrolytes Section */}
-        <div className="bg-white rounded-3xl p-5 md:p-6 border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Electrolytes</h3>
-          <p className="text-sm text-gray-600 mb-4">Did you take electrolytes?</p>
+        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Electrolytes</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Did you take electrolytes?</p>
           <div className="flex gap-3 justify-start">
             <CircularButton
               selected={formData.electrolytes === false}
@@ -237,18 +237,18 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
 
         {/* AI Tracker Section */}
-        <div className="bg-white rounded-3xl p-5 md:p-6 border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">AI Tracker</h3>
-          <p className="text-sm text-gray-600 mb-4">Advanced tracking features coming soon</p>
+        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">AI Tracker</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Advanced tracking features coming soon</p>
           
           <div className="mb-4 relative">
             <div className="absolute top-2 right-2 z-10">
-              <span className="px-2 py-1 bg-gray-900 text-white text-xs font-medium rounded-full">
+              <span className="px-2 py-1 bg-gray-900 dark:bg-white text-white dark:text-black text-xs font-medium rounded-full">
                 Soon
               </span>
             </div>
             <label className="text-sm font-medium text-gray-400 mb-2 block">Upload Food Photos</label>
-            <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200 opacity-50 cursor-not-allowed">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700 opacity-50 cursor-not-allowed">
               <div className="flex items-center justify-center gap-2 text-gray-400">
                 <Camera className="w-5 h-5" />
                 <span className="text-sm">Take or upload photo</span>
@@ -258,12 +258,12 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
 
           <div className="relative">
             <div className="absolute top-2 right-2 z-10">
-              <span className="px-2 py-1 bg-gray-900 text-white text-xs font-medium rounded-full">
+              <span className="px-2 py-1 bg-gray-900 dark:bg-white text-white dark:text-black text-xs font-medium rounded-full">
                 Soon
               </span>
             </div>
             <label className="text-sm font-medium text-gray-400 mb-2 block">Connect Device</label>
-            <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200 opacity-50 cursor-not-allowed">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700 opacity-50 cursor-not-allowed">
               <div className="flex items-center justify-center gap-2 text-gray-400">
                 <Watch className="w-5 h-5" />
                 <span className="text-sm">Connect wearable device</span>
@@ -273,21 +273,21 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         </div>
 
         {/* Notes Section */}
-        <div className="bg-white rounded-3xl p-5 md:p-6 border border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Notes</h3>
-          <p className="text-sm text-gray-600 mb-4">Log a symptom or make a note</p>
+        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Notes</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Log a symptom or make a note</p>
           <textarea
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
             placeholder="Add any additional notes..."
-            className="w-full h-24 bg-gray-50 rounded-2xl px-4 py-3 text-gray-900 border-none focus:outline-none focus:ring-2 focus:ring-gray-300 resize-none"
+            className="w-full h-24 bg-gray-50 dark:bg-gray-800 rounded-2xl px-4 py-3 text-gray-900 dark:text-white border-none focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 resize-none"
           />
         </div>
       </div>
 
       <Button
         type="submit"
-        className="w-full h-12 md:h-14 bg-gray-900 hover:bg-gray-800 text-white rounded-[20px] font-semibold text-base md:text-lg mt-6 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
+        className="w-full h-12 md:h-14 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-black rounded-[20px] font-semibold text-base md:text-lg mt-6 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
         disabled={!isFormComplete()}
       >
         Save Check-in
