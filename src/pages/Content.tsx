@@ -70,7 +70,7 @@ export default function Content() {
 
   return (
     <Layout>
-      <div className="space-y-4 md:space-y-6">
+      <div className="max-w-3xl mx-auto space-y-4 md:space-y-6">
         {/* Mobile Header */}
         <div className="flex items-center justify-between md:hidden pb-2">
           <button

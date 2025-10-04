@@ -79,7 +79,7 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="max-w-3xl mx-auto space-y-6">
         {/* Mobile Header */}
         <div className="flex items-center justify-between md:hidden pb-2">
           <button

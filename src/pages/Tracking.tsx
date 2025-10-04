@@ -162,7 +162,7 @@ export default function Tracking() {
 
   return (
     <Layout>
-      <div className="space-y-4">
+      <div className="max-w-3xl mx-auto space-y-4">
         {/* Header - Fixed and Sticky */}
         <div className="sticky top-0 z-10 bg-gray-50 pb-2 md:pb-4">
           {/* Mobile: Minimal header with icons */}
