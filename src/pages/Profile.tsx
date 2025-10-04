@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { UserCircle, LogOut, Award, TrendingUp, Flame, Calendar, Target, Zap, Trophy } from "lucide-react";
+import { UserCircle, LogOut, Award, TrendingUp, Flame, Calendar, Target, Zap, Trophy, Camera } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
 import SubscriptionSection from "@/components/profile/SubscriptionSection";
 
@@ -11,6 +12,9 @@ export default function Profile() {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     loadData();
@@ -45,6 +49,88 @@ export default function Profile() {
     navigate('/auth');
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Invalid file",
+        description: "Please upload an image file",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Please upload an image smaller than 5MB",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setUploading(true);
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
+
+      // Delete old image if exists
+      if (profile?.profile_image_url) {
+        const oldPath = profile.profile_image_url.split('/').pop();
+        if (oldPath) {
+          await supabase.storage
+            .from('profile-images')
+            .remove([`${session.user.id}/${oldPath}`]);
+        }
+      }
+
+      // Upload new image
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const filePath = `${session.user.id}/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('profile-images')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('profile-images')
+        .getPublicUrl(filePath);
+
+      // Update profile with new image URL
+      const { error: updateError } = await supabase
+        .from('user_profiles')
+        .update({ profile_image_url: publicUrl })
+        .eq('user_id', session.user.id);
+
+      if (updateError) throw updateError;
+
+      setProfile({ ...profile, profile_image_url: publicUrl });
+
+      toast({
+        title: "Success!",
+        description: "Profile image updated",
+      });
+    } catch (error: any) {
+      console.error('Error uploading image:', error);
+      toast({
+        title: "Upload failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -68,11 +154,38 @@ export default function Profile() {
           {/* Profile Header */}
           <div className="bg-white rounded-3xl p-5 md:p-8 shadow-sm border border-gray-200">
             <div className="flex flex-col items-center text-center mb-6">
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-gray-900 flex items-center justify-center mb-4 shadow-lg">
-                <UserCircle className="w-10 h-10 md:w-12 md:h-12 text-white" />
+              <div className="relative group">
+                {profile?.profile_image_url ? (
+                  <img
+                    src={profile.profile_image_url}
+                    alt="Profile"
+                    className="w-20 h-20 md:w-24 md:h-24 rounded-3xl object-cover shadow-lg"
+                  />
+                ) : (
+                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-gray-900 flex items-center justify-center shadow-lg">
+                    <UserCircle className="w-10 h-10 md:w-12 md:h-12 text-white" />
+                  </div>
+                )}
+                
+                {/* Upload Button */}
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="absolute bottom-0 right-0 w-8 h-8 bg-gray-900 hover:bg-gray-800 rounded-full flex items-center justify-center shadow-lg transition-all active:scale-95 disabled:opacity-50"
+                >
+                  <Camera className="w-4 h-4 text-white" />
+                </button>
+                
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
               </div>
               
-              <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{user?.user_metadata?.full_name || user?.email}</h1>
+              <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-1 mt-4">{user?.user_metadata?.full_name || user?.email}</h1>
               <p className="text-sm md:text-base text-gray-600">{user?.email}</p>
               <div className="flex items-center gap-2 mt-3">
                 <span className="px-3 py-1 bg-gray-100 text-gray-900 rounded-full text-xs md:text-sm font-medium">

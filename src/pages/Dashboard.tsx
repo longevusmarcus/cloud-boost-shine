@@ -84,9 +84,17 @@ export default function Dashboard() {
         <div className="flex items-center justify-between md:hidden pb-1">
           <button
             onClick={() => navigate('/profile')}
-            className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center"
+            className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center"
           >
-            <UserCircle className="w-5 h-5 text-gray-600" />
+            {profile?.profile_image_url ? (
+              <img 
+                src={profile.profile_image_url} 
+                alt="Profile" 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <UserCircle className="w-5 h-5 text-gray-600" />
+            )}
           </button>
           <button className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
             <span className="text-base">🔔</span>

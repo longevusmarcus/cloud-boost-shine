@@ -129,6 +129,7 @@ export type Database = {
           id: string
           longest_streak: number | null
           onboarding_completed: boolean | null
+          profile_image_url: string | null
           sperm_level: number | null
           sperm_value: number | null
           updated_at: string | null
@@ -143,6 +144,7 @@ export type Database = {
           id?: string
           longest_streak?: number | null
           onboarding_completed?: boolean | null
+          profile_image_url?: string | null
           sperm_level?: number | null
           sperm_value?: number | null
           updated_at?: string | null
@@ -157,6 +159,7 @@ export type Database = {
           id?: string
           longest_streak?: number | null
           onboarding_completed?: boolean | null
+          profile_image_url?: string | null
           sperm_level?: number | null
           sperm_value?: number | null
           updated_at?: string | null
