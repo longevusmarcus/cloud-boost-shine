@@ -1,22 +1,17 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import AgeVerification from "@/components/onboarding/AgeVerification";
+import LifestyleQuiz from "@/components/onboarding/LifestyleQuiz";
+import FertilityGoal from "@/components/onboarding/FertilityGoal";
+import CalculatorResults from "@/components/onboarding/CalculatorResults";
 
 export default function Onboarding() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [step, setStep] = useState(1);
-  const [age, setAge] = useState("");
-  const [heightFeet, setHeightFeet] = useState("");
-  const [heightInches, setHeightInches] = useState("");
-  const [weight, setWeight] = useState("");
-  const [goal, setGoal] = useState("");
+  const [userData, setUserData] = useState<any>({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -29,18 +24,76 @@ export default function Onboarding() {
     checkAuth();
   }, [navigate]);
 
-  const handleComplete = async () => {
+  const handleAgeVerification = (data: any) => {
+    setUserData({ ...userData, ...data });
+    setStep(2);
+  };
+
+  const handleLifestyleQuiz = (data: any) => {
+    setUserData({ ...userData, ...data });
+    setStep(3);
+  };
+
+  const handleFertilityGoal = (data: any) => {
+    setUserData({ ...userData, ...data });
+    setStep(4);
+  };
+
+  const calculateSpermValue = (data: any) => {
+    let baseValue = 50;
+    const { lifestyle_data, age } = data;
+
+    if (age >= 20 && age <= 35) baseValue += 500;
+    else if (age < 20 || age > 35) baseValue -= (Math.abs(age - 27.5) * 10);
+
+    const smokingValues = { never: 400, quit: 200, occasionally: -200, regularly: -600 };
+    baseValue += smokingValues[lifestyle_data?.smoking as keyof typeof smokingValues] || 0;
+
+    const alcoholValues = { none: 300, light: 150, moderate: -150, heavy: -500 };
+    baseValue += alcoholValues[lifestyle_data?.alcohol as keyof typeof alcoholValues] || 0;
+
+    const exerciseValues = { sedentary: -300, light: 0, moderate: 300, intense: 250 };
+    baseValue += exerciseValues[lifestyle_data?.exercise as keyof typeof exerciseValues] || 0;
+
+    const dietValues = { poor: -300, average: 0, good: 300, excellent: 500 };
+    baseValue += dietValues[lifestyle_data?.diet_quality as keyof typeof dietValues] || 0;
+
+    const sleepHours = lifestyle_data?.sleep_hours || 7;
+    if (sleepHours >= 7 && sleepHours <= 9) baseValue += 300;
+    else baseValue -= Math.abs(8 - sleepHours) * 50;
+
+    const stressValues = { low: 300, moderate: 0, high: -300, extreme: -500 };
+    baseValue += stressValues[lifestyle_data?.stress_level as keyof typeof stressValues] || 0;
+
+    if (lifestyle_data?.tight_clothing) baseValue -= 100;
+    if (lifestyle_data?.hot_baths) baseValue -= 100;
+
+    return Math.max(50, Math.min(5000, Math.round(baseValue)));
+  };
+
+  const getSpermLevel = (value: number) => {
+    if (value >= 3500) return 4;
+    if (value >= 2500) return 3;
+    if (value >= 1500) return 2;
+    return 1;
+  };
+
+  const handleComplete = async (spermValue: number) => {
     setLoading(true);
 
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("Not authenticated");
 
+      const spermLevel = getSpermLevel(spermValue);
+
       const { error } = await supabase
         .from('user_profiles')
         .update({
-          age: parseInt(age),
-          goal,
+          age: userData.age,
+          goal: userData.fertility_goal,
+          sperm_value: spermValue,
+          sperm_level: spermLevel,
           onboarding_completed: true
         })
         .eq('user_id', session.user.id);
@@ -64,6 +117,10 @@ export default function Onboarding() {
     }
   };
 
+  const handleBack = () => {
+    if (step > 1) setStep(step - 1);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
       <div className="max-w-lg w-full">
@@ -73,145 +130,20 @@ export default function Onboarding() {
             <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 1 ? 'bg-black' : 'bg-gray-200'}`} />
             <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 2 ? 'bg-black' : 'bg-gray-200'}`} />
             <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 3 ? 'bg-black' : 'bg-gray-200'}`} />
+            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 4 ? 'bg-black' : 'bg-gray-200'}`} />
           </div>
         </div>
 
         <div className="bg-white rounded-3xl p-6 md:p-8 shadow-lg border border-gray-200">
-          {step === 1 && (
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Tell us about yourself</h2>
-                <p className="text-gray-600">Help us personalize your experience</p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="age" className="text-gray-700">Age</Label>
-                <Input
-                  id="age"
-                  type="number"
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                  placeholder="Enter your age"
-                  className="h-11 rounded-xl border-gray-200"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="heightFeet" className="text-gray-700">Height (ft)</Label>
-                  <Input
-                    id="heightFeet"
-                    type="number"
-                    value={heightFeet}
-                    onChange={(e) => setHeightFeet(e.target.value)}
-                    placeholder="5"
-                    className="h-11 rounded-xl border-gray-200"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="heightInches" className="text-gray-700">Height (in)</Label>
-                  <Input
-                    id="heightInches"
-                    type="number"
-                    value={heightInches}
-                    onChange={(e) => setHeightInches(e.target.value)}
-                    placeholder="10"
-                    className="h-11 rounded-xl border-gray-200"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="weight" className="text-gray-700">Weight (lbs)</Label>
-                <Input
-                  id="weight"
-                  type="number"
-                  value={weight}
-                  onChange={(e) => setWeight(e.target.value)}
-                  placeholder="Enter your weight"
-                  className="h-11 rounded-xl border-gray-200"
-                />
-              </div>
-
-              <Button 
-                onClick={() => setStep(2)}
-                disabled={!age || !heightFeet || !heightInches || !weight}
-                className="w-full h-11 rounded-xl bg-black hover:bg-gray-800 text-white font-semibold"
-              >
-                Next <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </div>
-          )}
-
-          {step === 2 && (
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Lifestyle Questions</h2>
-                <p className="text-gray-600">Help us understand your current habits</p>
-              </div>
-
-              <div className="space-y-4 text-sm text-gray-600">
-                <p>• Do you exercise regularly?</p>
-                <p>• How would you rate your diet quality?</p>
-                <p>• Do you take any supplements?</p>
-                <p>• How many hours of sleep do you get?</p>
-              </div>
-
-              <div className="flex gap-3">
-                <Button 
-                  variant="outline"
-                  onClick={() => setStep(1)}
-                  className="flex-1 h-11 rounded-xl border-2 border-gray-200 text-gray-900 hover:bg-gray-50"
-                >
-                  <ArrowLeft className="mr-2 w-4 h-4" />
-                  Back
-                </Button>
-                <Button 
-                  onClick={() => setStep(3)}
-                  className="flex-1 h-11 rounded-xl bg-black hover:bg-gray-800 text-white font-semibold"
-                >
-                  Next <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {step === 3 && (
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">What's your goal?</h2>
-                <p className="text-gray-600">We'll help you track progress</p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="goal" className="text-gray-700">Primary Goal</Label>
-                <Textarea
-                  id="goal"
-                  value={goal}
-                  onChange={(e) => setGoal(e.target.value)}
-                  placeholder="e.g., Improve testosterone levels, optimize fertility..."
-                  className="min-h-32 rounded-xl border-gray-200"
-                />
-              </div>
-
-              <div className="flex gap-3">
-                <Button 
-                  variant="outline"
-                  onClick={() => setStep(2)}
-                  className="flex-1 h-11 rounded-xl border-2 border-gray-200 text-gray-900 hover:bg-gray-50"
-                >
-                  <ArrowLeft className="mr-2 w-4 h-4" />
-                  Back
-                </Button>
-                <Button 
-                  onClick={handleComplete}
-                  disabled={!goal || loading}
-                  className="flex-1 h-11 rounded-xl bg-black hover:bg-gray-800 text-white font-semibold"
-                >
-                  {loading ? "Loading..." : "Complete Setup"}
-                </Button>
-              </div>
-            </div>
+          {step === 1 && <AgeVerification onNext={handleAgeVerification} />}
+          {step === 2 && <LifestyleQuiz onNext={handleLifestyleQuiz} onBack={handleBack} />}
+          {step === 3 && <FertilityGoal onNext={handleFertilityGoal} onBack={handleBack} />}
+          {step === 4 && (
+            <CalculatorResults 
+              userData={userData} 
+              onComplete={handleComplete}
+              onBack={handleBack}
+            />
           )}
         </div>
       </div>
