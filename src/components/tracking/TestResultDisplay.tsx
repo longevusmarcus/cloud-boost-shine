@@ -2,16 +2,18 @@ import { format } from "date-fns";
 import { TrendingUp, Users, Shapes, Droplets, ExternalLink, Activity, Zap, Target } from "lucide-react";
 
 interface TestResult {
+  id: string;
   test_date: string;
   provider: string;
-  concentration?: number;
-  motility?: number;
-  progressive_motility?: number;
-  motile_sperm_concentration?: number;
-  progressive_motile_sperm_concentration?: number;
-  morphology?: number;
-  volume?: number;
-  file_url?: string;
+  concentration?: number | null;
+  motility?: number | null;
+  progressive_motility?: number | null;
+  motile_sperm_concentration?: number | null;
+  progressive_motile_sperm_concentration?: number | null;
+  morphology?: number | null;
+  volume?: number | null;
+  file_url?: string | null;
+  notes?: string | null;
 }
 
 interface TestResultDisplayProps {
@@ -19,7 +21,7 @@ interface TestResultDisplayProps {
 }
 
 export default function TestResultDisplay({ result }: TestResultDisplayProps) {
-  const getStatus = (value: number | undefined, normalMin: number, lowThreshold: number | null = null) => {
+  const getStatus = (value: number | null | undefined, normalMin: number, lowThreshold: number | null = null) => {
     if (!value) return { text: "N/A", color: "text-gray-600" };
     if (value >= normalMin) return { text: "Normal ✓", color: "text-green-600" };
     if (lowThreshold && value >= lowThreshold) return { text: "Below optimal", color: "text-yellow-600" };
@@ -193,6 +195,14 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
           <span className="font-semibold">ℹ️ WHO 6th Edition Reference:</span> These results are compared against World Health Organization standards for optimal fertility parameters.
         </p>
       </div>
+
+      {/* Notes */}
+      {result.notes && (
+        <div className="mt-4 bg-gray-50 rounded-2xl p-4 border border-gray-200">
+          <h4 className="text-sm font-semibold text-gray-900 mb-2">Notes</h4>
+          <p className="text-sm text-gray-700">{result.notes}</p>
+        </div>
+      )}
     </div>
   );
 }

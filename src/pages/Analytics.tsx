@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format, subDays } from "date-fns";
-import { TrendingUp, Calendar, Activity, Droplet, Moon, UserCircle } from "lucide-react";
+import { TrendingUp, Calendar, Activity, Droplet, Moon, UserCircle, FileText } from "lucide-react";
 import Layout from "@/components/Layout";
+import TestResultDisplay from "@/components/tracking/TestResultDisplay";
 
 export default function Analytics() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<any>(null);
   const [logs, setLogs] = useState<any[]>([]);
+  const [testResults, setTestResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState("30d");
 
@@ -43,6 +45,14 @@ export default function Analytics() {
         .order('date', { ascending: true });
 
       setLogs(logsData || []);
+
+      const { data: testResultsData } = await supabase
+        .from('test_results')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .order('test_date', { ascending: false });
+
+      setTestResults(testResultsData || []);
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {
@@ -158,6 +168,19 @@ export default function Analytics() {
             <div className="text-gray-600 text-xs md:text-sm">oz/day</div>
           </div>
         </div>
+
+        {/* Test Results */}
+        {testResults.length > 0 && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <FileText className="w-5 h-5 text-gray-600" />
+              <h2 className="text-xl font-bold text-gray-900">Test Results</h2>
+            </div>
+            {testResults.map((result) => (
+              <TestResultDisplay key={result.id} result={result} />
+            ))}
+          </div>
+        )}
 
         {/* Recent Activity */}
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
