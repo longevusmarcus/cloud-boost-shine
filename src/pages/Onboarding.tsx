@@ -91,6 +91,9 @@ export default function Onboarding() {
         .from('user_profiles')
         .update({
           age: userData.age,
+          height_feet: userData.height_feet,
+          height_inches: userData.height_inches,
+          weight: userData.weight,
           goal: userData.fertility_goal,
           sperm_value: spermValue,
           sperm_level: spermLevel,

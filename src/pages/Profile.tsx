@@ -2,7 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { UserCircle, LogOut, Award, TrendingUp, Flame, Calendar, Target, Zap, Trophy, Camera, Moon, Sun, ArrowLeft } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { UserCircle, LogOut, Award, TrendingUp, Flame, Calendar, Target, Zap, Trophy, Camera, Moon, Sun, ArrowLeft, Edit2, Check, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
 import SubscriptionSection from "@/components/profile/SubscriptionSection";
@@ -16,6 +18,15 @@ export default function Profile() {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editForm, setEditForm] = useState({
+    full_name: '',
+    age: '',
+    goal: '',
+    height_feet: '',
+    height_inches: '',
+    weight: ''
+  });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -40,6 +51,14 @@ export default function Profile() {
         .single();
 
       setProfile(profileData);
+      setEditForm({
+        full_name: profileData?.full_name || '',
+        age: profileData?.age?.toString() || '',
+        goal: profileData?.goal || '',
+        height_feet: profileData?.height_feet?.toString() || '',
+        height_inches: profileData?.height_inches?.toString() || '',
+        weight: profileData?.weight?.toString() || ''
+      });
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {
@@ -131,6 +150,41 @@ export default function Profile() {
       });
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleSaveProfile = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
+
+      const { error } = await supabase
+        .from('user_profiles')
+        .update({
+          full_name: editForm.full_name,
+          age: editForm.age ? parseInt(editForm.age) : null,
+          goal: editForm.goal,
+          height_feet: editForm.height_feet ? parseInt(editForm.height_feet) : null,
+          height_inches: editForm.height_inches ? parseInt(editForm.height_inches) : null,
+          weight: editForm.weight ? parseInt(editForm.weight) : null,
+        })
+        .eq('user_id', session.user.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success!",
+        description: "Profile updated",
+      });
+
+      setIsEditing(false);
+      loadData();
+    } catch (error: any) {
+      toast({
+        title: "Update failed",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -256,6 +310,135 @@ export default function Profile() {
               <div className="text-xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1">{profile?.longest_streak || 0}</div>
               <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400 font-medium">Best</div>
             </div>
+          </div>
+
+          {/* Personal Info */}
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Personal Info</h2>
+              {!isEditing ? (
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                >
+                  <Edit2 className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                </button>
+              ) : (
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      setIsEditing(false);
+                      setEditForm({
+                        full_name: profile?.full_name || '',
+                        age: profile?.age?.toString() || '',
+                        goal: profile?.goal || '',
+                        height_feet: profile?.height_feet?.toString() || '',
+                        height_inches: profile?.height_inches?.toString() || '',
+                        weight: profile?.weight?.toString() || ''
+                      });
+                    }}
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <X className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  </button>
+                  <button
+                    onClick={handleSaveProfile}
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <Check className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {isEditing ? (
+              <div className="space-y-3">
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Name</Label>
+                  <Input
+                    value={editForm.full_name}
+                    onChange={(e) => setEditForm({ ...editForm, full_name: e.target.value })}
+                    className="h-9 text-sm"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-xs text-gray-500 dark:text-gray-400">Age</Label>
+                    <Input
+                      type="number"
+                      value={editForm.age}
+                      onChange={(e) => setEditForm({ ...editForm, age: e.target.value })}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-xs text-gray-500 dark:text-gray-400">Weight (lbs)</Label>
+                    <Input
+                      type="number"
+                      value={editForm.weight}
+                      onChange={(e) => setEditForm({ ...editForm, weight: e.target.value })}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Height</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="number"
+                      value={editForm.height_feet}
+                      onChange={(e) => setEditForm({ ...editForm, height_feet: e.target.value })}
+                      placeholder="Feet"
+                      className="h-9 text-sm"
+                    />
+                    <Input
+                      type="number"
+                      value={editForm.height_inches}
+                      onChange={(e) => setEditForm({ ...editForm, height_inches: e.target.value })}
+                      placeholder="In"
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-xs text-gray-500 dark:text-gray-400">Goal</Label>
+                  <Input
+                    value={editForm.goal}
+                    onChange={(e) => setEditForm({ ...editForm, goal: e.target.value })}
+                    className="h-9 text-sm"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-500 dark:text-gray-400">Name</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.full_name || 'Not set'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500 dark:text-gray-400">Age</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.age || 'N/A'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500 dark:text-gray-400">Height</span>
+                  <span className="text-gray-900 dark:text-white font-medium">
+                    {profile?.height_feet && profile?.height_inches !== null 
+                      ? `${profile.height_feet}'${profile.height_inches}"` 
+                      : 'Not set'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500 dark:text-gray-400">Weight</span>
+                  <span className="text-gray-900 dark:text-white font-medium">
+                    {profile?.weight ? `${profile.weight} lbs` : 'Not set'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500 dark:text-gray-400">Goal</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{profile?.goal || 'Not set'}</span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Badges */}

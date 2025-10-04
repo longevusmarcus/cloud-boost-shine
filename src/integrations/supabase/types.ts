@@ -165,6 +165,8 @@ export type Database = {
           current_streak: number | null
           full_name: string | null
           goal: string | null
+          height_feet: number | null
+          height_inches: number | null
           id: string
           longest_streak: number | null
           onboarding_completed: boolean | null
@@ -173,6 +175,7 @@ export type Database = {
           sperm_value: number | null
           updated_at: string | null
           user_id: string
+          weight: number | null
         }
         Insert: {
           age?: number | null
@@ -180,6 +183,8 @@ export type Database = {
           current_streak?: number | null
           full_name?: string | null
           goal?: string | null
+          height_feet?: number | null
+          height_inches?: number | null
           id?: string
           longest_streak?: number | null
           onboarding_completed?: boolean | null
@@ -188,6 +193,7 @@ export type Database = {
           sperm_value?: number | null
           updated_at?: string | null
           user_id: string
+          weight?: number | null
         }
         Update: {
           age?: number | null
@@ -195,6 +201,8 @@ export type Database = {
           current_streak?: number | null
           full_name?: string | null
           goal?: string | null
+          height_feet?: number | null
+          height_inches?: number | null
           id?: string
           longest_streak?: number | null
           onboarding_completed?: boolean | null
@@ -203,6 +211,7 @@ export type Database = {
           sperm_value?: number | null
           updated_at?: string | null
           user_id?: string
+          weight?: number | null
         }
         Relationships: []
       }
