@@ -6,6 +6,7 @@ import { UserCircle, LogOut, Award, TrendingUp, Flame, Calendar, Target, Zap, Tr
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
 import SubscriptionSection from "@/components/profile/SubscriptionSection";
+import MFASettings from "@/components/profile/MFASettings";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -262,6 +263,9 @@ export default function Profile() {
               })}
             </div>
           </div>
+
+          {/* MFA Settings */}
+          <MFASettings />
 
           {/* Subscription Section */}
           <SubscriptionSection />
