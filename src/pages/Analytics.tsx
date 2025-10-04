@@ -69,13 +69,10 @@ export default function Analytics() {
   }
 
   const avgSleep = logs.length > 0
-    ? (logs.reduce((acc, log) => acc + (log.sleep_hours || 0), 0) / logs.length)
-    : 0;
-  const avgWater = logs.length > 0
-    ? Math.round(logs.reduce((acc, log) => acc + (log.water_intake || 0), 0) / logs.length)
+    ? (logs.reduce((acc, log) => acc + (Number(log.sleep_hours) || 0), 0) / logs.length)
     : 0;
   const avgExercise = logs.length > 0
-    ? Math.round(logs.reduce((acc, log) => acc + (log.exercise_minutes || 0), 0) / logs.length)
+    ? Math.round(logs.reduce((acc, log) => acc + (Number(log.exercise_minutes) || 0), 0) / logs.length)
     : 0;
 
   return (
@@ -131,50 +128,108 @@ export default function Analytics() {
           </div>
         </div>
 
-        {/* Summary Cards Grid */}
-        <div className="grid grid-cols-2 gap-3 md:gap-4">
-          {/* Current Value */}
-          <div className="bg-gray-900 rounded-3xl p-4 md:p-6 text-white">
-            <div className="flex items-center gap-2 text-white/70 mb-2">
-              <Activity className="w-4 h-4 md:w-5 md:h-5" />
-              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Sperm Value</span>
+        {/* Activity Summary */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Activity Summary</h2>
+          <div className="space-y-4">
+            {/* Avg Exercise */}
+            <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
+              <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                <Activity className="w-6 h-6 text-gray-700" />
+              </div>
+              <div>
+                <div className="text-lg font-bold text-gray-900">Avg Exercise</div>
+                <div className="text-gray-600">{avgExercise} min/day</div>
+              </div>
             </div>
-            <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-xl font-bold">$</span>
-              <span className="text-4xl md:text-4xl font-bold">{(profile?.sperm_value || 50).toLocaleString()}</span>
-            </div>
-            <div className="text-white/70 text-xs md:text-sm">Current Worth</div>
-          </div>
 
-          {/* Days Logged */}
-          <div className="bg-white rounded-3xl p-4 md:p-6 border border-gray-200">
-            <div className="flex items-center gap-2 text-gray-600 mb-2">
-              <Calendar className="w-4 h-4 md:w-5 md:h-5" />
-              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Days Logged</span>
+            {/* Current Streak */}
+            <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
+              <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                <TrendingUp className="w-6 h-6 text-gray-700" />
+              </div>
+              <div>
+                <div className="text-lg font-bold text-gray-900">Current Streak</div>
+                <div className="text-gray-600">{profile?.current_streak || 0} days</div>
+              </div>
             </div>
-            <div className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">{logs.length}</div>
-            <div className="text-gray-600 text-xs md:text-sm">Total</div>
-          </div>
 
-          {/* Avg Sleep */}
-          <div className="bg-white rounded-3xl p-4 md:p-6 border border-gray-200">
-            <div className="flex items-center gap-2 text-gray-600 mb-2">
-              <Moon className="w-4 h-4 md:w-5 md:h-5" />
-              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Sleep</span>
+            {/* Best Streak */}
+            <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
+              <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                <Calendar className="w-6 h-6 text-gray-700" />
+              </div>
+              <div>
+                <div className="text-lg font-bold text-gray-900">Best Streak</div>
+                <div className="text-gray-600">{profile?.longest_streak || 0} days</div>
+              </div>
             </div>
-            <div className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">{avgSleep.toFixed(1)}</div>
-            <div className="text-gray-600 text-xs md:text-sm">hours/night</div>
           </div>
+        </div>
 
-          {/* Avg Exercise */}
-          <div className="bg-white rounded-3xl p-4 md:p-6 border border-gray-200">
-            <div className="flex items-center gap-2 text-gray-600 mb-2">
-              <Activity className="w-4 h-4 md:w-5 md:h-5" />
-              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Exercise</span>
+        {/* Sleep Trends */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Sleep Trends</h2>
+          <p className="text-gray-600 mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
+          {logs.length === 0 ? (
+            <div className="text-center py-12">
+              <Moon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-600">No sleep data yet</p>
             </div>
-            <div className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">{avgExercise}</div>
-            <div className="text-gray-600 text-xs md:text-sm">min/day</div>
-          </div>
+          ) : (
+            <div className="space-y-2">
+              <div className="text-sm text-gray-600">Average: {avgSleep.toFixed(1)} hours/night</div>
+              <div className="grid grid-cols-7 gap-2 mt-4">
+                {logs.slice(-7).map((log) => (
+                  <div key={log.id} className="text-center">
+                    <div className="h-24 bg-gray-100 rounded-lg flex items-end justify-center p-2">
+                      <div
+                        className="w-full bg-gray-900 rounded"
+                        style={{
+                          height: `${((log.sleep_hours || 0) / 12) * 100}%`,
+                          minHeight: '4px'
+                        }}
+                      />
+                    </div>
+                    <div className="text-xs text-gray-600 mt-1">
+                      {format(new Date(log.date), 'MMM dd')}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Stress Levels */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Stress Levels</h2>
+          <p className="text-gray-600 mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
+          {logs.length === 0 ? (
+            <div className="text-center py-12">
+              <Activity className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-600">No stress data yet</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-7 gap-2">
+              {logs.slice(-7).map((log) => (
+                <div key={log.id} className="text-center">
+                  <div className="h-24 bg-gray-100 rounded-lg flex items-end justify-center p-2">
+                    <div
+                      className="w-full bg-gray-900 rounded"
+                      style={{
+                        height: `${((log.stress_level || 0) / 4) * 100}%`,
+                        minHeight: '4px'
+                      }}
+                    />
+                  </div>
+                  <div className="text-xs text-gray-600 mt-1">
+                    {format(new Date(log.date), 'MMM dd')}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Test Results */}
