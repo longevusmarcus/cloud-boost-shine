@@ -129,7 +129,7 @@ export default function TestResultDisplay({ result, onDelete }: TestResultDispla
       {hasAnyMetrics && (
         <div className="grid md:grid-cols-3 gap-4 mb-6">
           {result.concentration && (
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-3xl p-6 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 mb-3 text-gray-600 dark:text-gray-400">
               <Users className="w-5 h-5" />
               <span className="text-xs font-medium uppercase tracking-wide">Concentration</span>
@@ -145,7 +145,7 @@ export default function TestResultDisplay({ result, onDelete }: TestResultDispla
         )}
 
         {result.motility && (
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-3xl p-6 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 mb-3 text-gray-600 dark:text-gray-400">
               <TrendingUp className="w-5 h-5" />
               <span className="text-xs font-medium uppercase tracking-wide">Motility</span>
@@ -161,7 +161,7 @@ export default function TestResultDisplay({ result, onDelete }: TestResultDispla
         )}
 
         {result.morphology && (
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-3xl p-6 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 mb-3 text-gray-600 dark:text-gray-400">
               <Shapes className="w-5 h-5" />
               <span className="text-xs font-medium uppercase tracking-wide">Morphology</span>

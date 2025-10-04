@@ -74,7 +74,7 @@ export default function CalculatorResults({ userData, onComplete, onBack }) {
       <p className="text-xs sm:text-sm text-gray-600 mb-4">Based on your lifestyle factors</p>
 
       {/* Value Display with Pulsing Effect */}
-      <div className="border border-gray-200 rounded-3xl p-6 text-center mb-4 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+      <div className="border border-gray-200 dark:border-gray-700 rounded-3xl p-6 text-center mb-4 bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 relative overflow-hidden">
         <div className="flex justify-center">
           <div className="relative">
             {/* Pulsing rings */}
@@ -82,7 +82,7 @@ export default function CalculatorResults({ userData, onComplete, onBack }) {
             <div className="absolute inset-0 rounded-full bg-gray-200 opacity-10 animate-pulse" style={{ animationDuration: '2s' }} />
             
             {/* Main Circle with pulse */}
-            <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gray-900 flex items-center justify-center shadow-lg animate-pulse-gentle">
+            <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gray-900 dark:bg-gray-800 flex items-center justify-center shadow-lg animate-pulse-gentle">
               <div className="text-center">
                 <DollarSign className="w-6 h-6 md:w-7 md:h-7 text-white mx-auto mb-1" />
                 <div className="text-2xl md:text-3xl font-bold text-white">{displayValue.toLocaleString()}</div>
@@ -126,7 +126,7 @@ export default function CalculatorResults({ userData, onComplete, onBack }) {
           <Icon className="w-5 h-5" />
           <h3 className="text-lg font-bold">{category.label}</h3>
         </div>
-        <p className="text-gray-600 text-xs mt-1">Estimated Sperm Value</p>
+        <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">Estimated Sperm Value</p>
       </div>
 
       {/* Recommendations */}
