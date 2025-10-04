@@ -158,14 +158,14 @@ export default function Dashboard() {
         <div className="flex justify-center py-4">
           <div className="relative">
             {/* Pulsing rings */}
-            <div className="absolute inset-0 rounded-full bg-gray-900 dark:bg-white opacity-5 animate-ping" style={{ animationDuration: '3s' }} />
-            <div className="absolute inset-0 rounded-full bg-gray-900 dark:bg-white opacity-10 animate-pulse" style={{ animationDuration: '2s' }} />
+            <div className="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-700 opacity-20 animate-ping" style={{ animationDuration: '3s' }} />
+            <div className="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-700 opacity-10 animate-pulse" style={{ animationDuration: '2s' }} />
 
             {/* Main Circle */}
-            <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full bg-gray-900/10 dark:bg-white/10 backdrop-blur-sm flex flex-col items-center justify-center shadow-lg border border-gray-900/20 dark:border-white/30">
+            <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-950 dark:to-gray-900 flex flex-col items-center justify-center shadow-lg border border-transparent dark:border-gray-700">
               <div className="flex items-center gap-1 mb-2">
-                <Activity className="w-5 h-5 text-gray-900 dark:text-white" />
-                <span className="text-xs text-gray-900 dark:text-white font-medium">Sperm Value</span>
+                <Activity className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                <span className="text-xs text-gray-600 dark:text-gray-300 font-medium">Sperm Value</span>
               </div>
               <div className="flex items-baseline gap-1 mb-4">
                 <span className="text-2xl font-bold text-gray-900 dark:text-white">$</span>
@@ -175,18 +175,18 @@ export default function Dashboard() {
               {/* Small stats below */}
               <div className="flex gap-10">
                 <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-gray-900/10 dark:bg-white/20 backdrop-blur-sm flex items-center justify-center mb-1 shadow-sm border border-gray-900/20 dark:border-white/30">
+                  <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center mb-1 shadow-sm border border-transparent dark:border-gray-700">
                     <Flame className="w-6 h-6 text-gray-900 dark:text-white" />
                   </div>
                   <div className="text-xl font-bold text-gray-900 dark:text-white">{profile?.current_streak || 0}</div>
-                  <div className="text-[10px] text-gray-900 dark:text-white/70">streak</div>
+                  <div className="text-[10px] text-gray-600 dark:text-gray-400">streak</div>
                 </div>
                 <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-gray-900/10 dark:bg-white/20 backdrop-blur-sm flex items-center justify-center mb-1 shadow-sm border border-gray-900/20 dark:border-white/30">
+                  <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center mb-1 shadow-sm border border-transparent dark:border-gray-700">
                     <TrendingUp className="w-6 h-6 text-gray-900 dark:text-white" />
                   </div>
                   <div className="text-xl font-bold text-gray-900 dark:text-white">{profile?.sperm_level || 1}</div>
-                  <div className="text-[10px] text-gray-900 dark:text-white/70">level</div>
+                  <div className="text-[10px] text-gray-600 dark:text-gray-400">level</div>
                 </div>
               </div>
             </div>
