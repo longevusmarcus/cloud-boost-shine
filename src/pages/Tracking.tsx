@@ -166,7 +166,7 @@ export default function Tracking() {
         {/* Header - Fixed and Sticky */}
         <div className="sticky top-0 z-10 bg-gray-50 pb-2 md:pb-4">
           {/* Mobile: Minimal header with icons */}
-          <div className="flex items-center justify-between md:hidden mb-3">
+          <div className="flex items-center justify-between md:hidden mb-2">
             <button 
               onClick={() => navigate('/profile')}
               className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center"

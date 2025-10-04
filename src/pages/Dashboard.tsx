@@ -81,7 +81,7 @@ export default function Dashboard() {
     <Layout>
       <div className="max-w-3xl mx-auto space-y-6">
         {/* Mobile Header */}
-        <div className="flex items-center justify-between md:hidden pb-2">
+        <div className="flex items-center justify-between md:hidden pb-1">
           <button
             onClick={() => navigate('/profile')}
             className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center"
