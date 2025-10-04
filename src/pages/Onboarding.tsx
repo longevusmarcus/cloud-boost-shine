@@ -87,9 +87,19 @@ export default function Onboarding() {
 
       const spermLevel = getSpermLevel(spermValue);
 
+      console.log("Saving profile data:", {
+        age: userData.age,
+        height_feet: userData.height_feet,
+        height_inches: userData.height_inches,
+        weight: userData.weight,
+        goal: userData.fertility_goal,
+        lifestyle_data: userData.lifestyle_data
+      });
+
       const { error } = await supabase
         .from('user_profiles')
-        .update({
+        .upsert({
+          user_id: session.user.id,
           age: userData.age,
           height_feet: userData.height_feet,
           height_inches: userData.height_inches,
@@ -111,10 +121,14 @@ export default function Onboarding() {
           sperm_value: spermValue,
           sperm_level: spermLevel,
           onboarding_completed: true
-        })
-        .eq('user_id', session.user.id);
+        }, {
+          onConflict: 'user_id'
+        });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error saving profile:", error);
+        throw error;
+      }
 
       toast({
         title: "Setup complete!",
@@ -123,6 +137,7 @@ export default function Onboarding() {
 
       navigate('/dashboard');
     } catch (error: any) {
+      console.error("Error in handleComplete:", error);
       toast({
         title: "Error",
         description: error.message,
