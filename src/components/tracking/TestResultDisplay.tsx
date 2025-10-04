@@ -268,8 +268,8 @@ export default function TestResultDisplay({ result, onDelete }: TestResultDispla
 
       {/* WHO Reference Info */}
       {hasAnyMetrics && (
-        <div className="bg-blue-50 rounded-2xl p-4 border border-blue-200">
-        <p className="text-sm text-blue-900">
+        <div className="bg-blue-50 dark:bg-blue-950 rounded-2xl p-4 border border-blue-200 dark:border-blue-800">
+        <p className="text-sm text-blue-900 dark:text-blue-100">
           <span className="font-semibold">ℹ️ WHO 6th Edition Reference:</span> These results are compared against World Health Organization standards for optimal fertility parameters.
         </p>
         </div>
