@@ -97,7 +97,7 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto space-y-6">
+      <div className="max-w-3xl mx-auto space-y-6 pt-24 md:pt-0">
         {/* Floating Icons - Mobile Only */}
         <div className="fixed top-4 left-4 right-4 z-50 md:hidden flex items-center justify-between">
           <button
@@ -134,7 +134,7 @@ export default function Dashboard() {
         </div>
 
         {/* Calendar */}
-        <div className="relative mt-24">
+        <div className="relative mt-6">
           <div className="mb-2">
             <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Today</span>
           </div>
