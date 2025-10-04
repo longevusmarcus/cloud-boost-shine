@@ -257,19 +257,37 @@ export default function Dashboard() {
             {/* Progress Preview Card */}
             <div className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 border-2 border-gray-700 p-3 md:p-5 flex flex-col">
               <h3 className="font-semibold text-white text-[11px] md:text-sm mb-2">Progress</h3>
-              <div className="flex-1 flex items-end justify-center gap-0.5 md:gap-1">
-                {/* Mini bar chart showing recent days */}
-                {recentLogs.slice(0, 7).reverse().map((log, index) => {
-                  const height = log.sleep_hours ? (log.sleep_hours / 12) * 100 : 10;
-                  return (
-                    <div key={index} className="flex-1 flex flex-col items-center justify-end h-full max-w-3">
-                      <div 
-                        className="w-full bg-white/90 rounded-t transition-all"
-                        style={{ height: `${height}%` }}
-                      />
-                    </div>
-                  );
-                })}
+              <div className="flex-1 flex flex-col items-center justify-center relative">
+                {/* Circular progress indicator */}
+                <div className="relative w-16 h-16 md:w-20 md:h-20">
+                  <svg className="transform -rotate-90" width="100%" height="100%" viewBox="0 0 100 100">
+                    {/* Background circle */}
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      fill="none"
+                      stroke="rgba(255,255,255,0.1)"
+                      strokeWidth="8"
+                    />
+                    {/* Progress circle */}
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      fill="none"
+                      stroke="white"
+                      strokeWidth="8"
+                      strokeLinecap="round"
+                      strokeDasharray={`${((profile?.sperm_value || 50) / 5000) * 251} 251`}
+                      className="transition-all duration-1000"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-xs md:text-sm font-bold text-white">{Math.round(((profile?.sperm_value || 50) / 5000) * 100)}%</span>
+                  </div>
+                </div>
+                <p className="text-[9px] md:text-xs text-white/70 mt-2">Sperm Health</p>
               </div>
               <button
                 onClick={() => navigate('/analytics')}
