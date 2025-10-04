@@ -353,6 +353,37 @@ export default function Profile() {
                   Level {profile?.sperm_level || 1}
                 </span>
               </div>
+              
+              {/* Quick Actions */}
+              <div className="flex flex-wrap justify-center gap-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <button
+                  onClick={() => document.getElementById('subscription-section')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  Manage Subscription
+                </button>
+                <span className="text-gray-300 dark:text-gray-700">•</span>
+                <button
+                  onClick={() => {/* TODO: Add account removal page */}}
+                  className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  Manage Account
+                </button>
+                <span className="text-gray-300 dark:text-gray-700">•</span>
+                <button
+                  onClick={() => {/* TODO: Add privacy/terms page */}}
+                  className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  Privacy & Terms
+                </button>
+                <span className="text-gray-300 dark:text-gray-700">•</span>
+                <button
+                  onClick={() => document.getElementById('mfa-section')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  Manage Security
+                </button>
+              </div>
             </div>
           </div>
 
@@ -740,10 +771,14 @@ export default function Profile() {
 
 
           {/* MFA Settings */}
-          <MFASettings />
+          <div id="mfa-section">
+            <MFASettings />
+          </div>
 
           {/* Subscription Section */}
-          <SubscriptionSection />
+          <div id="subscription-section">
+            <SubscriptionSection />
+          </div>
 
           {/* Logout */}
           <Button
