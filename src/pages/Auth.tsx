@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Droplet } from "lucide-react";
+import { authSchema } from "@/lib/validation-schemas";
+import { sanitizeError, checkRateLimit } from "@/lib/security-utils";
 
 export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -42,17 +44,49 @@ export default function Auth() {
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Rate limiting check
+    const rateLimitKey = `auth_${email}`;
+    if (!checkRateLimit(rateLimitKey, 5, 300000)) { // 5 attempts per 5 minutes
+      toast({
+        title: "Too Many Attempts",
+        description: "Please wait a few minutes before trying again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
+      // Validate input
+      const validationData = {
+        email,
+        password,
+        ...(isSignUp && fullName ? { full_name: fullName } : {}),
+      };
+
+      const result = authSchema.safeParse(validationData);
+      
+      if (!result.success) {
+        const firstError = result.error.errors[0];
+        toast({
+          title: "Validation Error",
+          description: firstError.message,
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
       if (isSignUp) {
-        const { error, data } = await supabase.auth.signUp({
-          email,
-          password,
+        const { data, error } = await supabase.auth.signUp({
+          email: result.data.email,
+          password: result.data.password,
           options: {
-            emailRedirectTo: `${window.location.origin}/onboarding`,
+            emailRedirectTo: `${window.location.origin}/`,
             data: {
-              full_name: fullName
+              full_name: result.data.full_name,
             }
           }
         });
@@ -62,35 +96,41 @@ export default function Auth() {
         if (data.user) {
           const { error: profileError } = await supabase
             .from('user_profiles')
-            .insert({
-              user_id: data.user.id,
-              full_name: fullName
-            });
+            .insert([
+              { 
+                user_id: data.user.id, 
+                full_name: result.data.full_name,
+                onboarding_completed: false 
+              }
+            ]);
 
-          if (profileError) throw profileError;
+          if (profileError) {
+            console.error('Profile creation error:', profileError);
+          }
         }
 
         toast({
-          title: "Account created!",
-          description: "Welcome to Spermaxxing",
+          title: "Success!",
+          description: "Your account has been created. Please check your email to verify your account.",
         });
       } else {
         const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
+          email: result.data.email,
+          password: result.data.password,
         });
 
         if (error) throw error;
 
         toast({
           title: "Welcome back!",
-          description: "Successfully signed in",
+          description: "You have successfully signed in.",
         });
       }
     } catch (error: any) {
+      const errorMessage = sanitizeError(error);
       toast({
-        title: "Error",
-        description: error.message,
+        title: "Authentication Error",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
