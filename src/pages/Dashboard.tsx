@@ -162,10 +162,10 @@ export default function Dashboard() {
             <div className="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-700 opacity-10 animate-pulse" style={{ animationDuration: '2s' }} />
 
             {/* Main Circle */}
-            <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex flex-col items-center justify-center shadow-lg">
+            <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex flex-col items-center justify-center shadow-lg border border-transparent dark:border-gray-700">
               <div className="flex items-center gap-1 mb-2">
-                <Activity className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                <span className="text-xs text-gray-600 dark:text-gray-400 font-medium">Sperm Value</span>
+                <Activity className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                <span className="text-xs text-gray-600 dark:text-gray-300 font-medium">Sperm Value</span>
               </div>
               <div className="flex items-baseline gap-1 mb-4">
                 <span className="text-2xl font-bold text-gray-900 dark:text-white">$</span>
@@ -175,14 +175,14 @@ export default function Dashboard() {
               {/* Small stats below */}
               <div className="flex gap-10">
                 <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-950 flex items-center justify-center mb-1 shadow-sm">
+                  <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center mb-1 shadow-sm border border-transparent dark:border-gray-700">
                     <Flame className="w-6 h-6 text-gray-900 dark:text-white" />
                   </div>
                   <div className="text-xl font-bold text-gray-900 dark:text-white">{profile?.current_streak || 0}</div>
                   <div className="text-[10px] text-gray-600 dark:text-gray-400">streak</div>
                 </div>
                 <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-950 flex items-center justify-center mb-1 shadow-sm">
+                  <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center mb-1 shadow-sm border border-transparent dark:border-gray-700">
                     <TrendingUp className="w-6 h-6 text-gray-900 dark:text-white" />
                   </div>
                   <div className="text-xl font-bold text-gray-900 dark:text-white">{profile?.sperm_level || 1}</div>
@@ -232,9 +232,9 @@ export default function Dashboard() {
             {/* Log Check-in Card */}
             <button
               onClick={() => navigate('/tracking')}
-              className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 hover:border-gray-900 dark:hover:border-gray-500 transition-all duration-200 p-3 md:p-5 flex flex-col items-center justify-center"
+              className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 hover:border-gray-900 dark:hover:border-gray-500 transition-all duration-200 p-3 md:p-5 flex flex-col items-center justify-center"
             >
-              <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-2 md:mb-3">
+              <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-2 md:mb-3">
                 {todayLog ? (
                   <span className="text-xl md:text-3xl">✓</span>
                 ) : (
@@ -250,7 +250,7 @@ export default function Dashboard() {
             </button>
 
             {/* Today's Stats Card */}
-            <div className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-200 dark:border-gray-700 p-3 md:p-5 flex flex-col">
+            <div className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950 border-2 border-gray-200 dark:border-gray-700 p-3 md:p-5 flex flex-col">
               <h3 className="font-semibold text-gray-900 dark:text-white text-[11px] md:text-sm mb-2">Today&apos;s stats</h3>
               {todayLog ? (
                 <div className="flex-1 space-y-1.5">

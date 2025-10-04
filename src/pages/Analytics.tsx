@@ -164,7 +164,7 @@ export default function Analytics() {
         {/* Summary Cards Grid */}
         <div className="grid grid-cols-2 gap-3 md:gap-4">
           {/* Current Value */}
-          <div className="bg-gray-900 dark:bg-gray-950 rounded-3xl p-4 md:p-6 text-white border border-gray-800 dark:border-gray-900">
+          <div className="bg-gray-900 dark:bg-gray-900 rounded-3xl p-4 md:p-6 text-white border border-gray-800 dark:border-gray-700">
             <div className="flex items-center gap-2 text-white/70 mb-2">
               <Activity className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Sperm Value</span>
@@ -177,7 +177,7 @@ export default function Analytics() {
           </div>
 
           {/* Days Logged */}
-          <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
               <Calendar className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Days Logged</span>
@@ -187,7 +187,7 @@ export default function Analytics() {
           </div>
 
           {/* Avg Sleep */}
-          <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
               <Moon className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Sleep</span>
@@ -197,7 +197,7 @@ export default function Analytics() {
           </div>
 
           {/* Avg Exercise */}
-          <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
               <Activity className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Exercise</span>
@@ -296,12 +296,12 @@ export default function Analytics() {
         </div>
 
         {/* Activity Summary */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">Activity Summary</h2>
           <div className="space-y-3 md:space-y-4">
             {/* Avg Exercise */}
             <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">
                 <Zap className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-white" />
               </div>
               <div className="flex-1">
@@ -311,8 +311,8 @@ export default function Analytics() {
             </div>
 
             {/* Current Streak */}
-            <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3 border-t border-gray-100 dark:border-gray-700">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+            <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3 border-t border-gray-100 dark:border-gray-800">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">
                 <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-white" />
               </div>
               <div className="flex-1">
@@ -322,8 +322,8 @@ export default function Analytics() {
             </div>
 
             {/* Best Streak */}
-            <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3 border-t border-gray-100 dark:border-gray-700">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+            <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3 border-t border-gray-100 dark:border-gray-800">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">
                 <Calendar className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-white" />
               </div>
               <div className="flex-1">
@@ -336,7 +336,7 @@ export default function Analytics() {
 
         {/* Sleep Trends */}
         {logs.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">Sleep Trends</h2>
             <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4 md:mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
             <div className="h-40 md:h-48 flex items-end justify-center gap-1 md:gap-2">
@@ -372,7 +372,7 @@ export default function Analytics() {
 
         {/* Stress Levels */}
         {logs.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">Stress Levels</h2>
             <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4 md:mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
             <div className="h-40 md:h-48 flex items-end justify-center gap-1 md:gap-2">

@@ -58,7 +58,7 @@ export default function Layout({ children }: LayoutProps) {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col md:flex-row transition-colors">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col md:flex-row transition-colors">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
         
@@ -68,7 +68,7 @@ export default function Layout({ children }: LayoutProps) {
       `}</style>
 
       {/* Desktop Sidebar */}
-      <aside className={`hidden md:block fixed left-0 top-0 bottom-0 bg-white dark:bg-gray-950 border-r border-gray-200 dark:border-gray-800 z-50 transition-all duration-300 ${
+      <aside className={`hidden md:block fixed left-0 top-0 bottom-0 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 z-50 transition-all duration-300 ${
         sidebarCollapsed ? 'w-20' : 'w-72'
       }`}>
         <div className="h-full p-6 flex flex-col">

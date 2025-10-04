@@ -169,7 +169,7 @@ export default function Content() {
           {articles.map((article) => (
             <div
               key={article.id}
-              className="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-200 cursor-pointer"
+              className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-200 cursor-pointer"
             >
               <img
                 src={article.image_url}
