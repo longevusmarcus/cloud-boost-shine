@@ -1,6 +1,8 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,6 +15,8 @@ export default function Layout({ children }: LayoutProps) {
     const saved = localStorage.getItem('sidebarCollapsed');
     return saved ? JSON.parse(saved) : false;
   });
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
     localStorage.setItem('sidebarCollapsed', JSON.stringify(sidebarCollapsed));
@@ -21,6 +25,25 @@ export default function Layout({ children }: LayoutProps) {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('user_profiles')
+          .select('profile_image_url, full_name')
+          .eq('user_id', user.id)
+          .single();
+        
+        if (profile) {
+          setProfileImageUrl(profile.profile_image_url);
+          setUserName(profile.full_name);
+        }
+      }
+    };
+    fetchProfile();
+  }, []);
 
   const navItems = [
     { name: "Dashboard", path: "/dashboard", icon: Home },
@@ -69,6 +92,7 @@ export default function Layout({ children }: LayoutProps) {
             {navItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);
+              const isProfile = item.name === "Profile";
               return (
                 <Link
                   key={item.name}
@@ -80,7 +104,16 @@ export default function Layout({ children }: LayoutProps) {
                   } ${sidebarCollapsed ? 'justify-center' : ''}`}
                   title={sidebarCollapsed ? item.name : ''}
                 >
-                  <Icon className="w-5 h-5 flex-shrink-0" strokeWidth={active ? 2.5 : 2} />
+                  {isProfile && profileImageUrl ? (
+                    <Avatar className="w-5 h-5 flex-shrink-0">
+                      <AvatarImage src={profileImageUrl} alt={userName || "Profile"} />
+                      <AvatarFallback className="text-xs">
+                        {userName?.charAt(0) || 'U'}
+                      </AvatarFallback>
+                    </Avatar>
+                  ) : (
+                    <Icon className="w-5 h-5 flex-shrink-0" strokeWidth={active ? 2.5 : 2} />
+                  )}
                   {!sidebarCollapsed && <span className="font-medium">{item.name}</span>}
                 </Link>
               );
