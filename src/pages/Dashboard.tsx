@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
-import { Activity, TrendingUp, Flame, Calendar, UserCircle, Moon, Apple, Heart } from "lucide-react";
+import { Activity, TrendingUp, Flame, Calendar, UserCircle, Moon, Apple, Heart, Droplet } from "lucide-react";
 import Layout from "@/components/Layout";
 import FloatingChatbot from "@/components/dashboard/FloatingChatbot";
 
@@ -202,9 +202,9 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Daily Insights Section */}
+        {/* Daily Feed Section */}
         <div>
-          <h2 className="text-sm md:text-lg font-bold text-gray-900 mb-3">My daily insights</h2>
+          <h2 className="text-sm md:text-lg font-bold text-gray-900 mb-3">My Daily Feed</h2>
 
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
             {/* Log Check-in Card */}
@@ -229,20 +229,20 @@ export default function Dashboard() {
 
             {/* Today's Stats Card */}
             <div className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200 p-3 md:p-5 flex flex-col">
-              <h3 className="font-semibold text-gray-900 text-[11px] md:text-sm mb-2">Today's stats</h3>
+              <h3 className="font-semibold text-gray-900 text-[11px] md:text-sm mb-2">Today&apos;s stats</h3>
               {todayLog ? (
                 <div className="flex-1 space-y-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <Droplet className="w-3 h-3 md:w-4 md:h-4 text-gray-600" />
+                    <span className="text-[11px] md:text-sm text-gray-900 font-medium">{todayLog.masturbation_count || 0}</span>
+                  </div>
                   <div className="flex items-center gap-1.5">
                     <Moon className="w-3 h-3 md:w-4 md:h-4 text-gray-600" />
                     <span className="text-[11px] md:text-sm text-gray-900 font-medium">{todayLog.sleep_hours || 0}h</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <Apple className="w-3 h-3 md:w-4 md:h-4 text-gray-600" />
-                    <span className="text-[11px] md:text-sm text-gray-900 font-medium">{todayLog.water_intake || 0}oz</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <Heart className="w-3 h-3 md:w-4 md:h-4 text-gray-600" />
-                    <span className="text-[11px] md:text-sm text-gray-900 font-medium">Level {todayLog.stress_level || "N/A"}</span>
+                    <span className="text-[11px] md:text-sm text-gray-900 font-medium">{todayLog.diet_quality || "N/A"}</span>
                   </div>
                 </div>
               ) : (
@@ -254,37 +254,46 @@ export default function Dashboard() {
               )}
             </div>
 
-            {/* Progress Card */}
-            <button
-              onClick={() => navigate('/analytics')}
-              className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-white border-2 border-gray-200 hover:border-gray-900 transition-all duration-200 p-3 md:p-5 flex flex-col items-center justify-center"
-            >
-              <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-gray-100 flex items-center justify-center mb-2 md:mb-3">
-                <TrendingUp className="w-5 h-5 md:w-8 md:h-8 text-gray-900" />
+            {/* Progress Preview Card */}
+            <div className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 border-2 border-gray-700 p-3 md:p-5 flex flex-col">
+              <h3 className="font-semibold text-white text-[11px] md:text-sm mb-2">Progress</h3>
+              <div className="flex-1 flex flex-col justify-center space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[9px] md:text-xs text-white/70">Value</span>
+                  <span className="text-[11px] md:text-sm text-white font-bold">${profile?.sperm_value || 50}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[9px] md:text-xs text-white/70">Streak</span>
+                  <span className="text-[11px] md:text-sm text-white font-bold">{profile?.current_streak || 0}d</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[9px] md:text-xs text-white/70">Level</span>
+                  <span className="text-[11px] md:text-sm text-white font-bold">{profile?.sperm_level || 1}</span>
+                </div>
               </div>
-              <h3 className="font-semibold text-gray-900 text-center text-[11px] md:text-sm mb-0.5">
-                View Progress
-              </h3>
-              <p className="text-[9px] md:text-xs text-gray-600 text-center">
-                Analytics
-              </p>
-            </button>
+              <button
+                onClick={() => navigate('/analytics')}
+                className="mt-2 text-[9px] md:text-xs text-white/70 hover:text-white transition-colors"
+              >
+                View All →
+              </button>
+            </div>
 
-            {/* Insights Card */}
-            <button
-              onClick={() => navigate('/content')}
-              className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-white border-2 border-gray-200 hover:border-gray-900 transition-all duration-200 p-3 md:p-5 flex flex-col items-center justify-center"
-            >
-              <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-gray-100 flex items-center justify-center mb-2 md:mb-3">
-                <span className="text-xl md:text-3xl">💡</span>
+            {/* Daily Content Card */}
+            <div className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-200 p-3 md:p-5 flex flex-col">
+              <h3 className="font-semibold text-gray-900 text-[11px] md:text-sm mb-2">Daily Tip</h3>
+              <div className="flex-1 flex flex-col justify-center">
+                <p className="text-[9px] md:text-xs text-gray-700 leading-relaxed italic">
+                  "Zinc-rich foods boost sperm production"
+                </p>
               </div>
-              <h3 className="font-semibold text-gray-900 text-center text-[11px] md:text-sm mb-0.5">
-                Learn More
-              </h3>
-              <p className="text-[9px] md:text-xs text-gray-600 text-center">
-                Tips
-              </p>
-            </button>
+              <button
+                onClick={() => navigate('/content')}
+                className="mt-2 text-[9px] md:text-xs text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                Read More →
+              </button>
+            </div>
           </div>
         </div>
       </div>
