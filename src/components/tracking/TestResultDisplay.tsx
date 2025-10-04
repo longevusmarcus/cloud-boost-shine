@@ -3,6 +3,7 @@ import { TrendingUp, Users, Shapes, Droplets, ExternalLink, Activity, Zap, Targe
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAuditLog } from "@/hooks/useAuditLog";
 
 interface TestResult {
   id: string;
@@ -26,6 +27,7 @@ interface TestResultDisplayProps {
 
 export default function TestResultDisplay({ result, onDelete }: TestResultDisplayProps) {
   const { toast } = useToast();
+  const { logAction } = useAuditLog();
 
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this test result?')) return;
@@ -37,6 +39,14 @@ export default function TestResultDisplay({ result, onDelete }: TestResultDispla
         .eq('id', result.id);
 
       if (error) throw error;
+
+      // Log audit trail
+      await logAction({
+        action: 'DELETE',
+        tableName: 'test_results',
+        recordId: result.id,
+        details: 'Deleted test result'
+      });
 
       toast({
         title: "Deleted",

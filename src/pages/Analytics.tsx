@@ -6,6 +6,8 @@ import { TrendingUp, Calendar, Activity, Moon, UserCircle, FileText, Zap, Heart,
 import Layout from "@/components/Layout";
 import TestResultDisplay from "@/components/tracking/TestResultDisplay";
 import { useTheme } from "@/components/ThemeProvider";
+import { decryptDailyLog, decryptTestResult } from "@/lib/encryption";
+import { useAuditLog } from "@/hooks/useAuditLog";
 
 export default function Analytics() {
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ export default function Analytics() {
   const [testResults, setTestResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState("30d");
+  const { logAction } = useAuditLog();
 
   useEffect(() => {
     loadData();
@@ -46,7 +49,11 @@ export default function Analytics() {
         .gte('date', startDate)
         .order('date', { ascending: true });
 
-      setLogs(logsData || []);
+      // Decrypt daily logs
+      const decryptedLogs = await Promise.all(
+        (logsData || []).map(log => decryptDailyLog(log, session.user.id))
+      );
+      setLogs(decryptedLogs);
 
       const { data: testResultsData } = await supabase
         .from('test_results')
@@ -54,7 +61,18 @@ export default function Analytics() {
         .eq('user_id', session.user.id)
         .order('test_date', { ascending: false });
 
-      setTestResults(testResultsData || []);
+      // Decrypt test results
+      const decryptedResults = await Promise.all(
+        (testResultsData || []).map(result => decryptTestResult(result, session.user.id))
+      );
+      setTestResults(decryptedResults);
+
+      // Log audit trail
+      await logAction({
+        action: 'VIEW',
+        tableName: 'test_results',
+        details: 'Viewed analytics page'
+      });
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {

@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?worker';
+import { encryptTestResult } from "@/lib/encryption";
+import { useAuditLog } from "@/hooks/useAuditLog";
 
 interface TestResultUploadProps {
   onUpload: () => void;
@@ -22,6 +24,7 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
   });
   const [extractionStatus, setExtractionStatus] = useState<string | null>(null);
   const { toast } = useToast();
+  const { logAction } = useAuditLog();
 
   // Set up PDF.js worker
   pdfjsLib.GlobalWorkerOptions.workerPort = new pdfjsWorker();
@@ -84,24 +87,40 @@ export default function TestResultUpload({ onUpload, isCompact = false }: TestRe
       const metrics = parseData?.metrics || {};
       console.log('Extracted metrics:', metrics);
 
-      // Insert test result with extracted metrics
-      const { error: insertError } = await supabase
+      // Prepare test result data
+      const testResultData = {
+        user_id: session.user.id,
+        test_date: formData.test_date,
+        provider: "yo",
+        concentration: metrics.concentration,
+        motility: metrics.motility,
+        progressive_motility: metrics.progressive_motility,
+        morphology: metrics.morphology,
+        volume: metrics.volume,
+        motile_sperm_concentration: metrics.motile_sperm_concentration,
+        progressive_motile_sperm_concentration: metrics.progressive_motile_sperm_concentration,
+        notes: "Uploaded and auto-processed via AI"
+      };
+
+      // Encrypt sensitive fields
+      const encryptedData = await encryptTestResult(testResultData, session.user.id);
+
+      // Insert encrypted test result
+      const { data: insertedData, error: insertError } = await supabase
         .from('test_results')
-        .insert({
-          user_id: session.user.id,
-          test_date: formData.test_date,
-          provider: "yo",
-          concentration: metrics.concentration,
-          motility: metrics.motility,
-          progressive_motility: metrics.progressive_motility,
-          morphology: metrics.morphology,
-          volume: metrics.volume,
-          motile_sperm_concentration: metrics.motile_sperm_concentration,
-          progressive_motile_sperm_concentration: metrics.progressive_motile_sperm_concentration,
-          notes: "Uploaded and auto-processed via AI"
-        });
+        .insert(encryptedData)
+        .select()
+        .single();
 
       if (insertError) throw insertError;
+
+      // Log audit trail
+      await logAction({
+        action: 'CREATE',
+        tableName: 'test_results',
+        recordId: insertedData?.id,
+        details: 'Test result uploaded via AI processing'
+      });
 
       setExtractionStatus("success");
       toast({

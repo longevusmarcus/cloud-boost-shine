@@ -9,6 +9,8 @@ import TestResultUpload from "@/components/tracking/TestResultUpload";
 import TestResultDisplay from "@/components/tracking/TestResultDisplay";
 import { toast } from "@/hooks/use-toast";
 import { useTheme } from "@/components/ThemeProvider";
+import { encryptDailyLog, decryptDailyLog, decryptTestResult } from "@/lib/encryption";
+import { useAuditLog } from "@/hooks/useAuditLog";
 
 export default function Tracking() {
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ export default function Tracking() {
   const [testResults, setTestResults] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("daily");
   const [loading, setLoading] = useState(true);
+  const { logAction } = useAuditLog();
 
   useEffect(() => {
     loadData();
@@ -47,7 +50,9 @@ export default function Tracking() {
         .eq('date', today)
         .maybeSingle();
 
-      setTodayLog(logData);
+      // Decrypt daily log if it exists
+      const decryptedLog = logData ? await decryptDailyLog(logData, session.user.id) : null;
+      setTodayLog(decryptedLog);
 
       const { data: resultsData } = await supabase
         .from('test_results')
@@ -55,7 +60,18 @@ export default function Tracking() {
         .eq('user_id', session.user.id)
         .order('test_date', { ascending: false });
 
-      setTestResults(resultsData || []);
+      // Decrypt test results
+      const decryptedResults = await Promise.all(
+        (resultsData || []).map(result => decryptTestResult(result, session.user.id))
+      );
+      setTestResults(decryptedResults);
+
+      // Log audit trail for viewing
+      await logAction({
+        action: 'VIEW',
+        tableName: 'daily_logs',
+        details: 'Viewed tracking page'
+      });
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {
@@ -82,19 +98,38 @@ export default function Tracking() {
         notes: logData.notes || null
       };
 
+      // Encrypt sensitive fields
+      const encryptedData = await encryptDailyLog(dataToSave, session.user.id);
+
       if (todayLog) {
         const { error } = await supabase
           .from('daily_logs')
-          .update(dataToSave)
+          .update(encryptedData)
           .eq('id', todayLog.id);
 
         if (error) throw error;
+
+        await logAction({
+          action: 'UPDATE',
+          tableName: 'daily_logs',
+          recordId: todayLog.id,
+          details: 'Updated daily log'
+        });
       } else {
-        const { error } = await supabase
+        const { data: insertedData, error } = await supabase
           .from('daily_logs')
-          .insert(dataToSave);
+          .insert(encryptedData)
+          .select()
+          .single();
 
         if (error) throw error;
+
+        await logAction({
+          action: 'CREATE',
+          tableName: 'daily_logs',
+          recordId: insertedData?.id,
+          details: 'Created daily log'
+        });
 
         if (profile) {
           const newStreak = (profile.current_streak || 0) + 1;

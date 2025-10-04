@@ -6,6 +6,8 @@ import { Activity, TrendingUp, Flame, Calendar, UserCircle, Moon, Apple, Heart, 
 import Layout from "@/components/Layout";
 import FloatingChatbot from "@/components/dashboard/FloatingChatbot";
 import { useTheme } from "@/components/ThemeProvider";
+import { decryptDailyLog } from "@/lib/encryption";
+import { useAuditLog } from "@/hooks/useAuditLog";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ export default function Dashboard() {
   const [todayLog, setTodayLog] = useState<any>(null);
   const [recentLogs, setRecentLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { logAction } = useAuditLog();
 
   useEffect(() => {
     loadData();
@@ -48,7 +51,9 @@ export default function Dashboard() {
         .eq('date', today)
         .maybeSingle();
 
-      setTodayLog(logData);
+      // Decrypt today's log
+      const decryptedTodayLog = logData ? await decryptDailyLog(logData, session.user.id) : null;
+      setTodayLog(decryptedTodayLog);
 
       const { data: logsData } = await supabase
         .from('daily_logs')
@@ -57,7 +62,18 @@ export default function Dashboard() {
         .order('date', { ascending: false })
         .limit(30);
 
-      setRecentLogs(logsData || []);
+      // Decrypt recent logs
+      const decryptedLogs = await Promise.all(
+        (logsData || []).map(log => decryptDailyLog(log, session.user.id))
+      );
+      setRecentLogs(decryptedLogs);
+
+      // Log audit trail
+      await logAction({
+        action: 'VIEW',
+        tableName: 'daily_logs',
+        details: 'Viewed dashboard'
+      });
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {
