@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
-import { Activity, ArrowRight, TrendingUp, Calendar, Flame, UserCircle } from "lucide-react";
+import { Activity, TrendingUp, Flame, Calendar, UserCircle, Moon, Apple, Heart } from "lucide-react";
 import Layout from "@/components/Layout";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<any>(null);
   const [todayLog, setTodayLog] = useState<any>(null);
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
   const [recentLogs, setRecentLogs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadData();
@@ -25,8 +23,6 @@ export default function Dashboard() {
         navigate('/auth');
         return;
       }
-
-      setUser(session.user);
 
       const { data: profileData } = await supabase
         .from('user_profiles')
@@ -61,7 +57,6 @@ export default function Dashboard() {
       setRecentLogs(logsData || []);
     } catch (error) {
       console.error('Error loading data:', error);
-      navigate('/');
     } finally {
       setLoading(false);
     }
@@ -83,9 +78,9 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="space-y-4 md:space-y-6">
-        {/* Header - Mobile only */}
-        <div className="md:hidden flex items-center justify-between pb-2">
+      <div className="space-y-6">
+        {/* Mobile Header */}
+        <div className="flex items-center justify-between md:hidden pb-2">
           <button
             onClick={() => navigate('/profile')}
             className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center"
@@ -202,32 +197,90 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Today's Check-in */}
-        <div className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200">
-          <div className="flex items-center gap-2 mb-3">
-            <Calendar className="w-4 h-4 text-gray-900" />
-            <h2 className="text-base md:text-lg font-bold text-gray-900">Today's Check-in</h2>
-          </div>
+        {/* Daily Insights Section */}
+        <div>
+          <h2 className="text-sm md:text-lg font-bold text-gray-900 mb-3">My daily insights</h2>
 
-          {todayLog ? (
-            <div className="text-center py-4">
-              <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-2">
-                <span className="text-2xl">✅</span>
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            {/* Log Check-in Card */}
+            <button
+              onClick={() => navigate('/tracking')}
+              className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-white border-2 border-gray-200 hover:border-gray-900 transition-all duration-200 p-3 md:p-5 flex flex-col items-center justify-center"
+            >
+              <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-gray-100 flex items-center justify-center mb-2 md:mb-3">
+                {todayLog ? (
+                  <span className="text-xl md:text-3xl">✓</span>
+                ) : (
+                  <span className="text-xl md:text-3xl">📝</span>
+                )}
               </div>
-              <p className="font-semibold text-gray-900 text-sm md:text-base">All set for today!</p>
-              <p className="text-xs md:text-sm text-gray-600 mt-1">Keep up the great work</p>
+              <h3 className="font-semibold text-gray-900 text-center text-[11px] md:text-sm mb-0.5">
+                {todayLog ? "Today's Log" : "Log check-in"}
+              </h3>
+              <p className="text-[9px] md:text-xs text-gray-600 text-center">
+                {todayLog ? "View details" : "Track today"}
+              </p>
+            </button>
+
+            {/* Today's Stats Card */}
+            <div className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200 p-3 md:p-5 flex flex-col">
+              <h3 className="font-semibold text-gray-900 text-[11px] md:text-sm mb-2">Today's stats</h3>
+              {todayLog ? (
+                <div className="flex-1 space-y-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <Moon className="w-3 h-3 md:w-4 md:h-4 text-gray-600" />
+                    <span className="text-[11px] md:text-sm text-gray-900 font-medium">{todayLog.sleep_hours || 0}h</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Apple className="w-3 h-3 md:w-4 md:h-4 text-gray-600" />
+                    <span className="text-[11px] md:text-sm text-gray-900 font-medium">{todayLog.water_intake || 0}oz</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Heart className="w-3 h-3 md:w-4 md:h-4 text-gray-600" />
+                    <span className="text-[11px] md:text-sm text-gray-900 font-medium">Level {todayLog.stress_level || "N/A"}</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex-1 flex flex-col items-center justify-center">
+                  <div className="text-2xl mb-1.5">📊</div>
+                  <p className="text-[9px] md:text-xs text-gray-600 text-center">No data yet</p>
+                  <p className="text-[8px] md:text-xs text-gray-500 text-center mt-0.5">Log today</p>
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="text-center py-4">
-              <p className="text-gray-600 text-sm md:text-base mb-3">Ready to log your daily metrics?</p>
-              <Button 
-                onClick={() => navigate('/tracking')}
-                className="bg-black hover:bg-gray-800 text-white rounded-xl px-6"
-              >
-                Log Today <ArrowRight className="ml-1.5 w-4 h-4" />
-              </Button>
-            </div>
-          )}
+
+            {/* Progress Card */}
+            <button
+              onClick={() => navigate('/analytics')}
+              className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-white border-2 border-gray-200 hover:border-gray-900 transition-all duration-200 p-3 md:p-5 flex flex-col items-center justify-center"
+            >
+              <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-gray-100 flex items-center justify-center mb-2 md:mb-3">
+                <TrendingUp className="w-5 h-5 md:w-8 md:h-8 text-gray-900" />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-center text-[11px] md:text-sm mb-0.5">
+                View Progress
+              </h3>
+              <p className="text-[9px] md:text-xs text-gray-600 text-center">
+                Analytics
+              </p>
+            </button>
+
+            {/* Insights Card */}
+            <button
+              onClick={() => navigate('/content')}
+              className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-white border-2 border-gray-200 hover:border-gray-900 transition-all duration-200 p-3 md:p-5 flex flex-col items-center justify-center"
+            >
+              <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-gray-100 flex items-center justify-center mb-2 md:mb-3">
+                <span className="text-xl md:text-3xl">💡</span>
+              </div>
+              <h3 className="font-semibold text-gray-900 text-center text-[11px] md:text-sm mb-0.5">
+                Learn More
+              </h3>
+              <p className="text-[9px] md:text-xs text-gray-600 text-center">
+                Tips
+              </p>
+            </button>
+          </div>
         </div>
       </div>
     </Layout>

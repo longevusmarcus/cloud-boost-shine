@@ -2,18 +2,19 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format, subDays } from "date-fns";
-import { TrendingUp, Activity, Droplet } from "lucide-react";
+import { TrendingUp, Calendar, Activity, Droplet, Moon, UserCircle } from "lucide-react";
 import Layout from "@/components/Layout";
 
 export default function Analytics() {
-  const [logs, setLogs] = useState<any[]>([]);
-  const [testResults, setTestResults] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [profile, setProfile] = useState<any>(null);
+  const [logs, setLogs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedPeriod, setSelectedPeriod] = useState("30d");
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [selectedPeriod]);
 
   const loadData = async () => {
     try {
@@ -23,24 +24,25 @@ export default function Analytics() {
         return;
       }
 
-      const thirtyDaysAgo = format(subDays(new Date(), 30), 'yyyy-MM-dd');
+      const { data: profileData } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .single();
+
+      setProfile(profileData);
+
+      const daysToFetch = selectedPeriod === "7d" ? 7 : 30;
+      const startDate = format(subDays(new Date(), daysToFetch), 'yyyy-MM-dd');
 
       const { data: logsData } = await supabase
         .from('daily_logs')
         .select('*')
         .eq('user_id', session.user.id)
-        .gte('date', thirtyDaysAgo)
+        .gte('date', startDate)
         .order('date', { ascending: true });
 
       setLogs(logsData || []);
-
-      const { data: resultsData } = await supabase
-        .from('test_results')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .order('test_date', { ascending: true });
-
-      setTestResults(resultsData || []);
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {
@@ -50,63 +52,130 @@ export default function Analytics() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent" />
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-900 border-t-transparent" />
       </div>
     );
   }
 
   const avgSleep = logs.length > 0
-    ? (logs.reduce((sum, log) => sum + (log.sleep_hours || 0), 0) / logs.length).toFixed(1)
+    ? (logs.reduce((acc, log) => acc + (log.sleep_hours || 0), 0) / logs.length)
     : 0;
-
   const avgWater = logs.length > 0
-    ? Math.round(logs.reduce((sum, log) => sum + (log.water_intake || 0), 0) / logs.length)
+    ? Math.round(logs.reduce((acc, log) => acc + (log.water_intake || 0), 0) / logs.length)
     : 0;
-
   const avgExercise = logs.length > 0
-    ? Math.round(logs.reduce((sum, log) => sum + (log.exercise_minutes || 0), 0) / logs.length)
+    ? Math.round(logs.reduce((acc, log) => acc + (log.exercise_minutes || 0), 0) / logs.length)
     : 0;
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto p-6 space-y-6">
-        <h1 className="text-3xl font-bold text-foreground">Analytics</h1>
-
-        <div className="grid md:grid-cols-3 gap-4">
-          <StatCard
-            icon={<Activity className="w-6 h-6" />}
-            label="Avg Sleep"
-            value={`${avgSleep}h`}
-          />
-          <StatCard
-            icon={<Droplet className="w-6 h-6" />}
-            label="Avg Water"
-            value={`${avgWater}oz`}
-          />
-          <StatCard
-            icon={<TrendingUp className="w-6 h-6" />}
-            label="Avg Exercise"
-            value={`${avgExercise}min`}
-          />
+      <div className="space-y-4 md:space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between md:hidden pb-2">
+          <button
+            onClick={() => navigate('/profile')}
+            className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center"
+          >
+            <UserCircle className="w-5 h-5 text-gray-600" />
+          </button>
+          <button className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
+            <span className="text-base">🔔</span>
+          </button>
         </div>
 
-        <div className="bg-card rounded-3xl p-6 shadow-lg border border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">Recent Activity</h2>
+        <div className="hidden md:block">
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">Analytics</h1>
+          <p className="text-sm md:text-base text-gray-600">Your sperm value insights over time</p>
+        </div>
+
+        {/* Period Selector */}
+        <div className="flex gap-2">
+          <button
+            onClick={() => setSelectedPeriod("7d")}
+            className={`px-3 md:px-4 py-2 rounded-xl font-medium text-xs md:text-sm transition-all duration-200 ${
+              selectedPeriod === "7d"
+                ? "bg-gray-900 text-white"
+                : "bg-white text-gray-700 border border-gray-200 hover:border-gray-400"
+            }`}
+          >
+            7 Days
+          </button>
+          <button
+            onClick={() => setSelectedPeriod("30d")}
+            className={`px-3 md:px-4 py-2 rounded-xl font-medium text-xs md:text-sm transition-all duration-200 ${
+              selectedPeriod === "30d"
+                ? "bg-gray-900 text-white"
+                : "bg-white text-gray-700 border border-gray-200 hover:border-gray-400"
+            }`}
+          >
+            30 Days
+          </button>
+        </div>
+
+        {/* Summary Cards Grid */}
+        <div className="grid grid-cols-2 gap-3 md:gap-4">
+          {/* Current Value */}
+          <div className="bg-gray-900 rounded-3xl p-4 md:p-6 text-white">
+            <div className="flex items-center gap-2 text-white/70 mb-2">
+              <Activity className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Sperm Value</span>
+            </div>
+            <div className="flex items-baseline gap-1 mb-1">
+              <span className="text-xl font-bold">$</span>
+              <span className="text-4xl md:text-4xl font-bold">{(profile?.sperm_value || 50).toLocaleString()}</span>
+            </div>
+            <div className="text-white/70 text-xs md:text-sm">Current Worth</div>
+          </div>
+
+          {/* Days Logged */}
+          <div className="bg-white rounded-3xl p-4 md:p-6 border border-gray-200">
+            <div className="flex items-center gap-2 text-gray-600 mb-2">
+              <Calendar className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Days Logged</span>
+            </div>
+            <div className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">{logs.length}</div>
+            <div className="text-gray-600 text-xs md:text-sm">Total</div>
+          </div>
+
+          {/* Avg Sleep */}
+          <div className="bg-white rounded-3xl p-4 md:p-6 border border-gray-200">
+            <div className="flex items-center gap-2 text-gray-600 mb-2">
+              <Moon className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Sleep</span>
+            </div>
+            <div className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">{avgSleep.toFixed(1)}</div>
+            <div className="text-gray-600 text-xs md:text-sm">hours/night</div>
+          </div>
+
+          {/* Avg Water */}
+          <div className="bg-white rounded-3xl p-4 md:p-6 border border-gray-200">
+            <div className="flex items-center gap-2 text-gray-600 mb-2">
+              <Droplet className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Water</span>
+            </div>
+            <div className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">{avgWater}</div>
+            <div className="text-gray-600 text-xs md:text-sm">oz/day</div>
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Activity</h2>
           {logs.length === 0 ? (
             <div className="text-center py-12">
-              <Activity className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">No activity data yet</p>
-              <p className="text-sm text-muted-foreground mt-1">Start logging your daily metrics</p>
+              <Activity className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-600">No activity data yet</p>
+              <p className="text-sm text-gray-500 mt-1">Start logging your daily metrics</p>
             </div>
           ) : (
             <div className="space-y-3">
               {logs.slice(-7).reverse().map((log) => (
-                <div key={log.id} className="flex items-center justify-between p-4 bg-secondary rounded-2xl">
-                  <span className="font-medium text-foreground">
+                <div key={log.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-200">
+                  <span className="font-medium text-gray-900">
                     {format(new Date(log.date), 'MMM dd')}
                   </span>
-                  <div className="flex gap-4 text-sm text-muted-foreground">
+                  <div className="flex gap-4 text-sm text-gray-600">
                     {log.sleep_hours && <span>{log.sleep_hours}h sleep</span>}
                     {log.exercise_minutes && <span>{log.exercise_minutes}min exercise</span>}
                   </div>
@@ -115,55 +184,7 @@ export default function Analytics() {
             </div>
           )}
         </div>
-
-        {testResults.length > 0 && (
-          <div className="bg-card rounded-3xl p-6 shadow-lg border border-border">
-            <h2 className="text-xl font-bold text-foreground mb-4">Test Results History</h2>
-            <div className="space-y-3">
-              {testResults.map((result, idx) => (
-                <div key={result.id} className="p-4 bg-secondary rounded-2xl">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-medium text-foreground">
-                      {format(new Date(result.test_date), 'MMM dd, yyyy')}
-                    </span>
-                    {idx === 0 && (
-                      <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded-full">
-                        Latest
-                      </span>
-                    )}
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    {result.testosterone_total && (
-                      <div className="text-muted-foreground">
-                        Total T: <span className="font-medium text-foreground">{result.testosterone_total}</span>
-                      </div>
-                    )}
-                    {result.sperm_count && (
-                      <div className="text-muted-foreground">
-                        Sperm: <span className="font-medium text-foreground">{result.sperm_count}M</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </Layout>
-  );
-}
-
-function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
-  return (
-    <div className="bg-card rounded-3xl p-6 shadow-lg border border-border">
-      <div className="flex items-center gap-3 mb-3">
-        <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
-          {icon}
-        </div>
-        <span className="text-sm font-medium text-muted-foreground">{label}</span>
-      </div>
-      <div className="text-3xl font-bold text-foreground">{value}</div>
-    </div>
   );
 }

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, TrendingUp, Heart, Dumbbell } from "lucide-react";
+import { BookOpen, UserCircle, TrendingUp, Heart, Dumbbell } from "lucide-react";
 import Layout from "@/components/Layout";
 
 export default function Content() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("foryou");
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -22,8 +23,8 @@ export default function Content() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent" />
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-900 border-t-transparent" />
       </div>
     );
   }
@@ -51,37 +52,85 @@ export default function Content() {
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto p-6 space-y-6">
-        <div className="flex items-center gap-3 mb-6">
-          <BookOpen className="w-8 h-8 text-primary" />
-          <h1 className="text-3xl font-bold text-foreground">Insights & Resources</h1>
+      <div className="space-y-4 md:space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between md:hidden pb-2">
+          <button
+            onClick={() => navigate('/profile')}
+            className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center"
+          >
+            <UserCircle className="w-5 h-5 text-gray-600" />
+          </button>
+          <button className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
+            <span className="text-base">🔔</span>
+          </button>
         </div>
 
+        <div className="hidden md:block">
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">Insights</h1>
+          <p className="text-sm md:text-base text-gray-600">Optimize your reproductive health</p>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-6 border-b border-gray-200 mb-6 overflow-x-auto">
+          <button
+            onClick={() => setActiveTab("foryou")}
+            className={`pb-3 px-1 font-semibold text-sm transition-all duration-200 border-b-2 whitespace-nowrap ${
+              activeTab === "foryou"
+                ? "border-black text-black"
+                : "border-transparent text-gray-500"
+            }`}
+          >
+            For You
+          </button>
+          <button
+            onClick={() => setActiveTab("discover")}
+            className={`pb-3 px-1 font-semibold text-sm transition-all duration-200 border-b-2 whitespace-nowrap ${
+              activeTab === "discover"
+                ? "border-black text-black"
+                : "border-transparent text-gray-500"
+            }`}
+          >
+            Discover
+          </button>
+          <button
+            onClick={() => setActiveTab("saved")}
+            className={`pb-3 px-1 font-semibold text-sm transition-all duration-200 border-b-2 whitespace-nowrap ${
+              activeTab === "saved"
+                ? "border-black text-black"
+                : "border-transparent text-gray-500"
+            }`}
+          >
+            Saved
+          </button>
+        </div>
+
+        {/* Articles */}
         <div className="grid gap-4">
           {articles.map((article, idx) => (
-            <div key={idx} className="bg-card rounded-3xl p-6 shadow-lg border border-border hover:shadow-xl transition-shadow cursor-pointer">
+            <div key={idx} className="bg-white rounded-3xl p-6 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center text-gray-900 flex-shrink-0">
                   {article.icon}
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">
+                    <span className="text-xs font-medium text-gray-900 bg-gray-100 px-2 py-1 rounded-full">
                       {article.category}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">{article.title}</h3>
-                  <p className="text-muted-foreground">{article.description}</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{article.title}</h3>
+                  <p className="text-gray-600">{article.description}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="bg-card rounded-3xl p-8 shadow-lg border border-border text-center">
-          <BookOpen className="w-16 h-16 text-primary mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-foreground mb-2">More Content Coming Soon</h2>
-          <p className="text-muted-foreground">
+        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-200 text-center">
+          <BookOpen className="w-16 h-16 text-gray-900 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">More Content Coming Soon</h2>
+          <p className="text-gray-600">
             We're building a comprehensive library of evidence-based resources for optimization
           </p>
         </div>
