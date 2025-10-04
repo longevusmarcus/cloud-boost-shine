@@ -5,7 +5,6 @@ import Layout from "@/components/Layout";
 import InsightCard from "@/components/dashboard/InsightCard";
 import { supabase } from "@/integrations/supabase/client";
 import { useTheme } from "@/components/ThemeProvider";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 
 const articles = [
@@ -89,14 +88,41 @@ export default function Content() {
           </div>
         </div>
 
-        {/* Tabs Section */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full justify-start mb-6">
-            <TabsTrigger value="for-you">For You</TabsTrigger>
-            <TabsTrigger value="discover">Discover</TabsTrigger>
-          </TabsList>
+        {/* Tabs Section - TikTok Style */}
+        <div className="border-b border-gray-200 dark:border-gray-700">
+          <div className="flex gap-6 justify-center">
+            <button
+              onClick={() => setActiveTab("for-you")}
+              className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
+                activeTab === "for-you"
+                  ? "text-gray-900 dark:text-white"
+                  : "text-gray-500 dark:text-gray-400"
+              }`}
+            >
+              For You
+              {activeTab === "for-you" && (
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 dark:bg-white animate-scale-in" />
+              )}
+            </button>
+            <button
+              onClick={() => setActiveTab("discover")}
+              className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
+                activeTab === "discover"
+                  ? "text-gray-900 dark:text-white"
+                  : "text-gray-500 dark:text-gray-400"
+              }`}
+            >
+              Discover
+              {activeTab === "discover" && (
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 dark:bg-white animate-scale-in" />
+              )}
+            </button>
+          </div>
+        </div>
 
-          <TabsContent value="for-you" className="space-y-6">
+        {/* Tab Content */}
+        {activeTab === "for-you" && (
+          <div className="space-y-6">
             {/* Insight Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <InsightCard
@@ -153,9 +179,11 @@ export default function Content() {
                 </Card>
               ))}
             </div>
-          </TabsContent>
+          </div>
+        )}
 
-          <TabsContent value="discover" className="space-y-6">
+        {activeTab === "discover" && (
+          <div className="space-y-6">
             {/* Insight Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <InsightCard
@@ -213,8 +241,8 @@ export default function Content() {
                 </Card>
               ))}
             </div>
-          </TabsContent>
-        </Tabs>
+          </div>
+        )}
       </div>
     </Layout>
   );
