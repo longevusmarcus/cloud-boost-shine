@@ -97,7 +97,7 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto space-y-6">
+      <div className="pt-[5vh] max-w-3xl mx-auto space-y-6">
         {/* Floating Icons - Mobile Only */}
         <div className="fixed top-4 left-4 right-4 z-50 md:hidden flex items-center justify-between">
           <button
