@@ -215,7 +215,7 @@ export default function Analytics() {
               <h2 className="text-xl font-bold text-gray-900 dark:text-white">Test Results</h2>
             </div>
             {testResults.map((result) => (
-              <TestResultDisplay key={result.id} result={result} />
+              <TestResultDisplay key={result.id} result={result} onDelete={loadData} />
             ))}
           </div>
         )}

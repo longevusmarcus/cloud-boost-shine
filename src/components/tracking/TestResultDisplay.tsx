@@ -1,5 +1,8 @@
 import { format } from "date-fns";
-import { TrendingUp, Users, Shapes, Droplets, ExternalLink, Activity, Zap, Target } from "lucide-react";
+import { TrendingUp, Users, Shapes, Droplets, ExternalLink, Activity, Zap, Target, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface TestResult {
   id: string;
@@ -18,9 +21,38 @@ interface TestResult {
 
 interface TestResultDisplayProps {
   result: TestResult;
+  onDelete?: () => void;
 }
 
-export default function TestResultDisplay({ result }: TestResultDisplayProps) {
+export default function TestResultDisplay({ result, onDelete }: TestResultDisplayProps) {
+  const { toast } = useToast();
+
+  const handleDelete = async () => {
+    if (!confirm('Are you sure you want to delete this test result?')) return;
+
+    try {
+      const { error } = await supabase
+        .from('test_results')
+        .delete()
+        .eq('id', result.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Deleted",
+        description: "Test result removed successfully",
+      });
+
+      onDelete?.();
+    } catch (error: any) {
+      console.error('Delete error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete test result",
+        variant: "destructive",
+      });
+    }
+  };
   const getStatus = (value: number | null | undefined, normalMin: number, lowThreshold: number | null = null) => {
     if (!value) return { text: "N/A", color: "text-gray-600" };
     if (value >= normalMin) return { text: "Normal ✓", color: "text-green-600" };
@@ -53,17 +85,27 @@ export default function TestResultDisplay({ result }: TestResultDisplayProps) {
           </h3>
           <p className="text-gray-600 dark:text-gray-400 text-sm capitalize">Via {result.provider}</p>
         </div>
-        {result.file_url && (
-          <a
-            href={result.file_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-2xl transition-all duration-200 text-sm font-medium"
+        <div className="flex items-center gap-2">
+          {result.file_url && (
+            <a
+              href={result.file_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-2xl transition-all duration-200 text-sm font-medium"
+            >
+              PDF
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          )}
+          <Button
+            onClick={handleDelete}
+            variant="outline"
+            size="sm"
+            className="h-10 px-4 border-2 border-gray-300 dark:border-gray-600 hover:border-red-500 dark:hover:border-red-500 hover:bg-red-50 dark:hover:bg-red-950 hover:text-red-600 dark:hover:text-red-400 rounded-2xl"
           >
-            PDF
-            <ExternalLink className="w-4 h-4" />
-          </a>
-        )}
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
 
       {/* No Metrics Message */}
