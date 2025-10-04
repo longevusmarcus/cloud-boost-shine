@@ -364,14 +364,14 @@ export default function Profile() {
                 </button>
                 <span className="text-gray-300 dark:text-gray-700">•</span>
                 <button
-                  onClick={() => {/* TODO: Add account removal page */}}
+                  onClick={() => navigate('/account')}
                   className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
                   Manage Account
                 </button>
                 <span className="text-gray-300 dark:text-gray-700">•</span>
                 <button
-                  onClick={() => {/* TODO: Add privacy/terms page */}}
+                  onClick={() => navigate('/privacy')}
                   className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
                   Privacy & Terms

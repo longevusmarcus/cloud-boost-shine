@@ -15,6 +15,8 @@ import Tracking from "./pages/Tracking";
 import Analytics from "./pages/Analytics";
 import Content from "./pages/Content";
 import Profile from "./pages/Profile";
+import Privacy from "./pages/Privacy";
+import AccountManagement from "./pages/AccountManagement";
 import NotFound from "./pages/NotFound";
 
 // Wrapper component to use session security hook
@@ -32,6 +34,8 @@ const AppContent = () => {
       <Route path="/analytics" element={<Analytics />} />
       <Route path="/content" element={<Content />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/account" element={<AccountManagement />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
