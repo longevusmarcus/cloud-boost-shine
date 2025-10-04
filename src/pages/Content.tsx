@@ -124,41 +124,41 @@ export default function Content() {
 
         {/* Header */}
         <div className="mb-6 hidden md:block">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
             💡 Insights & Learning
           </h1>
-          <p className="text-gray-600 text-sm md:text-base">
+          <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base">
             Expert tips and science-backed advice to maximize your results
           </p>
         </div>
 
         {/* Tabs - TikTok Style */}
-        <div className="border-b border-gray-200 mb-6">
+        <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
           <div className="flex gap-6 justify-center">
             <button
               onClick={() => setActiveTab("foryou")}
               className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
                 activeTab === "foryou"
-                  ? "text-gray-900"
-                  : "text-gray-500"
+                  ? "text-gray-900 dark:text-white"
+                  : "text-gray-500 dark:text-gray-400"
               }`}
             >
               For You
               {activeTab === "foryou" && (
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 animate-scale-in" />
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 dark:bg-white animate-scale-in" />
               )}
             </button>
             <button
               onClick={() => setActiveTab("all")}
               className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
                 activeTab === "all"
-                  ? "text-gray-900"
-                  : "text-gray-500"
+                  ? "text-gray-900 dark:text-white"
+                  : "text-gray-500 dark:text-gray-400"
               }`}
             >
               All Articles
               {activeTab === "all" && (
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 animate-scale-in" />
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 dark:bg-white animate-scale-in" />
               )}
             </button>
           </div>
@@ -169,7 +169,7 @@ export default function Content() {
           {articles.map((article) => (
             <div
               key={article.id}
-              className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer"
+              className="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-200 cursor-pointer"
             >
               <img
                 src={article.image_url}
@@ -183,15 +183,15 @@ export default function Content() {
                   }`}>
                     {article.category.replace('_', ' ')}
                   </span>
-                  <div className="flex items-center gap-1 text-gray-600 text-[10px] md:text-xs">
+                  <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400 text-[10px] md:text-xs">
                     <Clock className="w-3 h-3" />
                     <span>{article.read_time} min</span>
                   </div>
                 </div>
-                <h3 className="text-base md:text-xl font-bold text-gray-900 mb-1 md:mb-2 line-clamp-2">
+                <h3 className="text-base md:text-xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2 line-clamp-2">
                   {article.title}
                 </h3>
-                <p className="text-xs md:text-sm text-gray-600 line-clamp-2">
+                <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
                   {article.content}
                 </p>
               </div>

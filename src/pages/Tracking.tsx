@@ -200,33 +200,33 @@ export default function Tracking() {
 
           {/* Desktop: Full header */}
           <div className="hidden md:block mb-4">
-            <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Daily Check-in</h1>
-            <p className="text-sm md:text-base text-gray-600">{format(new Date(), "EEEE, MMMM d, yyyy")}</p>
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2">Daily Check-in</h1>
+            <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">{format(new Date(), "EEEE, MMMM d, yyyy")}</p>
           </div>
         </div>
 
         {/* Tabs - TikTok Style */}
-        <div className="border-b border-gray-200">
+        <div className="border-b border-gray-200 dark:border-gray-700">
           <div className="flex gap-6 justify-center">
             <button
               onClick={() => setActiveTab("daily")}
               className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
                 activeTab === "daily"
-                  ? "text-gray-900"
-                  : "text-gray-500"
+                  ? "text-gray-900 dark:text-white"
+                  : "text-gray-500 dark:text-gray-400"
               }`}
             >
               Daily Log
               {activeTab === "daily" && (
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 animate-scale-in" />
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 dark:bg-white animate-scale-in" />
               )}
             </button>
             <button
               onClick={() => setActiveTab("results")}
               className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
                 activeTab === "results"
-                  ? "text-gray-900"
-                  : "text-gray-500"
+                  ? "text-gray-900 dark:text-white"
+                  : "text-gray-500 dark:text-gray-400"
               }`}
             >
               Testing
@@ -234,7 +234,7 @@ export default function Tracking() {
                 <span className="ml-1 text-xs opacity-70">({testResults.length})</span>
               )}
               {activeTab === "results" && (
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 animate-scale-in" />
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 dark:bg-white animate-scale-in" />
               )}
             </button>
           </div>
@@ -242,30 +242,31 @@ export default function Tracking() {
 
         {/* Content */}
         <div className="pb-24 md:pb-6">{activeTab === "daily" ? (
-            <div className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200">
-              <DailyLogForm
-                initialData={todayLog}
-                onSubmit={handleSubmit}
-              />
-            </div>
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">Daily Check-in</h1>
+            <DailyLogForm
+              initialData={todayLog}
+              onSubmit={handleSubmit}
+            />
+          </div>
           ) : (
             <div className="space-y-4 md:space-y-6">
               {/* Testing Roadmap */}
-              <div className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200">
+              <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                    <FlaskConical className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                    <FlaskConical className="w-5 h-5 md:w-6 md:h-6 text-gray-900 dark:text-white" />
                   </div>
                   <div className="min-w-0">
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900">Testing Roadmap</h3>
-                    <p className="text-gray-600 text-xs md:text-sm">Maximize your sperm value tracking</p>
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Testing Roadmap</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">Maximize your sperm value tracking</p>
                   </div>
                 </div>
 
                 {testResults.length === 0 ? (
-                  <div className="bg-gray-50 rounded-2xl p-4 md:p-6 mb-4 md:mb-6 border border-gray-200">
-                    <h4 className="font-semibold text-base md:text-lg text-gray-900 mb-2">🎯 Take Your First Test</h4>
-                    <p className="text-gray-600 text-xs md:text-sm mb-4">
+                  <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-4 md:p-6 mb-4 md:mb-6 border border-gray-200 dark:border-gray-700">
+                    <h4 className="font-semibold text-base md:text-lg text-gray-900 dark:text-white mb-2">🎯 Take Your First Test</h4>
+                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4">
                       Establish your baseline. Get a complete sperm analysis to start your optimization journey.
                     </p>
                     <TestResultUpload onUpload={handleTestUpload} />
@@ -331,8 +332,8 @@ export default function Tracking() {
 
               {/* Progress Summary (if multiple tests) */}
               {testResults.length > 1 && (
-                <div className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200">
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 md:mb-4">Your Progress</h3>
+                <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">Your Progress</h3>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
                     {(() => {
                       const latest = testResults[0];

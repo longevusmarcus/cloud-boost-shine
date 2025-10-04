@@ -149,10 +149,10 @@ export default function Profile() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gray-50 p-3 md:p-8">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-3 md:p-8">
         <div className="max-w-2xl mx-auto space-y-4 md:space-y-6">
           {/* Profile Header */}
-          <div className="bg-white rounded-3xl p-5 md:p-8 shadow-sm border border-gray-200">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-5 md:p-8 shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="flex flex-col items-center text-center mb-6">
               <div className="relative group">
                 {profile?.profile_image_url ? (
@@ -162,7 +162,7 @@ export default function Profile() {
                     className="w-20 h-20 md:w-24 md:h-24 rounded-3xl object-cover shadow-lg"
                   />
                 ) : (
-                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-gray-900 flex items-center justify-center shadow-lg">
+                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-gray-900 dark:bg-gray-950 flex items-center justify-center shadow-lg">
                     <UserCircle className="w-10 h-10 md:w-12 md:h-12 text-white" />
                   </div>
                 )}
@@ -171,9 +171,9 @@ export default function Profile() {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="absolute bottom-0 right-0 w-8 h-8 bg-gray-900 hover:bg-gray-800 rounded-full flex items-center justify-center shadow-lg transition-all active:scale-95 disabled:opacity-50"
+                  className="absolute bottom-0 right-0 w-8 h-8 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 rounded-full flex items-center justify-center shadow-lg transition-all active:scale-95 disabled:opacity-50"
                 >
-                  <Camera className="w-4 h-4 text-white" />
+                  <Camera className="w-4 h-4 text-white dark:text-black" />
                 </button>
                 
                 <input
@@ -185,13 +185,13 @@ export default function Profile() {
                 />
               </div>
               
-              <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-1 mt-4">{user?.user_metadata?.full_name || user?.email}</h1>
-              <p className="text-sm md:text-base text-gray-600">{user?.email}</p>
+              <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 mt-4">{user?.user_metadata?.full_name || user?.email}</h1>
+              <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">{user?.email}</p>
               <div className="flex items-center gap-2 mt-3">
-                <span className="px-3 py-1 bg-gray-100 text-gray-900 rounded-full text-xs md:text-sm font-medium">
+                <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-full text-xs md:text-sm font-medium">
                   Age {profile?.age || 'N/A'}
                 </span>
-                <span className="px-3 py-1 bg-gray-900 text-white rounded-full text-xs md:text-sm font-medium">
+                <span className="px-3 py-1 bg-gray-900 dark:bg-white text-white dark:text-black rounded-full text-xs md:text-sm font-medium">
                   Level {profile?.sperm_level || 1}
                 </span>
               </div>
@@ -200,39 +200,39 @@ export default function Profile() {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-3 gap-3 md:gap-4">
-            <div className="bg-white rounded-3xl p-4 md:p-6 text-center shadow-sm border border-gray-200">
+            <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 text-center shadow-sm border border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-center mb-2">
-                <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
+                <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-gray-900 dark:text-white" />
               </div>
               <div className="flex items-baseline justify-center gap-0.5 md:gap-1 mb-1">
-                <span className="text-sm md:text-lg font-bold text-gray-900">$</span>
-                <span className="text-xl md:text-3xl font-bold text-gray-900">{(profile?.sperm_value || 50).toLocaleString()}</span>
+                <span className="text-sm md:text-lg font-bold text-gray-900 dark:text-white">$</span>
+                <span className="text-xl md:text-3xl font-bold text-gray-900 dark:text-white">{(profile?.sperm_value || 50).toLocaleString()}</span>
               </div>
-              <div className="text-[10px] md:text-xs text-gray-600 font-medium">Sperm Value</div>
+              <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400 font-medium">Sperm Value</div>
             </div>
 
-            <div className="bg-white rounded-3xl p-4 md:p-6 text-center shadow-sm border border-gray-200">
+            <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 text-center shadow-sm border border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-center mb-2">
-                <Flame className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
+                <Flame className="w-5 h-5 md:w-6 md:h-6 text-gray-900 dark:text-white" />
               </div>
-              <div className="text-xl md:text-3xl font-bold text-gray-900 mb-1">{profile?.current_streak || 0}</div>
-              <div className="text-[10px] md:text-xs text-gray-600 font-medium">Streak</div>
+              <div className="text-xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1">{profile?.current_streak || 0}</div>
+              <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400 font-medium">Streak</div>
             </div>
 
-            <div className="bg-white rounded-3xl p-4 md:p-6 text-center shadow-sm border border-gray-200">
+            <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 text-center shadow-sm border border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-center mb-2">
-                <Calendar className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
+                <Calendar className="w-5 h-5 md:w-6 md:h-6 text-gray-900 dark:text-white" />
               </div>
-              <div className="text-xl md:text-3xl font-bold text-gray-900 mb-1">{profile?.longest_streak || 0}</div>
-              <div className="text-[10px] md:text-xs text-gray-600 font-medium">Best</div>
+              <div className="text-xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1">{profile?.longest_streak || 0}</div>
+              <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400 font-medium">Best</div>
             </div>
           </div>
 
           {/* Badges */}
-          <div className="bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg md:text-xl font-bold text-gray-900">Achievements</h2>
-              <span className="text-xs text-gray-500">{badges.filter(b => b.earned).length}/{badges.length}</span>
+              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Achievements</h2>
+              <span className="text-xs text-gray-500 dark:text-gray-400">{badges.filter(b => b.earned).length}/{badges.length}</span>
             </div>
             
             <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
@@ -245,15 +245,15 @@ export default function Profile() {
                   >
                     <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-200 ${
                       badge.earned 
-                        ? 'bg-gray-900' 
-                        : 'bg-gray-100'
+                        ? 'bg-gray-900 dark:bg-white' 
+                        : 'bg-gray-100 dark:bg-gray-700'
                     }`}>
                       <Icon className={`w-6 h-6 md:w-7 md:h-7 ${
-                        badge.earned ? 'text-white' : 'text-gray-400'
+                        badge.earned ? 'text-white dark:text-black' : 'text-gray-400 dark:text-gray-500'
                       }`} strokeWidth={2} />
                     </div>
                     <div className={`text-[10px] md:text-xs text-center font-medium max-w-[60px] leading-tight ${
-                      badge.earned ? 'text-gray-900' : 'text-gray-400'
+                      badge.earned ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500'
                     }`}>
                       {badge.name}
                     </div>
@@ -270,7 +270,7 @@ export default function Profile() {
           <Button
             onClick={handleLogout}
             variant="outline"
-            className="w-full h-12 md:h-14 border-2 border-gray-300 text-gray-900 hover:bg-red-50 hover:border-red-500 hover:text-red-600 rounded-2xl font-semibold text-sm md:text-base"
+            className="w-full h-12 md:h-14 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-red-50 dark:hover:bg-red-950 hover:border-red-500 hover:text-red-600 dark:hover:text-red-400 rounded-2xl font-semibold text-sm md:text-base"
           >
             <LogOut className="w-4 h-4 md:w-5 md:h-5 mr-2" />
             Logout

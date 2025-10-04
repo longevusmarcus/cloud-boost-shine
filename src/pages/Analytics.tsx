@@ -125,37 +125,37 @@ export default function Analytics() {
         </div>
 
         <div className="hidden md:block">
-          <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">Analytics</h1>
-          <p className="text-sm md:text-base text-gray-600">Your sperm value insights over time</p>
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1">Analytics</h1>
+          <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">Your sperm value insights over time</p>
         </div>
 
         {/* Period Selector - TikTok Style */}
-        <div className="border-b border-gray-200">
+        <div className="border-b border-gray-200 dark:border-gray-700">
           <div className="flex gap-6 justify-center">
             <button
               onClick={() => setSelectedPeriod("7d")}
               className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
                 selectedPeriod === "7d"
-                  ? "text-gray-900"
-                  : "text-gray-500"
+                  ? "text-gray-900 dark:text-white"
+                  : "text-gray-500 dark:text-gray-400"
               }`}
             >
               7 Days
               {selectedPeriod === "7d" && (
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 animate-scale-in" />
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 dark:bg-white animate-scale-in" />
               )}
             </button>
             <button
               onClick={() => setSelectedPeriod("30d")}
               className={`relative py-2.5 font-medium transition-all duration-200 text-sm ${
                 selectedPeriod === "30d"
-                  ? "text-gray-900"
-                  : "text-gray-500"
+                  ? "text-gray-900 dark:text-white"
+                  : "text-gray-500 dark:text-gray-400"
               }`}
             >
               30 Days
               {selectedPeriod === "30d" && (
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 animate-scale-in" />
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 dark:bg-white animate-scale-in" />
               )}
             </button>
           </div>
@@ -164,7 +164,7 @@ export default function Analytics() {
         {/* Summary Cards Grid */}
         <div className="grid grid-cols-2 gap-3 md:gap-4">
           {/* Current Value */}
-          <div className="bg-gray-900 rounded-3xl p-4 md:p-6 text-white">
+          <div className="bg-gray-900 dark:bg-gray-950 rounded-3xl p-4 md:p-6 text-white border border-gray-800 dark:border-gray-900">
             <div className="flex items-center gap-2 text-white/70 mb-2">
               <Activity className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Sperm Value</span>
@@ -177,33 +177,33 @@ export default function Analytics() {
           </div>
 
           {/* Days Logged */}
-          <div className="bg-white rounded-3xl p-4 md:p-6 border border-gray-200">
-            <div className="flex items-center gap-2 text-gray-600 mb-2">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
               <Calendar className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Days Logged</span>
             </div>
-            <div className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">{logs.length}</div>
-            <div className="text-gray-600 text-xs md:text-sm">Total</div>
+            <div className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">{logs.length}</div>
+            <div className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">Total</div>
           </div>
 
           {/* Avg Sleep */}
-          <div className="bg-white rounded-3xl p-4 md:p-6 border border-gray-200">
-            <div className="flex items-center gap-2 text-gray-600 mb-2">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
               <Moon className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Sleep</span>
             </div>
-            <div className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">{avgSleep.toFixed(1)}</div>
-            <div className="text-gray-600 text-xs md:text-sm">hours/night</div>
+            <div className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">{avgSleep.toFixed(1)}</div>
+            <div className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">hours/night</div>
           </div>
 
           {/* Avg Exercise */}
-          <div className="bg-white rounded-3xl p-4 md:p-6 border border-gray-200">
-            <div className="flex items-center gap-2 text-gray-600 mb-2">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
               <Activity className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Exercise</span>
             </div>
-            <div className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">{avgExercise}</div>
-            <div className="text-gray-600 text-xs md:text-sm">min/day</div>
+            <div className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">{avgExercise}</div>
+            <div className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">min/day</div>
           </div>
         </div>
 
@@ -296,39 +296,39 @@ export default function Analytics() {
         </div>
 
         {/* Activity Summary */}
-        <div className="bg-white rounded-3xl p-5 md:p-8 border border-gray-200">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 md:mb-6">Activity Summary</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">Activity Summary</h2>
           <div className="space-y-3 md:space-y-4">
             {/* Avg Exercise */}
             <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                <Zap className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                <Zap className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-white" />
               </div>
               <div className="flex-1">
-                <div className="text-base md:text-xl font-semibold text-gray-900">Avg Exercise</div>
-                <div className="text-gray-600 text-sm md:text-base">{avgExercise} min/day</div>
+                <div className="text-base md:text-xl font-semibold text-gray-900 dark:text-white">Avg Exercise</div>
+                <div className="text-gray-600 dark:text-gray-400 text-sm md:text-base">{avgExercise} min/day</div>
               </div>
             </div>
 
             {/* Current Streak */}
-            <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3 border-t border-gray-100">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
+            <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3 border-t border-gray-100 dark:border-gray-700">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-white" />
               </div>
               <div className="flex-1">
-                <div className="text-base md:text-xl font-semibold text-gray-900">Current Streak</div>
-                <div className="text-gray-600 text-sm md:text-base">{profile?.current_streak || 0} days</div>
+                <div className="text-base md:text-xl font-semibold text-gray-900 dark:text-white">Current Streak</div>
+                <div className="text-gray-600 dark:text-gray-400 text-sm md:text-base">{profile?.current_streak || 0} days</div>
               </div>
             </div>
 
             {/* Best Streak */}
-            <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3 border-t border-gray-100">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                <Calendar className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
+            <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3 border-t border-gray-100 dark:border-gray-700">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                <Calendar className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-white" />
               </div>
               <div className="flex-1">
-                <div className="text-base md:text-xl font-semibold text-gray-900">Best Streak</div>
-                <div className="text-gray-600 text-sm md:text-base">{profile?.longest_streak || 0} days</div>
+                <div className="text-base md:text-xl font-semibold text-gray-900 dark:text-white">Best Streak</div>
+                <div className="text-gray-600 dark:text-gray-400 text-sm md:text-base">{profile?.longest_streak || 0} days</div>
               </div>
             </div>
           </div>
@@ -336,12 +336,12 @@ export default function Analytics() {
 
         {/* Sleep Trends */}
         {logs.length > 0 && (
-          <div className="bg-white rounded-3xl p-5 md:p-8 border border-gray-200">
-            <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1 md:mb-2">Sleep Trends</h2>
-            <p className="text-gray-600 text-xs md:text-sm mb-4 md:mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">Sleep Trends</h2>
+            <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4 md:mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
             <div className="h-40 md:h-48 flex items-end justify-center gap-1 md:gap-2">
               {logs.length === 0 ? (
-                <div className="text-center text-gray-500 text-sm">No sleep data</div>
+                <div className="text-center text-gray-500 dark:text-gray-400 text-sm">No sleep data</div>
               ) : (
                 logs.map((log, index) => {
                   const maxSleep = 12;
@@ -351,15 +351,14 @@ export default function Analytics() {
                     <div key={log.id} className="flex-1 flex flex-col items-center gap-1 md:gap-2 max-w-[32px] md:max-w-[40px]">
                       <div className="w-full rounded-t-lg relative h-full">
                         <div 
-                          className="absolute bottom-0 w-full rounded-t-lg transition-all"
+                          className="absolute bottom-0 w-full rounded-t-lg transition-all bg-gray-900 dark:bg-white"
                           style={{ 
-                            height: `${Math.max(height, 2)}%`,
-                            backgroundColor: '#111827'
+                            height: `${Math.max(height, 2)}%`
                           }}
                         />
                       </div>
                       {(index === 0 || index === logs.length - 1 || logs.length < 8) && (
-                        <span className="text-[10px] md:text-xs text-gray-500">
+                        <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400">
                           {format(new Date(log.date), 'MMM d')}
                         </span>
                       )}
@@ -373,12 +372,12 @@ export default function Analytics() {
 
         {/* Stress Levels */}
         {logs.length > 0 && (
-          <div className="bg-white rounded-3xl p-5 md:p-8 border border-gray-200">
-            <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1 md:mb-2">Stress Levels</h2>
-            <p className="text-gray-600 text-xs md:text-sm mb-4 md:mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">Stress Levels</h2>
+            <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4 md:mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
             <div className="h-40 md:h-48 flex items-end justify-center gap-1 md:gap-2">
               {logs.length === 0 ? (
-                <div className="text-center text-gray-500 text-sm">No stress data</div>
+                <div className="text-center text-gray-500 dark:text-gray-400 text-sm">No stress data</div>
               ) : (
                 logs.map((log, index) => {
                   const maxStress = 10;
@@ -388,15 +387,14 @@ export default function Analytics() {
                     <div key={log.id} className="flex-1 flex flex-col items-center gap-1 md:gap-2 max-w-[32px] md:max-w-[40px]">
                       <div className="w-full rounded-t-lg relative h-full">
                         <div 
-                          className="absolute bottom-0 w-full rounded-t-lg transition-all"
+                          className="absolute bottom-0 w-full rounded-t-lg transition-all bg-gray-900 dark:bg-white"
                           style={{ 
-                            height: `${Math.max(height, 2)}%`,
-                            backgroundColor: '#111827'
+                            height: `${Math.max(height, 2)}%`
                           }}
                         />
                       </div>
                       {(index === 0 || index === logs.length - 1 || logs.length < 8) && (
-                        <span className="text-[10px] md:text-xs text-gray-500">
+                        <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400">
                           {format(new Date(log.date), 'MMM d')}
                         </span>
                       )}
