@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { Calendar, CheckCircle, FlaskConical, TrendingUp, UserCircle } from "lucide-react";
+import { CheckCircle, FlaskConical, TrendingUp, UserCircle } from "lucide-react";
 import Layout from "@/components/Layout";
 import DailyLogForm from "@/components/tracking/DailyLogForm";
 import TestResultUpload from "@/components/tracking/TestResultUpload";
@@ -186,42 +186,43 @@ export default function Tracking() {
             </div>
           </div>
 
-          {/* Tabs - Fixed */}
-          <div className="flex-shrink-0 px-4 md:px-6">
-            <div className="flex gap-2 mb-4">
+          {/* Tabs - TikTok Style */}
+          <div className="flex-shrink-0 px-4 md:px-6 border-b border-gray-200">
+            <div className="flex gap-8 justify-center">
               <button
                 onClick={() => setActiveTab("daily")}
-                className={`flex-1 py-2.5 md:py-3 px-4 md:px-6 rounded-xl font-medium transition-all duration-200 text-sm md:text-base ${
+                className={`relative py-3 px-1 font-semibold transition-all duration-200 text-base ${
                   activeTab === "daily"
-                    ? "bg-gray-900 text-white"
-                    : "bg-white text-gray-700 border border-gray-200 hover:border-gray-400"
+                    ? "text-gray-900"
+                    : "text-gray-500"
                 }`}
               >
-                <Calendar className="w-4 h-4 md:w-5 md:h-5 inline mr-2" />
                 Daily Log
+                {activeTab === "daily" && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 animate-scale-in" />
+                )}
               </button>
               <button
                 onClick={() => setActiveTab("results")}
-                className={`flex-1 py-2.5 md:py-3 px-4 md:px-6 rounded-xl font-medium transition-all duration-200 text-sm md:text-base ${
+                className={`relative py-3 px-1 font-semibold transition-all duration-200 text-base ${
                   activeTab === "results"
-                    ? "bg-gray-900 text-white"
-                    : "bg-white text-gray-700 border border-gray-200 hover:border-gray-400"
+                    ? "text-gray-900"
+                    : "text-gray-500"
                 }`}
               >
-                <FlaskConical className="w-4 h-4 md:w-5 md:h-5 inline mr-2" />
                 Testing
                 {testResults.length > 0 && (
-                  <span className="ml-2 px-2 py-0.5 rounded-full bg-white text-gray-900 text-xs font-bold">
-                    {testResults.length}
-                  </span>
+                  <span className="ml-1 text-xs">({testResults.length})</span>
+                )}
+                {activeTab === "results" && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 animate-scale-in" />
                 )}
               </button>
             </div>
           </div>
 
           {/* Scrollable Content */}
-          <div className="flex-1 px-4 md:px-6 pb-24 md:pb-6 overflow-y-auto">
-            {activeTab === "daily" ? (
+          <div className="flex-1 px-4 md:px-6 pb-24 md:pb-6 overflow-y-auto mt-4">{activeTab === "daily" ? (
               <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200">
                 <DailyLogForm
                   initialData={todayLog}
