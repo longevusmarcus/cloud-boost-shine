@@ -89,100 +89,130 @@ export default function Content() {
           </div>
         </div>
 
-        {/* Header */}
-        <div className="mb-6 hidden md:block">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            💡 Health Insights
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base">
-            Expert guidance on nutrition, sleep, exercise, and lifestyle for optimal fertility
-          </p>
-        </div>
-
-        {/* Insight Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">
-          <InsightCard
-            title="Nutrition Matters"
-            subtitle="Diet Quality Impact on Fertility"
-            overview="Discover how nutrient-rich foods and balanced eating patterns directly influence sperm health. Learn which vitamins and minerals are essential for optimal reproductive function."
-            icon={Apple}
-            backgroundImage="https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=800&q=80"
-          />
-          
-          <InsightCard
-            title="Sleep & Recovery"
-            subtitle="The Power of Quality Rest"
-            overview="Quality sleep is crucial for hormone regulation and sperm production. Explore how proper rest patterns can enhance your fertility journey and overall well-being."
-            icon={Moon}
-            backgroundImage="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800&q=80"
-          />
-          
-          <InsightCard
-            title="Active Lifestyle"
-            subtitle="Exercise for Optimal Health"
-            overview="Regular physical activity improves circulation, hormone balance, and stress management. Find the perfect exercise routine that supports your reproductive health goals."
-            icon={Heart}
-            backgroundImage="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80"
-          />
-          
-          <InsightCard
-            title="Hydration Essentials"
-            subtitle="Water and Reproductive Health"
-            overview="Proper hydration supports all bodily functions, including sperm production and quality. Learn optimal hydration strategies for peak fertility health."
-            icon={Droplet}
-            backgroundImage="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80"
-          />
-        </div>
-
         {/* Tabs Section */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full pb-24 md:pb-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="w-full justify-start mb-6">
             <TabsTrigger value="for-you">For You</TabsTrigger>
             <TabsTrigger value="discover">Discover</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="for-you" className="space-y-4">
-            {articles.map((article) => (
-              <Card key={article.id} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
-                <CardContent className="p-0 flex gap-4">
-                  <img 
-                    src={article.image} 
-                    alt={article.title}
-                    className="w-32 h-32 object-cover"
-                  />
-                  <div className="flex-1 p-4">
-                    <span className="text-xs font-medium text-primary">{article.category}</span>
-                    <h3 className="font-semibold mt-1 mb-2">{article.title}</h3>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Clock className="w-3 h-3" />
-                      {article.readTime}
+          <TabsContent value="for-you" className="space-y-6">
+            {/* Insight Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              <InsightCard
+                title="Nutrition Matters"
+                subtitle="Diet Quality Impact on Fertility"
+                overview="Discover how nutrient-rich foods and balanced eating patterns directly influence sperm health. Learn which vitamins and minerals are essential for optimal reproductive function."
+                icon={Apple}
+                backgroundImage="https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=800&q=80"
+              />
+              
+              <InsightCard
+                title="Sleep & Recovery"
+                subtitle="The Power of Quality Rest"
+                overview="Quality sleep is crucial for hormone regulation and sperm production. Explore how proper rest patterns can enhance your fertility journey and overall well-being."
+                icon={Moon}
+                backgroundImage="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800&q=80"
+              />
+              
+              <InsightCard
+                title="Active Lifestyle"
+                subtitle="Exercise for Optimal Health"
+                overview="Regular physical activity improves circulation, hormone balance, and stress management. Find the perfect exercise routine that supports your reproductive health goals."
+                icon={Heart}
+                backgroundImage="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80"
+              />
+              
+              <InsightCard
+                title="Hydration Essentials"
+                subtitle="Water and Reproductive Health"
+                overview="Proper hydration supports all bodily functions, including sperm production and quality. Learn optimal hydration strategies for peak fertility health."
+                icon={Droplet}
+                backgroundImage="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80"
+              />
+            </div>
+            {/* Articles */}
+            <div className="space-y-4 pb-24 md:pb-6">
+              {articles.map((article) => (
+                <Card key={article.id} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
+                  <CardContent className="p-0 flex gap-4">
+                    <img 
+                      src={article.image} 
+                      alt={article.title}
+                      className="w-32 h-32 object-cover"
+                    />
+                    <div className="flex-1 p-4">
+                      <span className="text-xs font-medium text-primary">{article.category}</span>
+                      <h3 className="font-semibold mt-1 mb-2">{article.title}</h3>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <Clock className="w-3 h-3" />
+                        {article.readTime}
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
 
-          <TabsContent value="discover" className="space-y-4">
-            {articles.map((article) => (
-              <Card key={article.id} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
-                <CardContent className="p-0 flex gap-4">
-                  <img 
-                    src={article.image} 
-                    alt={article.title}
-                    className="w-32 h-32 object-cover"
-                  />
-                  <div className="flex-1 p-4">
-                    <span className="text-xs font-medium text-primary">{article.category}</span>
-                    <h3 className="font-semibold mt-1 mb-2">{article.title}</h3>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Clock className="w-3 h-3" />
-                      {article.readTime}
+          <TabsContent value="discover" className="space-y-6">
+            {/* Insight Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              <InsightCard
+                title="Nutrition Matters"
+                subtitle="Diet Quality Impact on Fertility"
+                overview="Discover how nutrient-rich foods and balanced eating patterns directly influence sperm health. Learn which vitamins and minerals are essential for optimal reproductive function."
+                icon={Apple}
+                backgroundImage="https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=800&q=80"
+              />
+              
+              <InsightCard
+                title="Sleep & Recovery"
+                subtitle="The Power of Quality Rest"
+                overview="Quality sleep is crucial for hormone regulation and sperm production. Explore how proper rest patterns can enhance your fertility journey and overall well-being."
+                icon={Moon}
+                backgroundImage="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800&q=80"
+              />
+              
+              <InsightCard
+                title="Active Lifestyle"
+                subtitle="Exercise for Optimal Health"
+                overview="Regular physical activity improves circulation, hormone balance, and stress management. Find the perfect exercise routine that supports your reproductive health goals."
+                icon={Heart}
+                backgroundImage="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80"
+              />
+              
+              <InsightCard
+                title="Hydration Essentials"
+                subtitle="Water and Reproductive Health"
+                overview="Proper hydration supports all bodily functions, including sperm production and quality. Learn optimal hydration strategies for peak fertility health."
+                icon={Droplet}
+                backgroundImage="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80"
+              />
+            </div>
+
+            {/* Articles */}
+            <div className="space-y-4 pb-24 md:pb-6">
+              {articles.map((article) => (
+                <Card key={article.id} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
+                  <CardContent className="p-0 flex gap-4">
+                    <img 
+                      src={article.image} 
+                      alt={article.title}
+                      className="w-32 h-32 object-cover"
+                    />
+                    <div className="flex-1 p-4">
+                      <span className="text-xs font-medium text-primary">{article.category}</span>
+                      <h3 className="font-semibold mt-1 mb-2">{article.title}</h3>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <Clock className="w-3 h-3" />
+                        {article.readTime}
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
         </Tabs>
       </div>
