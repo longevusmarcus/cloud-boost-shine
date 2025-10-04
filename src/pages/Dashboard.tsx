@@ -95,10 +95,10 @@ export default function Dashboard() {
 
         {/* Calendar */}
         <div className="relative">
-          <div className="mb-3">
-            <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">Today</span>
+          <div className="mb-2">
+            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Today</span>
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+          <div className="flex gap-1.5 overflow-x-auto pb-2 scrollbar-hide">
             {daysInMonth.map((day, idx) => {
               const dateStr = format(day, "yyyy-MM-dd");
               const isToday = format(day, "yyyy-MM-dd") === format(today, "yyyy-MM-dd");
@@ -113,7 +113,7 @@ export default function Dashboard() {
               return (
                 <div
                   key={idx}
-                  className={`flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-semibold transition-all text-sm ${
+                  className={`flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-semibold transition-all text-xs ${
                     isToday
                       ? 'bg-black text-white'
                       : isYesterday && isLogged
@@ -133,38 +133,38 @@ export default function Dashboard() {
         </div>
 
         {/* Main Circle - Sperm Value */}
-        <div className="flex justify-center py-2">
+        <div className="flex justify-center py-4">
           <div className="relative">
             {/* Pulsing rings */}
             <div className="absolute inset-0 rounded-full bg-gray-200 opacity-20 animate-ping" style={{ animationDuration: '3s' }} />
             <div className="absolute inset-0 rounded-full bg-gray-200 opacity-10 animate-pulse" style={{ animationDuration: '2s' }} />
 
             {/* Main Circle */}
-            <div className="relative w-52 h-52 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex flex-col items-center justify-center shadow-lg">
-              <div className="flex items-center gap-1 mb-1">
-                <Activity className="w-4 h-4 text-gray-600" />
-                <span className="text-[10px] md:text-xs text-gray-600 font-medium">Sperm Value</span>
+            <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex flex-col items-center justify-center shadow-lg">
+              <div className="flex items-center gap-1 mb-2">
+                <Activity className="w-5 h-5 text-gray-600" />
+                <span className="text-xs text-gray-600 font-medium">Sperm Value</span>
               </div>
-              <div className="flex items-baseline gap-1 mb-3">
-                <span className="text-xl md:text-xl font-bold text-gray-900">$</span>
-                <span className="text-4xl md:text-5xl font-bold text-gray-900">{(profile?.sperm_value || 50).toLocaleString()}</span>
+              <div className="flex items-baseline gap-1 mb-4">
+                <span className="text-2xl font-bold text-gray-900">$</span>
+                <span className="text-6xl font-bold text-gray-900">{(profile?.sperm_value || 50).toLocaleString()}</span>
               </div>
 
               {/* Small stats below */}
-              <div className="flex gap-6 md:gap-8">
+              <div className="flex gap-10">
                 <div className="text-center">
-                  <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-white flex items-center justify-center mb-1 shadow-sm">
-                    <Flame className="w-4 h-4 md:w-5 md:h-5 text-gray-900" />
+                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center mb-1 shadow-sm">
+                    <Flame className="w-6 h-6 text-gray-900" />
                   </div>
-                  <div className="text-base md:text-lg font-bold text-gray-900">{profile?.current_streak || 0}</div>
-                  <div className="text-[9px] text-gray-600">streak</div>
+                  <div className="text-xl font-bold text-gray-900">{profile?.current_streak || 0}</div>
+                  <div className="text-[10px] text-gray-600">streak</div>
                 </div>
                 <div className="text-center">
-                  <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-white flex items-center justify-center mb-1 shadow-sm">
-                    <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-gray-900" />
+                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center mb-1 shadow-sm">
+                    <TrendingUp className="w-6 h-6 text-gray-900" />
                   </div>
-                  <div className="text-base md:text-lg font-bold text-gray-900">{profile?.sperm_level || 1}</div>
-                  <div className="text-[9px] text-gray-600">level</div>
+                  <div className="text-xl font-bold text-gray-900">{profile?.sperm_level || 1}</div>
+                  <div className="text-[10px] text-gray-600">level</div>
                 </div>
               </div>
             </div>
