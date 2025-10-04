@@ -287,7 +287,6 @@ export default function Dashboard() {
                     <span className="text-xs md:text-sm font-bold text-white">{Math.round(((profile?.sperm_value || 50) / 5000) * 100)}%</span>
                   </div>
                 </div>
-                <p className="text-[9px] md:text-xs text-white/70 mt-2">Sperm Health</p>
               </div>
               <button
                 onClick={() => navigate('/analytics')}
