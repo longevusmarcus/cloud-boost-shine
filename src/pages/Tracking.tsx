@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
-import { Calendar, CheckCircle, FlaskConical, UserCircle } from "lucide-react";
+import { Calendar, CheckCircle, FlaskConical, TrendingUp, UserCircle } from "lucide-react";
 import Layout from "@/components/Layout";
+import DailyLogForm from "@/components/tracking/DailyLogForm";
+import TestResultUpload from "@/components/tracking/TestResultUpload";
+import TestResultDisplay from "@/components/tracking/TestResultDisplay";
 
 export default function Tracking() {
   const navigate = useNavigate();
@@ -21,28 +18,9 @@ export default function Tracking() {
   const [loading, setLoading] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  // Form state
-  const [sleepHours, setSleepHours] = useState("");
-  const [waterIntake, setWaterIntake] = useState("");
-  const [exerciseMinutes, setExerciseMinutes] = useState("");
-  const [supplementsTaken, setSupplementsTaken] = useState(false);
-  const [stressLevel, setStressLevel] = useState("3");
-  const [notes, setNotes] = useState("");
-
   useEffect(() => {
     loadData();
   }, []);
-
-  useEffect(() => {
-    if (todayLog) {
-      setSleepHours(todayLog.sleep_hours?.toString() || "");
-      setWaterIntake(todayLog.water_intake?.toString() || "");
-      setExerciseMinutes(todayLog.exercise_minutes?.toString() || "");
-      setSupplementsTaken(todayLog.supplements_taken || false);
-      setStressLevel(todayLog.stress_level?.toString() || "3");
-      setNotes(todayLog.notes || "");
-    }
-  }, [todayLog]);
 
   const loadData = async () => {
     try {
@@ -84,36 +62,31 @@ export default function Tracking() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async (logData: any) => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("Not authenticated");
 
       const today = format(new Date(), "yyyy-MM-dd");
-      const logData = {
+      const dataToSave = {
         user_id: session.user.id,
         date: today,
-        sleep_hours: sleepHours ? parseFloat(sleepHours) : null,
-        water_intake: waterIntake ? parseInt(waterIntake) : null,
-        exercise_minutes: exerciseMinutes ? parseInt(exerciseMinutes) : null,
-        supplements_taken: supplementsTaken,
-        stress_level: parseInt(stressLevel),
-        notes
+        ...logData,
+        sleep_hours: logData.sleep_hours ? parseFloat(logData.sleep_hours) : null,
+        exercise_minutes: logData.exercise_minutes ? parseInt(logData.exercise_minutes) : null,
       };
 
       if (todayLog) {
         const { error } = await supabase
           .from('daily_logs')
-          .update(logData)
+          .update(dataToSave)
           .eq('id', todayLog.id);
 
         if (error) throw error;
       } else {
         const { error } = await supabase
           .from('daily_logs')
-          .insert(logData);
+          .insert(dataToSave);
 
         if (error) throw error;
 
@@ -135,12 +108,13 @@ export default function Tracking() {
         loadData();
       }, 2000);
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      console.error("Error saving log:", error);
     }
+  };
+
+  const handleTestUpload = async () => {
+    await loadData();
+    setActiveTab("results");
   };
 
   if (loading) {
@@ -191,10 +165,11 @@ export default function Tracking() {
     <Layout>
       <div className="min-h-screen bg-gray-50 flex flex-col">
         <div className="max-w-3xl mx-auto w-full flex flex-col min-h-screen">
-          {/* Header */}
+          {/* Header - Fixed and Sticky */}
           <div className="flex-shrink-0 sticky top-0 z-10 bg-gray-50 px-4 pt-3 pb-2 md:p-6">
+            {/* Mobile: Minimal header with icons */}
             <div className="flex items-center justify-between md:hidden mb-3">
-              <button
+              <button 
                 onClick={() => navigate('/profile')}
                 className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center"
               >
@@ -205,13 +180,14 @@ export default function Tracking() {
               </button>
             </div>
 
+            {/* Desktop: Full header */}
             <div className="hidden md:block">
               <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Daily Check-in</h1>
               <p className="text-sm md:text-base text-gray-600">{format(new Date(), "EEEE, MMMM d, yyyy")}</p>
             </div>
           </div>
 
-          {/* Tabs */}
+          {/* Tabs - Fixed */}
           <div className="flex-shrink-0 px-4 md:px-6">
             <div className="flex gap-2 mb-4">
               <button
@@ -244,89 +220,18 @@ export default function Tracking() {
             </div>
           </div>
 
-          {/* Content */}
+          {/* Scrollable Content */}
           <div className="flex-1 px-4 md:px-6 pb-24 md:pb-6 overflow-y-auto">
             {activeTab === "daily" ? (
               <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="sleep" className="text-gray-700">Sleep (hours)</Label>
-                      <Input
-                        id="sleep"
-                        type="number"
-                        step="0.5"
-                        value={sleepHours}
-                        onChange={(e) => setSleepHours(e.target.value)}
-                        className="h-11 rounded-xl border-gray-200"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="water" className="text-gray-700">Water (oz)</Label>
-                      <Input
-                        id="water"
-                        type="number"
-                        value={waterIntake}
-                        onChange={(e) => setWaterIntake(e.target.value)}
-                        className="h-11 rounded-xl border-gray-200"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="exercise" className="text-gray-700">Exercise (min)</Label>
-                      <Input
-                        id="exercise"
-                        type="number"
-                        value={exerciseMinutes}
-                        onChange={(e) => setExerciseMinutes(e.target.value)}
-                        className="h-11 rounded-xl border-gray-200"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="stress" className="text-gray-700">Stress (1-5)</Label>
-                      <Input
-                        id="stress"
-                        type="number"
-                        min="1"
-                        max="5"
-                        value={stressLevel}
-                        onChange={(e) => setStressLevel(e.target.value)}
-                        className="h-11 rounded-xl border-gray-200"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200">
-                    <Label htmlFor="supplements" className="text-gray-700">Took supplements today</Label>
-                    <Switch
-                      id="supplements"
-                      checked={supplementsTaken}
-                      onCheckedChange={setSupplementsTaken}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="notes" className="text-gray-700">Notes (optional)</Label>
-                    <Textarea
-                      id="notes"
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
-                      placeholder="Any additional observations..."
-                      className="min-h-24 rounded-xl border-gray-200"
-                    />
-                  </div>
-
-                  <Button type="submit" className="w-full h-11 rounded-xl bg-black hover:bg-gray-800 text-white font-semibold">
-                    {todayLog ? "Update Log" : "Save Log"}
-                  </Button>
-                </form>
+                <DailyLogForm
+                  initialData={todayLog}
+                  onSubmit={handleSubmit}
+                />
               </div>
             ) : (
               <div className="space-y-6">
+                {/* Testing Roadmap */}
                 <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200">
                   <div className="flex items-center gap-3 mb-6">
                     <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center">
@@ -339,12 +244,12 @@ export default function Tracking() {
                   </div>
 
                   {testResults.length === 0 ? (
-                    <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                    <div className="bg-gray-50 rounded-2xl p-6 mb-6 border border-gray-200">
                       <h4 className="font-semibold text-lg text-gray-900 mb-2">🎯 Take Your First Test</h4>
                       <p className="text-gray-600 text-sm mb-4">
                         Establish your baseline. Get a complete sperm analysis to start your optimization journey.
                       </p>
-                      <p className="text-xs text-gray-500">Contact your healthcare provider for testing options.</p>
+                      <TestResultUpload onUpload={handleTestUpload} />
                     </div>
                   ) : (
                     <div className="space-y-4">
@@ -363,15 +268,15 @@ export default function Tracking() {
 
                       {daysUntilNext !== null && (
                         <div className={`rounded-2xl p-6 border-2 ${
-                          daysUntilNext <= 0
-                            ? 'bg-green-50 border-green-500'
+                          daysUntilNext <= 0 
+                            ? 'bg-green-50 border-green-500' 
                             : 'bg-gray-50 border-gray-200'
                         }`}>
                           <h4 className="font-semibold text-lg text-gray-900 mb-2">
                             {daysUntilNext <= 0 ? '⏰ Test Due!' : '📅 Next Quarterly Test'}
                           </h4>
                           <p className="text-gray-600 text-sm mb-2">
-                            {daysUntilNext <= 0
+                            {daysUntilNext <= 0 
                               ? 'It\'s time for your quarterly check-up to track progress!'
                               : `${daysUntilNext} day${daysUntilNext !== 1 ? 's' : ''} until your next recommended test`}
                           </p>
@@ -382,6 +287,15 @@ export default function Tracking() {
                           )}
                         </div>
                       )}
+
+                      {/* Always show upload button */}
+                      <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                        <h4 className="font-semibold text-gray-900 mb-2">Upload New Test</h4>
+                        <p className="text-gray-600 text-sm mb-4">
+                          Upload anytime to track your progress
+                        </p>
+                        <TestResultUpload onUpload={handleTestUpload} isCompact />
+                      </div>
 
                       <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                         <h4 className="font-semibold text-gray-900 mb-3">💎 Testing Benefits</h4>
@@ -395,6 +309,75 @@ export default function Tracking() {
                     </div>
                   )}
                 </div>
+
+                {/* Progress Summary (if multiple tests) */}
+                {testResults.length > 1 && (
+                  <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4">Your Progress</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {(() => {
+                        const latest = testResults[0];
+                        const previous = testResults[1];
+                        
+                        const calcChange = (current: number | undefined, prev: number | undefined) => {
+                          if (!current || !prev) return null;
+                          if (prev === 0) return null;
+                          const change = ((current - prev) / prev) * 100;
+                          return change.toFixed(1);
+                        };
+
+                        const concentrationChange = calcChange(latest.concentration, previous.concentration);
+                        const motilityChange = calcChange(latest.motility, previous.motility);
+                        const progressiveChange = calcChange(latest.progressive_motility, previous.progressive_motility);
+                        const mscChange = calcChange(latest.motile_sperm_concentration, previous.motile_sperm_concentration);
+
+                        return (
+                          <>
+                            {concentrationChange !== null && (
+                              <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+                                <div className="text-xs text-gray-600 mb-1">Concentration</div>
+                                <div className={`flex items-center gap-1 ${parseFloat(concentrationChange) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                  <TrendingUp className={`w-4 h-4 ${parseFloat(concentrationChange) < 0 ? 'rotate-180' : ''}`} />
+                                  <span className="text-lg font-bold">{Math.abs(parseFloat(concentrationChange))}%</span>
+                                </div>
+                              </div>
+                            )}
+                            {motilityChange !== null && (
+                              <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+                                <div className="text-xs text-gray-600 mb-1">Motility</div>
+                                <div className={`flex items-center gap-1 ${parseFloat(motilityChange) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                  <TrendingUp className={`w-4 h-4 ${parseFloat(motilityChange) < 0 ? 'rotate-180' : ''}`} />
+                                  <span className="text-lg font-bold">{Math.abs(parseFloat(motilityChange))}%</span>
+                                </div>
+                              </div>
+                            )}
+                            {progressiveChange !== null && (
+                              <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+                                <div className="text-xs text-gray-600 mb-1">Progressive</div>
+                                <div className={`flex items-center gap-1 ${parseFloat(progressiveChange) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                  <TrendingUp className={`w-4 h-4 ${parseFloat(progressiveChange) < 0 ? 'rotate-180' : ''}`} />
+                                  <span className="text-lg font-bold">{Math.abs(parseFloat(progressiveChange))}%</span>
+                                </div>
+                              </div>
+                            )}
+                            {mscChange !== null && (
+                              <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+                                <div className="text-xs text-gray-600 mb-1">MSC</div>
+                                <div className={`flex items-center gap-1 ${parseFloat(mscChange) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                  <TrendingUp className={`w-4 h-4 ${parseFloat(mscChange) < 0 ? 'rotate-180' : ''}`} />
+                                  <span className="text-lg font-bold">{Math.abs(parseFloat(mscChange))}%</span>
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        );
+                      })()}
+                    </div>
+                    <p className="text-center text-sm text-gray-600 mt-4">
+                      View detailed results in Analytics →
+                    </p>
+                  </div>
+                )}
               </div>
             )}
           </div>

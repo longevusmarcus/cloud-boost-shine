@@ -18,83 +18,104 @@ export type Database = {
         Row: {
           created_at: string | null
           date: string
+          diet_quality: string | null
+          electrolytes: boolean | null
           exercise_minutes: number | null
+          food_photos: string[] | null
           id: string
+          masturbation_count: number | null
           notes: string | null
           sleep_hours: number | null
+          sleep_quality: string | null
           stress_level: number | null
-          supplements_taken: boolean | null
           updated_at: string | null
           user_id: string
-          water_intake: number | null
         }
         Insert: {
           created_at?: string | null
           date: string
+          diet_quality?: string | null
+          electrolytes?: boolean | null
           exercise_minutes?: number | null
+          food_photos?: string[] | null
           id?: string
+          masturbation_count?: number | null
           notes?: string | null
           sleep_hours?: number | null
+          sleep_quality?: string | null
           stress_level?: number | null
-          supplements_taken?: boolean | null
           updated_at?: string | null
           user_id: string
-          water_intake?: number | null
         }
         Update: {
           created_at?: string | null
           date?: string
+          diet_quality?: string | null
+          electrolytes?: boolean | null
           exercise_minutes?: number | null
+          food_photos?: string[] | null
           id?: string
+          masturbation_count?: number | null
           notes?: string | null
           sleep_hours?: number | null
+          sleep_quality?: string | null
           stress_level?: number | null
-          supplements_taken?: boolean | null
           updated_at?: string | null
           user_id?: string
-          water_intake?: number | null
         }
         Relationships: []
       }
       test_results: {
         Row: {
+          concentration: number | null
           created_at: string | null
+          file_url: string | null
           id: string
+          morphology: number | null
+          motile_sperm_concentration: number | null
+          motility: number | null
           notes: string | null
-          sperm_count: number | null
-          sperm_morphology: number | null
-          sperm_motility: number | null
+          progressive_motile_sperm_concentration: number | null
+          progressive_motility: number | null
+          provider: string | null
           test_date: string
-          testosterone_free: number | null
-          testosterone_total: number | null
           updated_at: string | null
           user_id: string
+          volume: number | null
         }
         Insert: {
+          concentration?: number | null
           created_at?: string | null
+          file_url?: string | null
           id?: string
+          morphology?: number | null
+          motile_sperm_concentration?: number | null
+          motility?: number | null
           notes?: string | null
-          sperm_count?: number | null
-          sperm_morphology?: number | null
-          sperm_motility?: number | null
+          progressive_motile_sperm_concentration?: number | null
+          progressive_motility?: number | null
+          provider?: string | null
           test_date: string
-          testosterone_free?: number | null
-          testosterone_total?: number | null
           updated_at?: string | null
           user_id: string
+          volume?: number | null
         }
         Update: {
+          concentration?: number | null
           created_at?: string | null
+          file_url?: string | null
           id?: string
+          morphology?: number | null
+          motile_sperm_concentration?: number | null
+          motility?: number | null
           notes?: string | null
-          sperm_count?: number | null
-          sperm_morphology?: number | null
-          sperm_motility?: number | null
+          progressive_motile_sperm_concentration?: number | null
+          progressive_motility?: number | null
+          provider?: string | null
           test_date?: string
-          testosterone_free?: number | null
-          testosterone_total?: number | null
           updated_at?: string | null
           user_id?: string
+          volume?: number | null
         }
         Relationships: []
       }
