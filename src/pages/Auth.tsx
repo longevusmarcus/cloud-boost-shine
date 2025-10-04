@@ -60,7 +60,6 @@ export default function Auth() {
         if (error) throw error;
 
         if (data.user) {
-          // Create user profile
           const { error: profileError } = await supabase
             .from('user_profiles')
             .insert({
@@ -100,75 +99,78 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
       <div className="max-w-md w-full">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-3xl bg-primary flex items-center justify-center mx-auto mb-4">
-            <Droplet className="w-8 h-8 text-primary-foreground" />
+        <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-200">
+          <div className="flex justify-center mb-4">
+            <div className="w-14 h-14 rounded-2xl bg-black flex items-center justify-center">
+              <Droplet className="w-7 h-7 text-white" strokeWidth={2} fill="white" />
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+
+          <h1 className="text-2xl font-bold text-black text-center mb-1">
             {isSignUp ? "Create Account" : "Welcome Back"}
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-sm text-gray-600 text-center mb-6">
             {isSignUp ? "Start optimizing your health" : "Sign in to continue"}
           </p>
-        </div>
 
-        <form onSubmit={handleAuth} className="bg-card rounded-3xl p-8 shadow-xl border border-border space-y-6">
-          {isSignUp && (
+          <form onSubmit={handleAuth} className="space-y-4">
+            {isSignUp && (
+              <div className="space-y-2">
+                <Label htmlFor="fullName" className="text-gray-700">Full Name</Label>
+                <Input
+                  id="fullName"
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required={isSignUp}
+                  className="h-11 rounded-xl border-gray-200"
+                />
+              </div>
+            )}
+
             <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name</Label>
+              <Label htmlFor="email" className="text-gray-700">Email</Label>
               <Input
-                id="fullName"
-                type="text"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required={isSignUp}
-                className="h-12 rounded-xl"
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="h-11 rounded-xl border-gray-200"
               />
             </div>
-          )}
 
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="h-12 rounded-xl"
-            />
-          </div>
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-gray-700">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="h-11 rounded-xl border-gray-200"
+              />
+            </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="h-12 rounded-xl"
-            />
-          </div>
+            <Button 
+              type="submit" 
+              className="w-full h-11 rounded-xl bg-black hover:bg-gray-800 text-white font-semibold"
+              disabled={loading}
+            >
+              {loading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}
+            </Button>
 
-          <Button 
-            type="submit" 
-            className="w-full h-12 rounded-xl text-base"
-            disabled={loading}
-          >
-            {loading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}
-          </Button>
-
-          <button
-            type="button"
-            onClick={() => setIsSignUp(!isSignUp)}
-            className="w-full text-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
-          </button>
-        </form>
+            <button
+              type="button"
+              onClick={() => setIsSignUp(!isSignUp)}
+              className="w-full text-center text-sm text-gray-600 hover:text-black transition-colors"
+            >
+              {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

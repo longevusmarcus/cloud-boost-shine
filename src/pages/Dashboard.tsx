@@ -3,15 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
-import { Activity, TrendingUp, Flame, Calendar, ArrowRight } from "lucide-react";
+import { Activity, ArrowRight, TrendingUp, Calendar, Flame, UserCircle } from "lucide-react";
 import Layout from "@/components/Layout";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<any>(null);
   const [todayLog, setTodayLog] = useState<any>(null);
-  const [recentLogs, setRecentLogs] = useState<any[]>([]);
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [recentLogs, setRecentLogs] = useState<any[]>([]);
 
   useEffect(() => {
     loadData();
@@ -25,14 +26,16 @@ export default function Dashboard() {
         return;
       }
 
+      setUser(session.user);
+
       const { data: profileData } = await supabase
         .from('user_profiles')
         .select('*')
         .eq('user_id', session.user.id)
         .single();
 
-      if (!profileData?.onboarding_completed) {
-        navigate('/onboarding');
+      if (!profileData) {
+        navigate('/');
         return;
       }
 
@@ -58,6 +61,7 @@ export default function Dashboard() {
       setRecentLogs(logsData || []);
     } catch (error) {
       console.error('Error loading data:', error);
+      navigate('/');
     } finally {
       setLoading(false);
     }
@@ -65,8 +69,8 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent" />
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-900 border-t-transparent" />
       </div>
     );
   }
@@ -79,97 +83,148 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto p-6 space-y-8">
-        {/* Calendar Strip */}
-        <div className="bg-card rounded-3xl p-6 shadow-lg border border-border">
-          <div className="flex items-center gap-2 mb-4">
-            <Calendar className="w-5 h-5 text-primary" />
-            <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-              {format(today, 'MMMM yyyy')}
-            </span>
-          </div>
-          <div className="flex gap-2 overflow-x-auto pb-2">
-            {daysInMonth.map((day, idx) => {
-              const dateStr = format(day, "yyyy-MM-dd");
-              const isToday = format(day, "yyyy-MM-dd") === format(today, "yyyy-MM-dd");
-              const isLogged = loggedDates.has(dateStr);
-              const isPast = day < today;
-              const dayNum = format(day, "d");
+      <div className="space-y-4 md:space-y-6">
+        {/* Header - Mobile only */}
+        <div className="md:hidden flex items-center justify-between pb-2">
+          <button
+            onClick={() => navigate('/profile')}
+            className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center"
+          >
+            <UserCircle className="w-5 h-5 text-gray-600" />
+          </button>
+          <button className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
+            <span className="text-base">🔔</span>
+          </button>
+        </div>
 
-              return (
-                <div
-                  key={idx}
-                  className={`flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-semibold transition-all ${
-                    isToday
-                      ? 'bg-primary text-primary-foreground shadow-lg scale-110'
-                      : isLogged
-                      ? 'bg-primary/20 text-primary'
-                      : isPast
-                      ? 'border-2 border-border text-muted-foreground/30'
-                      : 'border-2 border-dashed border-border text-muted-foreground'
-                  }`}
-                >
-                  {dayNum}
-                </div>
-              );
-            })}
+        {/* Calendar */}
+        <div className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200">
+          <div className="relative">
+            <div className="flex items-center gap-1 mb-2 px-1">
+              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Today</span>
+            </div>
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+              {daysInMonth.map((day, idx) => {
+                const dateStr = format(day, "yyyy-MM-dd");
+                const isToday = format(day, "yyyy-MM-dd") === format(today, "yyyy-MM-dd");
+                const isLogged = loggedDates.has(dateStr);
+                const isPast = day < today;
+                const dayNum = format(day, "d");
+
+                return (
+                  <div
+                    key={idx}
+                    className={`flex-shrink-0 w-9 h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center font-semibold transition-all text-xs md:text-sm ${
+                      isToday
+                        ? 'bg-black text-white'
+                        : isLogged
+                        ? 'bg-gray-900 text-white'
+                        : isPast
+                        ? 'border-2 border-gray-200 text-gray-300'
+                        : 'border-2 border-dashed border-gray-300 text-gray-400'
+                    }`}
+                  >
+                    {dayNum}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* Main Stats Circle */}
-        <div className="flex justify-center">
+        {/* Main Circle - Sperm Value */}
+        <div className="flex justify-center py-2">
           <div className="relative">
-            <div className="w-56 h-56 rounded-full bg-gradient-to-br from-secondary to-secondary/50 flex flex-col items-center justify-center shadow-2xl border border-border">
+            {/* Pulsing rings */}
+            <div className="absolute inset-0 rounded-full bg-gray-200 opacity-20 animate-ping" style={{ animationDuration: '3s' }} />
+            <div className="absolute inset-0 rounded-full bg-gray-200 opacity-10 animate-pulse" style={{ animationDuration: '2s' }} />
+
+            {/* Main Circle */}
+            <div className="relative w-52 h-52 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex flex-col items-center justify-center shadow-lg">
               <div className="flex items-center gap-1 mb-1">
-                <Activity className="w-4 h-4 text-primary" />
-                <span className="text-xs text-muted-foreground font-medium">Sperm Value</span>
+                <Activity className="w-4 h-4 text-gray-600" />
+                <span className="text-[10px] md:text-xs text-gray-600 font-medium">Sperm Value</span>
               </div>
               <div className="flex items-baseline gap-1 mb-3">
-                <span className="text-xl font-bold text-foreground">$</span>
-                <span className="text-5xl font-bold text-foreground">
-                  {(profile?.sperm_value || 50).toLocaleString()}
-                </span>
+                <span className="text-xl md:text-xl font-bold text-gray-900">$</span>
+                <span className="text-4xl md:text-5xl font-bold text-gray-900">{(profile?.sperm_value || 50).toLocaleString()}</span>
               </div>
 
-              <div className="flex gap-8">
+              {/* Small stats below */}
+              <div className="flex gap-6 md:gap-8">
                 <div className="text-center">
-                  <div className="w-10 h-10 rounded-full bg-card flex items-center justify-center mb-1 shadow-sm">
-                    <Flame className="w-5 h-5 text-primary" />
+                  <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-white flex items-center justify-center mb-1 shadow-sm">
+                    <Flame className="w-4 h-4 md:w-5 md:h-5 text-gray-900" />
                   </div>
-                  <div className="text-lg font-bold text-foreground">{profile?.current_streak || 0}</div>
-                  <div className="text-[9px] text-muted-foreground">streak</div>
+                  <div className="text-base md:text-lg font-bold text-gray-900">{profile?.current_streak || 0}</div>
+                  <div className="text-[9px] text-gray-600">streak</div>
                 </div>
                 <div className="text-center">
-                  <div className="w-10 h-10 rounded-full bg-card flex items-center justify-center mb-1 shadow-sm">
-                    <TrendingUp className="w-5 h-5 text-primary" />
+                  <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-white flex items-center justify-center mb-1 shadow-sm">
+                    <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-gray-900" />
                   </div>
-                  <div className="text-lg font-bold text-foreground">{profile?.sperm_level || 1}</div>
-                  <div className="text-[9px] text-muted-foreground">level</div>
+                  <div className="text-base md:text-lg font-bold text-gray-900">{profile?.sperm_level || 1}</div>
+                  <div className="text-[9px] text-gray-600">level</div>
                 </div>
+              </div>
+            </div>
+
+            {/* Floating Sperm Animations */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute top-4 left-2 animate-float" style={{ animationDelay: '0s', animationDuration: '4s' }}>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-gray-400 opacity-40">
+                  <circle cx="8" cy="8" r="4" fill="currentColor" />
+                  <path d="M12 8 Q16 4, 20 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                </svg>
+              </div>
+
+              <div className="absolute top-6 right-3 animate-float" style={{ animationDelay: '1s', animationDuration: '5s' }}>
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="text-gray-400 opacity-30">
+                  <circle cx="8" cy="8" r="4" fill="currentColor" />
+                  <path d="M12 8 Q16 12, 18 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                </svg>
+              </div>
+
+              <div className="absolute bottom-8 left-4 animate-float" style={{ animationDelay: '2s', animationDuration: '6s' }}>
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="text-gray-400 opacity-25">
+                  <circle cx="8" cy="8" r="4" fill="currentColor" />
+                  <path d="M12 8 Q14 6, 18 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                </svg>
+              </div>
+
+              <div className="absolute bottom-10 right-2 animate-float" style={{ animationDelay: '3s', animationDuration: '5.5s' }}>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-gray-400 opacity-35">
+                  <circle cx="8" cy="8" r="4" fill="currentColor" />
+                  <path d="M12 8 Q16 10, 20 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                </svg>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Today's Status */}
-        <div className="bg-card rounded-3xl p-6 shadow-lg border border-border">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Today's Check-in</h3>
+        {/* Today's Check-in */}
+        <div className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200">
+          <div className="flex items-center gap-2 mb-3">
+            <Calendar className="w-4 h-4 text-gray-900" />
+            <h2 className="text-base md:text-lg font-bold text-gray-900">Today's Check-in</h2>
+          </div>
+
           {todayLog ? (
             <div className="text-center py-4">
-              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
-                <span className="text-3xl">✓</span>
+              <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-2">
+                <span className="text-2xl">✅</span>
               </div>
-              <p className="text-foreground font-medium mb-1">All set for today!</p>
-              <p className="text-sm text-muted-foreground">Your daily log is complete</p>
+              <p className="font-semibold text-gray-900 text-sm md:text-base">All set for today!</p>
+              <p className="text-xs md:text-sm text-gray-600 mt-1">Keep up the great work</p>
             </div>
           ) : (
             <div className="text-center py-4">
-              <p className="text-muted-foreground mb-4">You haven't logged your daily metrics yet</p>
+              <p className="text-gray-600 text-sm md:text-base mb-3">Ready to log your daily metrics?</p>
               <Button 
                 onClick={() => navigate('/tracking')}
-                className="rounded-xl"
+                className="bg-black hover:bg-gray-800 text-white rounded-xl px-6"
               >
-                Log Today <ArrowRight className="ml-2 w-4 h-4" />
+                Log Today <ArrowRight className="ml-1.5 w-4 h-4" />
               </Button>
             </div>
           )}
