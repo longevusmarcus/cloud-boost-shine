@@ -97,9 +97,9 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto space-y-6">
-        {/* Mobile Header - Sticky */}
-        <div className="sticky top-0 z-50 bg-gray-50 dark:bg-gray-950 flex items-center justify-between md:hidden pb-3 pt-2">
+      {/* Mobile Header - Sticky */}
+      <div className="sticky top-0 z-50 bg-gray-50 dark:bg-gray-950 px-4 py-3 md:hidden border-b border-gray-200 dark:border-gray-800">
+        <div className="max-w-3xl mx-auto flex items-center justify-between">
           <button
             onClick={() => navigate('/profile')}
             className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center"
@@ -130,6 +130,9 @@ export default function Dashboard() {
             </button>
           </div>
         </div>
+      </div>
+
+      <div className="max-w-3xl mx-auto space-y-6 px-4 md:px-0">
 
         {/* Calendar */}
         <div className="relative">
