@@ -5,6 +5,7 @@ import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
 import { Activity, TrendingUp, Flame, Calendar, UserCircle, Moon, Apple, Heart, Droplet, Sun } from "lucide-react";
 import Layout from "@/components/Layout";
 import FloatingChatbot from "@/components/dashboard/FloatingChatbot";
+import InsightCard from "@/components/dashboard/InsightCard";
 import { useTheme } from "@/components/ThemeProvider";
 
 export default function Dashboard() {
@@ -254,6 +255,45 @@ export default function Dashboard() {
                 </svg>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Insights Section */}
+        <div>
+          <h2 className="text-sm md:text-lg font-bold text-gray-900 dark:text-white mb-3">Health Insights</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <InsightCard
+              title="Nutrition Matters"
+              subtitle="Diet Quality Impact on Fertility"
+              overview="Discover how nutrient-rich foods and balanced eating patterns directly influence sperm health. Learn which vitamins and minerals are essential for optimal reproductive function."
+              icon={Apple}
+              backgroundImage="https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=800&q=80"
+            />
+            
+            <InsightCard
+              title="Sleep & Recovery"
+              subtitle="The Power of Quality Rest"
+              overview="Quality sleep is crucial for hormone regulation and sperm production. Explore how proper rest patterns can enhance your fertility journey and overall well-being."
+              icon={Moon}
+              backgroundImage="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800&q=80"
+            />
+            
+            <InsightCard
+              title="Active Lifestyle"
+              subtitle="Exercise for Optimal Health"
+              overview="Regular physical activity improves circulation, hormone balance, and stress management. Find the perfect exercise routine that supports your reproductive health goals."
+              icon={Heart}
+              backgroundImage="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80"
+            />
+            
+            <InsightCard
+              title="Hydration Essentials"
+              subtitle="Water and Reproductive Health"
+              overview="Proper hydration supports all bodily functions, including sperm production and quality. Learn optimal hydration strategies for peak fertility health."
+              icon={Droplet}
+              backgroundImage="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80"
+            />
           </div>
         </div>
 
