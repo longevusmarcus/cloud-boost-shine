@@ -39,42 +39,10 @@ export default function Onboarding() {
     setStep(4);
   };
 
-  const calculateSpermValue = (data: any) => {
-    let baseValue = 50;
-    const { lifestyle_data, age } = data;
-
-    if (age >= 20 && age <= 35) baseValue += 500;
-    else if (age < 20 || age > 35) baseValue -= (Math.abs(age - 27.5) * 10);
-
-    const smokingValues = { never: 400, quit: 200, occasionally: -200, regularly: -600 };
-    baseValue += smokingValues[lifestyle_data?.smoking as keyof typeof smokingValues] || 0;
-
-    const alcoholValues = { none: 300, light: 150, moderate: -150, heavy: -500 };
-    baseValue += alcoholValues[lifestyle_data?.alcohol as keyof typeof alcoholValues] || 0;
-
-    const exerciseValues = { sedentary: -300, light: 0, moderate: 300, intense: 250 };
-    baseValue += exerciseValues[lifestyle_data?.exercise as keyof typeof exerciseValues] || 0;
-
-    const dietValues = { poor: -300, average: 0, good: 300, excellent: 500 };
-    baseValue += dietValues[lifestyle_data?.diet_quality as keyof typeof dietValues] || 0;
-
-    const sleepHours = lifestyle_data?.sleep_hours || 7;
-    if (sleepHours >= 7 && sleepHours <= 9) baseValue += 300;
-    else baseValue -= Math.abs(8 - sleepHours) * 50;
-
-    const stressValues = { low: 300, moderate: 0, high: -300, extreme: -500 };
-    baseValue += stressValues[lifestyle_data?.stress_level as keyof typeof stressValues] || 0;
-
-    if (lifestyle_data?.tight_clothing) baseValue -= 100;
-    if (lifestyle_data?.hot_baths) baseValue -= 100;
-
-    return Math.max(50, Math.min(5000, Math.round(baseValue)));
-  };
-
   const getSpermLevel = (value: number) => {
-    if (value >= 3500) return 4;
-    if (value >= 2500) return 3;
-    if (value >= 1500) return 2;
+    if (value >= 50000) return 4;
+    if (value >= 35000) return 3;
+    if (value >= 20000) return 2;
     return 1;
   };
 
@@ -96,6 +64,17 @@ export default function Onboarding() {
         lifestyle_data: userData.lifestyle_data
       });
 
+      // Store lifestyle data as JSONB for flexibility
+      const lifestyleData = {
+        educationLevel: userData.lifestyle_data?.educationLevel,
+        recipientFamilies: userData.lifestyle_data?.recipientFamilies,
+        transparencyLevel: userData.lifestyle_data?.transparencyLevel,
+        testosteroneUse: userData.lifestyle_data?.testosteroneUse,
+        smokingDrugs: userData.lifestyle_data?.smokingDrugs,
+        stressLevel: userData.lifestyle_data?.stressLevel,
+        ejaculationFreq: userData.lifestyle_data?.ejaculationFreq,
+      };
+
       const { error } = await supabase
         .from('user_profiles')
         .upsert({
@@ -105,19 +84,7 @@ export default function Onboarding() {
           height_inches: userData.height_inches,
           weight: userData.weight,
           goal: userData.fertility_goal,
-          smoking: userData.lifestyle_data?.smoking,
-          alcohol: userData.lifestyle_data?.alcohol,
-          exercise: userData.lifestyle_data?.exercise,
-          diet_quality: userData.lifestyle_data?.diet_quality,
-          sleep_hours: userData.lifestyle_data?.sleep_hours,
-          stress_level: userData.lifestyle_data?.stress_level,
-          masturbation_frequency: userData.lifestyle_data?.masturbation_frequency,
-          sexual_activity: userData.lifestyle_data?.sexual_activity,
-          supplements: userData.lifestyle_data?.supplements,
-          career_status: userData.lifestyle_data?.career_status,
-          family_pledge: userData.lifestyle_data?.family_pledge,
-          tight_clothing: userData.lifestyle_data?.tight_clothing,
-          hot_baths: userData.lifestyle_data?.hot_baths,
+          stress_level: userData.lifestyle_data?.stressLevel,
           sperm_value: spermValue,
           sperm_level: spermLevel,
           onboarding_completed: true

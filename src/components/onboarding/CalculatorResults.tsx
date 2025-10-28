@@ -1,54 +1,47 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, TrendingUp, AlertTriangle, CheckCircle, ExternalLink, DollarSign } from "lucide-react";
+import { calculateSpermValuation, calculateBMIRange, getAgeRange } from "@/lib/sperm-valuation";
+import type { DonorProfileInput } from "@/lib/sperm-valuation";
 
 export default function CalculatorResults({ userData, onComplete, onBack }) {
   const [value, setValue] = useState(0);
   const [displayValue, setDisplayValue] = useState(0);
+  const [messages, setMessages] = useState<string[]>([]);
 
   useEffect(() => {
-    const calculateSpermValue = (data) => {
-      let baseValue = 50;
-      const { lifestyle_data, age } = data;
+    // Build the input for the valuation calculator
+    const bmiRange = calculateBMIRange(
+      userData.height_feet,
+      userData.height_inches,
+      userData.weight
+    );
+    const ageRange = getAgeRange(userData.age);
 
-      if (age >= 20 && age <= 35) baseValue += 500;
-      else if (age < 20 || age > 35) baseValue -= (Math.abs(age - 27.5) * 10);
-
-      const smokingValues = { never: 400, quit: 200, occasionally: -200, regularly: -600 };
-      baseValue += smokingValues[lifestyle_data.smoking] || 0;
-
-      const alcoholValues = { none: 300, light: 150, moderate: -150, heavy: -500 };
-      baseValue += alcoholValues[lifestyle_data.alcohol] || 0;
-
-      const exerciseValues = { sedentary: -300, light: 0, moderate: 300, intense: 250 };
-      baseValue += exerciseValues[lifestyle_data.exercise] || 0;
-
-      const dietValues = { poor: -300, average: 0, good: 300, excellent: 500 };
-      baseValue += dietValues[lifestyle_data.diet_quality] || 0;
-
-      const sleepHours = lifestyle_data.sleep_hours || 7;
-      if (sleepHours >= 7 && sleepHours <= 9) baseValue += 300;
-      else baseValue -= Math.abs(8 - sleepHours) * 50;
-
-      const stressValues = { low: 300, moderate: 0, high: -300, extreme: -500 };
-      baseValue += stressValues[lifestyle_data.stress_level] || 0;
-
-      if (lifestyle_data.tight_clothing) baseValue -= 100;
-      if (lifestyle_data.hot_baths) baseValue -= 100;
-
-      return Math.max(50, Math.min(5000, Math.round(baseValue)));
+    const input: DonorProfileInput = {
+      ageRange,
+      educationLevel: userData.lifestyle_data?.educationLevel,
+      recipientFamilies: userData.lifestyle_data?.recipientFamilies,
+      transparencyLevel: userData.lifestyle_data?.transparencyLevel,
+      bmiRange,
+      testosteroneUse: userData.lifestyle_data?.testosteroneUse,
+      smokingDrugs: userData.lifestyle_data?.smokingDrugs,
+      stressLevel: userData.lifestyle_data?.stressLevel,
+      ejaculationFreq: userData.lifestyle_data?.ejaculationFreq,
     };
 
-    const calculated = calculateSpermValue(userData);
-    setValue(calculated);
+    const result = calculateSpermValuation(input);
+    const calculatedValue = Math.round(result.estimatedSpermValue);
+    setValue(calculatedValue);
+    setMessages(result.messages);
     
+    // Animate the value
     let current = 0;
-    const increment = calculated / 50;
+    const increment = calculatedValue / 50;
     const interval = setInterval(() => {
       current += increment;
-      if (current >= calculated) {
-        setDisplayValue(calculated);
+      if (current >= calculatedValue) {
+        setDisplayValue(calculatedValue);
         clearInterval(interval);
       } else {
         setDisplayValue(Math.round(current));
@@ -59,9 +52,9 @@ export default function CalculatorResults({ userData, onComplete, onBack }) {
   }, [userData]);
 
   const getValueCategory = (val) => {
-    if (val >= 3500) return { label: "Premium Quality", icon: CheckCircle, color: "text-green-600" };
-    if (val >= 2500) return { label: "High Value", icon: TrendingUp, color: "text-blue-600" };
-    if (val >= 1500) return { label: "Standard", icon: TrendingUp, color: "text-gray-600" };
+    if (val >= 50000) return { label: "Premium Quality", icon: CheckCircle, color: "text-green-600" };
+    if (val >= 35000) return { label: "High Value", icon: TrendingUp, color: "text-blue-600" };
+    if (val >= 20000) return { label: "Standard", icon: TrendingUp, color: "text-gray-600" };
     return { label: "Needs Optimization", icon: AlertTriangle, color: "text-orange-600" };
   };
 
@@ -71,7 +64,7 @@ export default function CalculatorResults({ userData, onComplete, onBack }) {
   return (
     <div>
       <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-1">Your Sperm Value</h2>
-      <p className="text-xs sm:text-sm text-gray-600 mb-4">Based on your lifestyle factors</p>
+      <p className="text-xs sm:text-sm text-gray-600 mb-4">Based on your profile and lifestyle factors</p>
 
       {/* Value Display with Pulsing Effect */}
       <div className="border border-gray-200 dark:border-gray-700 rounded-3xl p-6 text-center mb-4 bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 relative overflow-hidden">
@@ -131,36 +124,18 @@ export default function CalculatorResults({ userData, onComplete, onBack }) {
 
       {/* Recommendations */}
       <div className="space-y-2 mb-4">
-        <h4 className="text-sm font-semibold text-black">What This Means:</h4>
+        <h4 className="text-sm font-semibold text-black">Personalized Recommendations:</h4>
         
-        {value >= 3500 && (
+        {messages.length > 0 ? (
+          messages.map((msg, idx) => (
+            <div key={idx} className="border border-gray-200 rounded-2xl p-3 bg-gray-50">
+              <p className="text-gray-700 text-xs">💡 {msg}</p>
+            </div>
+          ))
+        ) : (
           <div className="border border-gray-200 rounded-2xl p-3 bg-gray-50">
             <p className="text-gray-700 text-xs">
-              🎉 Premium quality! Your sperm is highly valuable. Perfect for donation or freezing. Keep up your excellent lifestyle!
-            </p>
-          </div>
-        )}
-        
-        {value >= 2500 && value < 3500 && (
-          <div className="border border-gray-200 rounded-2xl p-3 bg-gray-50">
-            <p className="text-gray-700 text-xs">
-              💎 High value sperm! You're in great shape. Small optimizations could push you to premium tier.
-            </p>
-          </div>
-        )}
-        
-        {value >= 1500 && value < 2500 && (
-          <div className="border border-gray-200 rounded-2xl p-3 bg-gray-50">
-            <p className="text-gray-700 text-xs">
-              👍 Standard quality. Daily tracking and lifestyle improvements can significantly increase your sperm value.
-            </p>
-          </div>
-        )}
-        
-        {value < 1500 && (
-          <div className="border border-gray-200 rounded-2xl p-3 bg-gray-50">
-            <p className="text-gray-700 text-xs">
-              💪 Time to optimize! Our tracking and tips will help you boost your sperm value significantly.
+              🎉 Your profile is optimized! Maintain your lifestyle and consider regular testing.
             </p>
           </div>
         )}
