@@ -15,7 +15,7 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
       {/* Value Display */}
       <div className="flex items-baseline justify-between">
         <div>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Current Value</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">Max value</p>
         </div>
         <div className="text-right">
           <p className="text-xl font-semibold text-gray-900 dark:text-white">
