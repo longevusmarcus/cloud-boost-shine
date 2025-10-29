@@ -1,6 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight, Moon, Sun } from "lucide-react";
+import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight, Moon, Sun, Trophy, DollarSign } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useTheme } from "@/components/ThemeProvider";
@@ -52,6 +52,8 @@ export default function Layout({ children }: LayoutProps) {
     { name: "Track", path: "/tracking", icon: Calendar },
     { name: "Analytics", path: "/analytics", icon: BarChart3 },
     { name: "Insights", path: "/content", icon: BookOpen },
+    { name: "Leaderboard", path: "/leaderboard", icon: Trophy },
+    { name: "Pricing", path: "/pricing", icon: DollarSign },
     { name: "Profile", path: "/profile", icon: User },
   ];
 
