@@ -15,14 +15,10 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
       {/* Value Display */}
       <div className="flex items-baseline justify-between">
         <div>
-          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Current Value</p>
-          <p className="text-3xl font-bold text-gray-900 dark:text-white">
-            ${currentValue.toLocaleString()}
-          </p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">Current Value</p>
         </div>
         <div className="text-right">
-          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Max Value</p>
-          <p className="text-xl font-semibold text-gray-500 dark:text-gray-500">
+          <p className="text-xl font-semibold text-gray-900 dark:text-white">
             ${maxValue.toLocaleString()}
           </p>
         </div>
