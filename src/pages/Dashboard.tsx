@@ -5,7 +5,7 @@ import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
 import { Activity, TrendingUp, Flame, Calendar, UserCircle, Moon, Apple, Heart, Droplet, Sun } from "lucide-react";
 import Layout from "@/components/Layout";
 import FloatingChatbot from "@/components/dashboard/FloatingChatbot";
-import PersonalizedInsights from "@/components/dashboard/PersonalizedInsights";
+import SpermValueChart from "@/components/dashboard/SpermValueChart";
 import { useTheme } from "@/components/ThemeProvider";
 import { decryptDailyLog } from "@/lib/encryption";
 import { useAuditLog } from "@/hooks/useAuditLog";
@@ -276,8 +276,8 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Personalized Insights */}
-        <PersonalizedInsights profile={profile} />
+        {/* Sperm Value Chart */}
+        <SpermValueChart currentValue={profile?.sperm_value || 50} />
 
         {/* Daily Feed Section */}
         <div>
