@@ -120,19 +120,19 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-3 bg-gray-50 overflow-auto">
+    <div className="min-h-screen flex items-center justify-center p-3 bg-background overflow-auto">
       <div className="max-w-lg w-full my-auto">
         {/* Progress bar */}
         <div className="mb-4 md:mb-6">
           <div className="flex gap-2 mb-4">
-            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 1 ? 'bg-black' : 'bg-gray-200'}`} />
-            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 2 ? 'bg-black' : 'bg-gray-200'}`} />
-            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 3 ? 'bg-black' : 'bg-gray-200'}`} />
-            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 4 ? 'bg-black' : 'bg-gray-200'}`} />
+            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 1 ? 'bg-primary' : 'bg-muted'}`} />
+            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 2 ? 'bg-primary' : 'bg-muted'}`} />
+            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 3 ? 'bg-primary' : 'bg-muted'}`} />
+            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 4 ? 'bg-primary' : 'bg-muted'}`} />
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-4 sm:p-5 md:p-6 shadow-lg border border-gray-200">
+        <div className="bg-card rounded-3xl p-4 sm:p-5 md:p-6 shadow-lg border border-border">
           {step === 1 && <AgeVerification onNext={handleAgeVerification} />}
           {step === 2 && <FertilityGoal onNext={handleFertilityGoal} onBack={handleBack} />}
           {step === 3 && <LifestyleQuiz onNext={handleLifestyleQuiz} onBack={handleBack} />}
