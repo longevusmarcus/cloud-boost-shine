@@ -55,12 +55,12 @@ export default function AgeVerification({ onNext }: { onNext: (data: any) => voi
 
   return (
     <div>
-      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-1">Basic Info</h2>
-      <p className="text-xs sm:text-sm md:text-base text-muted-foreground mb-4">Let's start with some basic information</p>
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-1">Basic Info</h2>
+      <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-4">Let's start with some basic information</p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Label className="text-foreground text-sm font-medium mb-1.5 block">
+          <Label className="text-black text-sm font-medium mb-1.5 block">
             What is your age?
           </Label>
           <Input
@@ -71,12 +71,12 @@ export default function AgeVerification({ onNext }: { onNext: (data: any) => voi
               setError("");
             }}
             placeholder="Enter your age"
-            className="h-11 md:h-12 text-base rounded-xl"
+            className="h-11 md:h-12 text-base border-gray-300 focus:border-black focus:ring-black rounded-xl"
           />
         </div>
 
         <div>
-          <Label className="text-foreground text-sm font-medium mb-1.5 block">
+          <Label className="text-black text-sm font-medium mb-1.5 block">
             Height
           </Label>
           <div className="flex gap-3">
@@ -91,7 +91,7 @@ export default function AgeVerification({ onNext }: { onNext: (data: any) => voi
                 placeholder="Feet"
                 min="3"
                 max="8"
-                className="h-11 md:h-12 text-base rounded-xl"
+                className="h-11 md:h-12 text-base border-gray-300 focus:border-black focus:ring-black rounded-xl"
               />
             </div>
             <div className="flex-1">
@@ -105,14 +105,14 @@ export default function AgeVerification({ onNext }: { onNext: (data: any) => voi
                 placeholder="Inches"
                 min="0"
                 max="11"
-                className="h-11 md:h-12 text-base rounded-xl"
+                className="h-11 md:h-12 text-base border-gray-300 focus:border-black focus:ring-black rounded-xl"
               />
             </div>
           </div>
         </div>
 
         <div>
-          <Label className="text-foreground text-sm font-medium mb-1.5 block">
+          <Label className="text-black text-sm font-medium mb-1.5 block">
             Weight (lbs)
           </Label>
           <Input
@@ -123,12 +123,12 @@ export default function AgeVerification({ onNext }: { onNext: (data: any) => voi
               setError("");
             }}
             placeholder="Enter your weight"
-            className="h-11 md:h-12 text-base rounded-xl"
+            className="h-11 md:h-12 text-base border-gray-300 focus:border-black focus:ring-black rounded-xl"
           />
         </div>
 
         {error && (
-          <div className="flex items-center gap-2 text-destructive text-xs md:text-sm">
+          <div className="flex items-center gap-2 text-red-600 text-xs md:text-sm">
             <AlertCircle className="w-4 h-4" />
             {error}
           </div>
@@ -136,7 +136,7 @@ export default function AgeVerification({ onNext }: { onNext: (data: any) => voi
 
         <Button
           type="submit"
-          className="w-full h-11 md:h-12 text-base font-semibold rounded-xl"
+          className="w-full h-11 md:h-12 text-base font-semibold bg-black hover:bg-gray-800 text-white rounded-xl"
         >
           Continue
           <ArrowRight className="w-5 h-5 ml-2" />
