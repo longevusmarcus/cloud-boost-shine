@@ -52,8 +52,6 @@ export default function Layout({ children }: LayoutProps) {
     { name: "Track", path: "/tracking", icon: Calendar },
     { name: "Analytics", path: "/analytics", icon: BarChart3 },
     { name: "Insights", path: "/content", icon: BookOpen },
-    { name: "Leaderboard", path: "/leaderboard", icon: Trophy },
-    { name: "Pricing", path: "/pricing", icon: DollarSign },
     { name: "Profile", path: "/profile", icon: User },
   ];
 
@@ -68,6 +66,36 @@ export default function Layout({ children }: LayoutProps) {
           overflow-x: hidden;
         }
       `}</style>
+
+      {/* Top Header with Theme Toggle, Leaderboard, and Pricing */}
+      <div className={`fixed top-0 right-0 z-40 transition-all duration-300 ${
+        sidebarCollapsed ? 'md:left-20' : 'md:left-72'
+      } left-0 md:left-auto`}>
+        <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-4 py-3">
+          <div className="flex items-center justify-end gap-2">
+            <Link
+              to="/leaderboard"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              <Trophy className="w-4 h-4" />
+              <span className="text-sm font-medium hidden sm:inline">Leaderboard</span>
+            </Link>
+            <Link
+              to="/pricing"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              <DollarSign className="w-4 h-4" />
+              <span className="text-sm font-medium hidden sm:inline">Pricing</span>
+            </Link>
+            <button
+              onClick={toggleTheme}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Desktop Sidebar */}
       <aside className={`hidden md:block fixed left-0 top-0 bottom-0 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 z-50 transition-all duration-300 ${
@@ -156,7 +184,7 @@ export default function Layout({ children }: LayoutProps) {
       <div className={`pb-20 md:pb-0 transition-all duration-300 overflow-x-hidden ${
         sidebarCollapsed ? 'md:ml-20' : 'md:ml-72'
       }`}>
-        <div className="w-full max-w-4xl mx-auto px-4 pt-4 md:pt-6">
+        <div className="w-full max-w-4xl mx-auto px-4 pt-20 md:pt-24">
           {children}
         </div>
       </div>
