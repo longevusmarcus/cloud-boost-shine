@@ -69,6 +69,31 @@ export default function Layout({ children }: LayoutProps) {
         }
       `}</style>
 
+      {/* Floating Action Buttons */}
+      <div className="hidden md:flex fixed top-6 right-6 z-50 gap-2">
+        <Link
+          to="/leaderboard"
+          className="w-10 h-10 rounded-full bg-background border border-border shadow-lg flex items-center justify-center hover:bg-accent transition-colors"
+          title="Leaderboard"
+        >
+          <Trophy className="w-5 h-5" />
+        </Link>
+        <Link
+          to="/pricing"
+          className="w-10 h-10 rounded-full bg-background border border-border shadow-lg flex items-center justify-center hover:bg-accent transition-colors"
+          title="Pricing"
+        >
+          <DollarSign className="w-5 h-5" />
+        </Link>
+        <button
+          onClick={toggleTheme}
+          className="w-10 h-10 rounded-full bg-background border border-border shadow-lg flex items-center justify-center hover:bg-accent transition-colors"
+          title="Toggle theme"
+        >
+          {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        </button>
+      </div>
+
       {/* Desktop Sidebar */}
       <aside className={`hidden md:block fixed left-0 top-0 bottom-0 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 z-50 transition-all duration-300 ${
         sidebarCollapsed ? 'w-20' : 'w-72'
