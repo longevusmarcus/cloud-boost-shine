@@ -70,24 +70,24 @@ export default function Layout({ children }: LayoutProps) {
       `}</style>
 
       {/* Floating Action Buttons */}
-      <div className="hidden md:flex fixed top-6 right-6 z-50 gap-2">
+      <div className="hidden md:flex fixed top-4 right-4 z-50 gap-2">
         <Link
           to="/leaderboard"
-          className="w-10 h-10 rounded-full bg-background border border-border shadow-lg flex items-center justify-center hover:bg-accent transition-colors"
+          className="w-11 h-11 rounded-full bg-background border-2 border-border shadow-lg flex items-center justify-center hover:bg-accent transition-all hover:scale-105"
           title="Leaderboard"
         >
           <Trophy className="w-5 h-5" />
         </Link>
         <Link
           to="/pricing"
-          className="w-10 h-10 rounded-full bg-background border border-border shadow-lg flex items-center justify-center hover:bg-accent transition-colors"
+          className="w-11 h-11 rounded-full bg-background border-2 border-border shadow-lg flex items-center justify-center hover:bg-accent transition-all hover:scale-105"
           title="Pricing"
         >
           <DollarSign className="w-5 h-5" />
         </Link>
         <button
           onClick={toggleTheme}
-          className="w-10 h-10 rounded-full bg-background border border-border shadow-lg flex items-center justify-center hover:bg-accent transition-colors"
+          className="w-11 h-11 rounded-full bg-background border-2 border-border shadow-lg flex items-center justify-center hover:bg-accent transition-all hover:scale-105"
           title="Toggle theme"
         >
           {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
