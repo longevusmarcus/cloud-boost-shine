@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { calculateSpermValuation } from "@/lib/sperm-valuation";
 import AgeVerification from "@/components/onboarding/AgeVerification";
 import LifestyleQuiz from "@/components/onboarding/LifestyleQuiz";
 import FertilityGoal from "@/components/onboarding/FertilityGoal";
-import CalculatorResults from "@/components/onboarding/CalculatorResults";
 
 export default function Onboarding() {
   const navigate = useNavigate();
@@ -34,9 +34,10 @@ export default function Onboarding() {
     setStep(3);
   };
 
-  const handleLifestyleQuiz = (data: any) => {
-    setUserData({ ...userData, ...data });
-    setStep(4);
+  const handleLifestyleQuiz = async (data: any) => {
+    const completeData = { ...userData, ...data };
+    setUserData(completeData);
+    await handleComplete(completeData);
   };
 
   const getSpermLevel = (value: number) => {
@@ -46,49 +47,31 @@ export default function Onboarding() {
     return 1;
   };
 
-  const handleComplete = async (spermValue: number) => {
+  const handleComplete = async (completeData: any) => {
     setLoading(true);
 
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("Not authenticated");
 
+      const valuationResult = calculateSpermValuation(completeData);
+      const spermValue = valuationResult.estimatedSpermValue;
       const spermLevel = getSpermLevel(spermValue);
-
-      console.log("Saving profile data:", {
-        age: userData.age,
-        height_feet: userData.height_feet,
-        height_inches: userData.height_inches,
-        weight: userData.weight,
-        goal: userData.fertility_goal,
-        lifestyle_data: userData.lifestyle_data
-      });
-
-      // Store lifestyle data as JSONB for flexibility
-      const lifestyleData = {
-        educationLevel: userData.lifestyle_data?.educationLevel,
-        recipientFamilies: userData.lifestyle_data?.recipientFamilies,
-        transparencyLevel: userData.lifestyle_data?.transparencyLevel,
-        testosteroneUse: userData.lifestyle_data?.testosteroneUse,
-        smokingDrugs: userData.lifestyle_data?.smokingDrugs,
-        stressLevel: userData.lifestyle_data?.stressLevel,
-        ejaculationFreq: userData.lifestyle_data?.ejaculationFreq,
-      };
 
       const { error } = await supabase
         .from('user_profiles')
-        .upsert({
+        .upsert([{
           user_id: session.user.id,
-          age: userData.age,
-          height_feet: userData.height_feet,
-          height_inches: userData.height_inches,
-          weight: userData.weight,
-          goal: userData.fertility_goal,
-          stress_level: userData.lifestyle_data?.stressLevel,
+          age: completeData.age,
+          height_feet: completeData.height_feet,
+          height_inches: completeData.height_inches,
+          weight: completeData.weight,
+          goal: completeData.fertility_goal,
+          stress_level: completeData.lifestyle_data?.stressLevel,
           sperm_value: spermValue,
           sperm_level: spermLevel,
           onboarding_completed: true
-        }, {
+        }], {
           onConflict: 'user_id'
         });
 
@@ -120,29 +103,21 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-3 bg-gray-50 overflow-auto">
+    <div className="min-h-screen flex items-center justify-center p-3 bg-background overflow-auto">
       <div className="max-w-lg w-full my-auto">
         {/* Progress bar */}
         <div className="mb-4 md:mb-6">
           <div className="flex gap-2 mb-4">
-            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 1 ? 'bg-black' : 'bg-gray-200'}`} />
-            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 2 ? 'bg-black' : 'bg-gray-200'}`} />
-            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 3 ? 'bg-black' : 'bg-gray-200'}`} />
-            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 4 ? 'bg-black' : 'bg-gray-200'}`} />
+            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 1 ? 'bg-primary' : 'bg-muted'}`} />
+            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 2 ? 'bg-primary' : 'bg-muted'}`} />
+            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 3 ? 'bg-primary' : 'bg-muted'}`} />
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-4 sm:p-5 md:p-6 shadow-lg border border-gray-200">
+        <div className="bg-card rounded-3xl p-4 sm:p-5 md:p-6 shadow-lg border border-border">
           {step === 1 && <AgeVerification onNext={handleAgeVerification} />}
           {step === 2 && <FertilityGoal onNext={handleFertilityGoal} onBack={handleBack} />}
-          {step === 3 && <LifestyleQuiz onNext={handleLifestyleQuiz} onBack={handleBack} />}
-          {step === 4 && (
-            <CalculatorResults 
-              userData={userData} 
-              onComplete={handleComplete}
-              onBack={handleBack}
-            />
-          )}
+          {step === 3 && <LifestyleQuiz onNext={handleLifestyleQuiz} onBack={handleBack} loading={loading} />}
         </div>
       </div>
     </div>
