@@ -165,7 +165,7 @@ export default function Layout({ children }: LayoutProps) {
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
         <div className="bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 shadow-lg">
           <div className="flex justify-around items-center px-2 py-2">
-            {navItems.filter(item => item.name !== "Profile").map((item) => {
+            {navItems.filter(item => !["Profile", "Leaderboard", "Pricing"].includes(item.name)).map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);
               return (
