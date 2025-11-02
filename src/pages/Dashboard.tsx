@@ -95,7 +95,7 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto space-y-6 mt-16 md:mt-0">
+      <div className="max-w-3xl mx-auto space-y-4 mt-8 md:mt-0">
         {/* Calendar */}
         <div className="relative">
           <div className="mb-2">
@@ -136,37 +136,37 @@ export default function Dashboard() {
         </div>
 
         {/* Main Circle - Sperm Value */}
-        <div className="flex justify-center py-4">
+        <div className="flex justify-center py-2">
           <div className="relative">
             {/* Pulsing rings */}
             <div className="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-700 opacity-20 animate-ping" style={{ animationDuration: '3s' }} />
             <div className="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-700 opacity-10 animate-pulse" style={{ animationDuration: '2s' }} />
 
             {/* Main Circle */}
-            <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-950 dark:to-gray-900 flex flex-col items-center justify-center shadow-lg border border-transparent dark:border-gray-700">
+            <div className="relative w-56 h-56 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-950 dark:to-gray-900 flex flex-col items-center justify-center shadow-lg border border-transparent dark:border-gray-700">
               <div className="flex items-center gap-1 mb-2">
                 <Activity className="w-5 h-5 text-gray-600 dark:text-gray-300" />
                 <span className="text-xs text-gray-600 dark:text-gray-300 font-medium">Sperm Value</span>
               </div>
-              <div className="flex items-baseline gap-1 mb-4">
-                <span className="text-2xl font-bold text-gray-900 dark:text-white">$</span>
-                <span className="text-6xl font-bold text-gray-900 dark:text-white">{(profile?.sperm_value || 50).toLocaleString()}</span>
+              <div className="flex items-baseline gap-1 mb-3">
+                <span className="text-xl font-bold text-gray-900 dark:text-white">$</span>
+                <span className="text-5xl font-bold text-gray-900 dark:text-white">{(profile?.sperm_value || 50).toLocaleString()}</span>
               </div>
 
               {/* Small stats below */}
-              <div className="flex gap-10">
+              <div className="flex gap-8">
                 <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center mb-1 shadow-sm border border-transparent dark:border-gray-700">
-                    <Flame className="w-6 h-6 text-gray-900 dark:text-white" />
+                  <div className="w-10 h-10 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center mb-1 shadow-sm border border-transparent dark:border-gray-700">
+                    <Flame className="w-5 h-5 text-gray-900 dark:text-white" />
                   </div>
-                  <div className="text-xl font-bold text-gray-900 dark:text-white">{profile?.current_streak || 0}</div>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white">{profile?.current_streak || 0}</div>
                   <div className="text-[10px] text-gray-600 dark:text-gray-400">streak</div>
                 </div>
                 <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center mb-1 shadow-sm border border-transparent dark:border-gray-700">
-                    <TrendingUp className="w-6 h-6 text-gray-900 dark:text-white" />
+                  <div className="w-10 h-10 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center mb-1 shadow-sm border border-transparent dark:border-gray-700">
+                    <TrendingUp className="w-5 h-5 text-gray-900 dark:text-white" />
                   </div>
-                  <div className="text-xl font-bold text-gray-900 dark:text-white">{profile?.sperm_level || 1}</div>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white">{profile?.sperm_level || 1}</div>
                   <div className="text-[10px] text-gray-600 dark:text-gray-400">level</div>
                 </div>
               </div>
@@ -243,7 +243,7 @@ export default function Dashboard() {
 
         {/* Daily Feed Section */}
         <div>
-          <h2 className="text-sm md:text-lg font-bold text-gray-900 dark:text-white mb-3">My Daily Feed</h2>
+          <h2 className="text-sm md:text-lg font-bold text-gray-900 dark:text-white mb-2">My Daily Feed</h2>
 
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
             {/* Log Check-in Card */}
