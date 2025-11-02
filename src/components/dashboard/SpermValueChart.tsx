@@ -26,7 +26,7 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
 
       {/* Progress Bar */}
       <div className="relative">
-        <div className="w-full h-5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+        <div className="w-full h-3 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
           <div 
             className="h-full transition-all duration-500 rounded-full relative"
             style={{ 
@@ -36,7 +36,7 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
           >
             {/* Percentage text inside bar */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-[10px] font-bold text-white drop-shadow-lg">
+              <span className="text-[9px] font-bold text-white drop-shadow-lg">
                 {Math.round(percentage)}%
               </span>
             </div>
