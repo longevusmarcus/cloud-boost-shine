@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
 import { Activity, TrendingUp, Flame, Calendar, Heart, Droplet, Moon, Apple } from "lucide-react";
 import Layout from "@/components/Layout";
-import FloatingChatbot from "@/components/dashboard/FloatingChatbot";
 import SpermValueChart from "@/components/dashboard/SpermValueChart";
 import { decryptDailyLog } from "@/lib/encryption";
 import { useAuditLog } from "@/hooks/useAuditLog";
@@ -354,8 +353,6 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-      {/* Floating Chatbot */}
-      <FloatingChatbot profile={profile} />
       
       <style>{`
         @keyframes float {

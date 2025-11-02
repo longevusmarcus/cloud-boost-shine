@@ -3,6 +3,7 @@ import { UserCircle, Moon, Sun, Apple, Heart, Droplet } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import InsightCard from "@/components/dashboard/InsightCard";
+import FloatingChatbot from "@/components/dashboard/FloatingChatbot";
 import { supabase } from "@/integrations/supabase/client";
 import { useTheme } from "@/components/ThemeProvider";
 
@@ -10,18 +11,22 @@ export default function Content() {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
+  const [profile, setProfile] = useState<any>(null);
   const [activeTab, setActiveTab] = useState("for-you");
 
   useEffect(() => {
     const fetchProfile = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
-      const { data: profile } = await supabase
+      const { data: profileData } = await supabase
         .from('user_profiles')
-        .select('profile_image_url')
+        .select('*')
         .eq('user_id', session.user.id)
         .single();
-      setProfileImageUrl(profile?.profile_image_url || null);
+      if (profileData) {
+        setProfile(profileData);
+        setProfileImageUrl(profileData.profile_image_url || null);
+      }
     };
     fetchProfile();
   }, []);
@@ -141,6 +146,9 @@ export default function Content() {
           </div>
         )}
       </div>
+      
+      {/* Floating Chatbot */}
+      <FloatingChatbot profile={profile} />
     </Layout>
   );
 }
