@@ -2,17 +2,15 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
-import { Activity, TrendingUp, Flame, Calendar, UserCircle, Moon, Apple, Heart, Droplet, Sun, Trophy, DollarSign } from "lucide-react";
+import { Activity, TrendingUp, Flame, Calendar, Heart, Droplet, Moon, Apple } from "lucide-react";
 import Layout from "@/components/Layout";
 import FloatingChatbot from "@/components/dashboard/FloatingChatbot";
 import SpermValueChart from "@/components/dashboard/SpermValueChart";
-import { useTheme } from "@/components/ThemeProvider";
 import { decryptDailyLog } from "@/lib/encryption";
 import { useAuditLog } from "@/hooks/useAuditLog";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
   const [profile, setProfile] = useState<any>(null);
   const [todayLog, setTodayLog] = useState<any>(null);
   const [recentLogs, setRecentLogs] = useState<any[]>([]);
@@ -99,61 +97,6 @@ export default function Dashboard() {
   return (
     <Layout>
       <div className="pt-[5vh] max-w-3xl mx-auto space-y-6">
-        {/* Floating Icons - Mobile Only */}
-        <div className="fixed top-4 left-4 right-4 z-50 md:hidden flex items-center justify-between">
-          {/* Left side: Notifications and Theme toggle */}
-          <div className="flex items-center gap-2">
-            <button className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg" title="Notifications">
-              <span className="text-base">🔔</span>
-            </button>
-            
-            <button 
-              onClick={toggleTheme}
-              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
-            >
-              {theme === "light" ? (
-                <Moon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-              ) : (
-                <Sun className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-              )}
-            </button>
-          </div>
-
-          {/* Right side: Leaderboard, Pricing, and Profile */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => navigate('/leaderboard')}
-              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
-              title="Leaderboard"
-            >
-              <Trophy className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-            </button>
-            
-            <button
-              onClick={() => navigate('/pricing')}
-              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
-              title="Pricing"
-            >
-              <DollarSign className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-            </button>
-            
-            <button
-              onClick={() => navigate('/profile')}
-              className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg"
-            >
-              {profile?.profile_image_url ? (
-                <img 
-                  src={profile.profile_image_url} 
-                  alt="Profile" 
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <UserCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-              )}
-            </button>
-          </div>
-        </div>
-
         {/* Calendar */}
         <div className="relative mt-24">
           <div className="mb-2">

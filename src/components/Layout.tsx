@@ -1,6 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight, Moon, Sun, Trophy, DollarSign } from "lucide-react";
+import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight, Moon, Sun, Trophy, DollarSign, Bell } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useTheme } from "@/components/ThemeProvider";
@@ -69,7 +69,7 @@ export default function Layout({ children }: LayoutProps) {
         }
       `}</style>
 
-      {/* Floating Action Buttons */}
+      {/* Desktop Floating Action Buttons */}
       <div className="hidden md:flex fixed top-4 right-4 z-50 gap-2">
         <Link
           to="/leaderboard"
@@ -92,6 +92,60 @@ export default function Layout({ children }: LayoutProps) {
         >
           {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
         </button>
+      </div>
+
+      {/* Mobile Header Buttons */}
+      <div className="fixed top-4 left-4 right-4 z-50 md:hidden flex items-center justify-between">
+        {/* Left side: Notifications and Theme toggle */}
+        <div className="flex items-center gap-2">
+          <button className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center" title="Notifications">
+            <Bell className="w-4 h-4" />
+          </button>
+          
+          <button 
+            onClick={toggleTheme}
+            className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors"
+            title="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
+        </div>
+
+        {/* Right side: Leaderboard, Pricing, and Profile */}
+        <div className="flex items-center gap-2">
+          <Link
+            to="/leaderboard"
+            className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors"
+            title="Leaderboard"
+          >
+            <Trophy className="w-4 h-4" />
+          </Link>
+          
+          <Link
+            to="/pricing"
+            className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors"
+            title="Pricing"
+          >
+            <DollarSign className="w-4 h-4" />
+          </Link>
+          
+          <Link
+            to="/profile"
+            className="w-9 h-9 rounded-full overflow-hidden bg-background border border-border shadow-lg flex items-center justify-center"
+            title="Profile"
+          >
+            {profileImageUrl ? (
+              <Avatar className="w-9 h-9">
+                <AvatarImage src={profileImageUrl} alt={userName || "Profile"} />
+                <AvatarFallback className="text-xs">
+                  {userName?.charAt(0) || 'U'}
+                </AvatarFallback>
+              </Avatar>
+            ) : (
+              <User className="w-4 h-4" />
+            )}
+          </Link>
+        </div>
       </div>
 
       {/* Desktop Sidebar */}
