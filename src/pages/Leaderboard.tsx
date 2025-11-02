@@ -56,9 +56,9 @@ export default function Leaderboard() {
   };
 
   const getRankIcon = (rank: number) => {
-    if (rank === 1) return <Trophy className="w-5 h-5 text-yellow-500" />;
-    if (rank === 2) return <Medal className="w-5 h-5 text-gray-400" />;
-    if (rank === 3) return <Award className="w-5 h-5 text-amber-600" />;
+    if (rank === 1) return <Trophy className="w-4 h-4 text-yellow-500" />;
+    if (rank === 2) return <Medal className="w-4 h-4 text-muted-foreground" />;
+    if (rank === 3) return <Award className="w-4 h-4 text-amber-600/70" />;
     return null;
   };
 
@@ -74,61 +74,93 @@ export default function Leaderboard() {
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto py-8 px-4">
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">Leaderboard</h1>
-          <p className="text-gray-600 dark:text-gray-400">Top performers by sperm value</p>
-          {currentUserRank && (
-            <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl">
-              <p className="text-sm text-gray-600 dark:text-gray-400">Your rank: <span className="font-bold text-gray-900 dark:text-white">#{currentUserRank}</span></p>
-            </div>
-          )}
+      <div className="max-w-2xl mx-auto py-8 px-4 mt-16 md:mt-0">
+        {/* Header */}
+        <div className="mb-12 text-center">
+          <h1 className="text-2xl font-semibold text-foreground mb-2 tracking-tight">Leaderboard</h1>
+          <p className="text-sm text-muted-foreground">Top performers by value</p>
         </div>
 
-        <div className="space-y-3">
-          {leaderboard.map((entry) => (
+        {/* Current User Rank - Minimal Badge */}
+        {currentUserRank && (
+          <div className="mb-8 flex justify-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/50 rounded-full border border-border">
+              <span className="text-xs text-muted-foreground">Your position</span>
+              <span className="text-sm font-semibold text-foreground">#{currentUserRank}</span>
+            </div>
+          </div>
+        )}
+
+        {/* Leaderboard List */}
+        <div className="space-y-2">
+          {leaderboard.map((entry, index) => (
             <div
               key={entry.rank}
-              className={`p-4 rounded-2xl border-2 transition-all ${
+              className={`group relative transition-all duration-200 ${
                 entry.rank === currentUserRank
-                  ? 'bg-gray-100 dark:bg-gray-800 border-gray-900 dark:border-white'
-                  : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700'
+                  ? 'bg-accent/50'
+                  : 'hover:bg-muted/30'
               }`}
             >
-              <div className="flex items-center gap-4">
-                <div className="flex-shrink-0 w-12 text-center">
+              <div className="flex items-center gap-4 px-4 py-4">
+                {/* Rank */}
+                <div className="flex-shrink-0 w-8 flex justify-center">
                   {getRankIcon(entry.rank) || (
-                    <span className="text-lg font-bold text-gray-600 dark:text-gray-400">#{entry.rank}</span>
+                    <span className={`text-sm font-medium ${
+                      entry.rank === currentUserRank 
+                        ? 'text-foreground' 
+                        : 'text-muted-foreground'
+                    }`}>
+                      {entry.rank}
+                    </span>
                   )}
                 </div>
 
-                <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex-shrink-0 overflow-hidden">
-                  {entry.avatar ? (
-                    <img src={entry.avatar} alt={entry.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-600 dark:text-gray-400 font-semibold">
-                      {entry.name.charAt(0).toUpperCase()}
-                    </div>
-                  )}
+                {/* Avatar */}
+                <div className="flex-shrink-0">
+                  <div className="w-9 h-9 rounded-full bg-muted overflow-hidden ring-1 ring-border">
+                    {entry.avatar ? (
+                      <img src={entry.avatar} alt={entry.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-xs font-medium text-muted-foreground">
+                        {entry.name.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
+                {/* Name & Stats */}
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-gray-900 dark:text-white truncate">{entry.name}</p>
-                  <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-gray-400">
-                    <span>Level {entry.level}</span>
-                    <span>•</span>
-                    <span>{entry.streak} day streak</span>
+                  <p className={`text-sm font-medium truncate ${
+                    entry.rank === currentUserRank 
+                      ? 'text-foreground' 
+                      : 'text-foreground'
+                  }`}>
+                    {entry.name}
+                  </p>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
+                    <span>Lvl {entry.level}</span>
+                    <span className="opacity-50">·</span>
+                    <span>{entry.streak}d</span>
                   </div>
                 </div>
 
+                {/* Value */}
                 <div className="flex-shrink-0 text-right">
-                  <p className="text-xl font-bold text-gray-900 dark:text-white">${entry.value.toLocaleString()}</p>
-                  <div className="flex items-center justify-end gap-1 text-xs text-gray-600 dark:text-gray-400">
-                    <TrendingUp className="w-3 h-3" />
-                    <span>value</span>
-                  </div>
+                  <p className={`text-sm font-semibold tabular-nums ${
+                    entry.rank === currentUserRank 
+                      ? 'text-foreground' 
+                      : 'text-foreground'
+                  }`}>
+                    ${entry.value.toLocaleString()}
+                  </p>
                 </div>
               </div>
+
+              {/* Subtle separator */}
+              {index < leaderboard.length - 1 && (
+                <div className="absolute bottom-0 left-16 right-4 h-px bg-border/50" />
+              )}
             </div>
           ))}
         </div>
