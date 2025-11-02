@@ -54,13 +54,12 @@ export default function Layout({ children }: LayoutProps) {
     { name: "Insights", path: "/content", icon: BookOpen },
     { name: "Leaderboard", path: "/leaderboard", icon: Trophy },
     { name: "Pricing", path: "/pricing", icon: DollarSign },
-    { name: "Profile", path: "/profile", icon: User },
   ];
 
   const isActive = (path: string) => location.pathname === path;
   
   // Pages that should show back button instead of floating buttons
-  const pagesWithBackButton = ['/profile', '/leaderboard', '/pricing'];
+  const pagesWithBackButton = ['/leaderboard', '/pricing'];
   const shouldShowBackButton = pagesWithBackButton.includes(location.pathname);
 
   return (
@@ -128,7 +127,7 @@ export default function Layout({ children }: LayoutProps) {
             </button>
           </div>
 
-          {/* Right side: Leaderboard, Pricing, and Profile */}
+          {/* Right side: Leaderboard and Pricing */}
           <div className="flex items-center gap-2">
             <Link
               to="/leaderboard"
@@ -144,23 +143,6 @@ export default function Layout({ children }: LayoutProps) {
               title="Pricing"
             >
               <DollarSign className="w-4 h-4" />
-            </Link>
-            
-            <Link
-              to="/profile"
-              className="w-9 h-9 rounded-full overflow-hidden bg-background border border-border shadow-lg flex items-center justify-center"
-              title="Profile"
-            >
-              {profileImageUrl ? (
-                <Avatar className="w-9 h-9">
-                  <AvatarImage src={profileImageUrl} alt={userName || "Profile"} />
-                  <AvatarFallback className="text-xs">
-                    {userName?.charAt(0) || 'U'}
-                  </AvatarFallback>
-                </Avatar>
-              ) : (
-                <User className="w-4 h-4" />
-              )}
             </Link>
           </div>
         </div>
