@@ -96,9 +96,9 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="pt-[5vh] max-w-3xl mx-auto space-y-6">
+      <div className="max-w-3xl mx-auto space-y-6 mt-16 md:mt-0">
         {/* Calendar */}
-        <div className="relative mt-24">
+        <div className="relative">
           <div className="mb-2">
             <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Today</span>
           </div>
