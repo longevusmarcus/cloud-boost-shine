@@ -14,6 +14,7 @@ export default function Dashboard() {
   const [todayLog, setTodayLog] = useState<any>(null);
   const [recentLogs, setRecentLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userRank, setUserRank] = useState<number | null>(null);
   const { logAction } = useAuditLog();
 
   useEffect(() => {
@@ -65,6 +66,17 @@ export default function Dashboard() {
         (logsData || []).map(log => decryptDailyLog(log, session.user.id))
       );
       setRecentLogs(decryptedLogs);
+
+      // Fetch user rank from leaderboard
+      const { data: allProfiles } = await supabase
+        .from('user_profiles')
+        .select('user_id, sperm_value')
+        .order('sperm_value', { ascending: false });
+
+      if (allProfiles) {
+        const rank = allProfiles.findIndex(p => p.user_id === session.user.id) + 1;
+        setUserRank(rank > 0 ? rank : null);
+      }
 
       // Log audit trail
       await logAction({
@@ -293,42 +305,34 @@ export default function Dashboard() {
               )}
             </div>
 
-            {/* Progress Preview Card */}
+            {/* User Rank Card */}
             <div className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-950 dark:to-gray-900 border-2 border-gray-700 dark:border-gray-800 p-3 md:p-5 flex flex-col">
-              <h3 className="font-semibold text-white text-[11px] md:text-sm mb-2">Progress</h3>
+              <h3 className="font-semibold text-white text-[11px] md:text-sm mb-2">Your Rank</h3>
               <div className="flex-1 flex flex-col items-center justify-center relative">
-                {/* Circular progress indicator */}
-                <div className="relative w-16 h-16 md:w-20 md:h-20">
-                  <svg className="transform -rotate-90" width="100%" height="100%" viewBox="0 0 100 100">
-                    {/* Background circle */}
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="40"
-                      fill="none"
-                      stroke="rgba(255,255,255,0.1)"
-                      strokeWidth="8"
-                    />
-                    {/* Progress circle */}
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="40"
-                      fill="none"
-                      stroke="white"
-                      strokeWidth="8"
-                      strokeLinecap="round"
-                      strokeDasharray={`${((profile?.sperm_value || 50) / 5000) * 251} 251`}
-                      className="transition-all duration-1000"
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-xs md:text-sm font-bold text-white">{Math.round(((profile?.sperm_value || 50) / 5000) * 100)}%</span>
+                {userRank ? (
+                  <>
+                    {/* Trophy icon for top 3 */}
+                    {userRank <= 3 && (
+                      <div className="mb-2">
+                        <Activity className="w-6 h-6 md:w-8 md:h-8 text-yellow-400" />
+                      </div>
+                    )}
+                    {/* Rank number */}
+                    <div className="flex items-baseline gap-0.5">
+                      <span className="text-xs md:text-sm text-white/70">#</span>
+                      <span className="text-3xl md:text-4xl font-bold text-white">{userRank}</span>
+                    </div>
+                    <p className="text-[9px] md:text-xs text-white/60 mt-1">on leaderboard</p>
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center">
+                    <div className="text-2xl mb-1.5">🏆</div>
+                    <p className="text-[9px] md:text-xs text-white/60 text-center">Loading rank...</p>
                   </div>
-                </div>
+                )}
               </div>
               <button
-                onClick={() => navigate('/analytics')}
+                onClick={() => navigate('/leaderboard')}
                 className="mt-2 text-[9px] md:text-xs text-white/70 hover:text-white transition-colors text-center"
               >
                 View All →
