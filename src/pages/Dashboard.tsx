@@ -136,7 +136,7 @@ export default function Dashboard() {
         </div>
 
         {/* Main Circle - Sperm Value */}
-        <div className="flex justify-center py-2">
+        <div className="flex justify-center py-2 mt-4">
           <div className="relative">
             {/* Pulsing rings */}
             <div className="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-700 opacity-20 animate-ping" style={{ animationDuration: '3s' }} />
