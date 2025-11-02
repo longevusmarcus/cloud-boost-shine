@@ -37,7 +37,7 @@ export default function Pricing() {
 
   return (
     <Layout>
-      <div className="min-h-screen flex items-center justify-center px-4 py-12 mt-16 md:mt-0">
+      <div className="min-h-screen flex items-center justify-center px-4 py-8 mt-12 md:mt-0">
         <div className="w-full max-w-md">
           {/* Card Container */}
           <div className="bg-background rounded-3xl shadow-xl border border-border p-8">
