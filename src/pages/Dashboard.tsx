@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
-import { Activity, TrendingUp, Flame, Calendar, UserCircle, Moon, Apple, Heart, Droplet, Sun } from "lucide-react";
+import { Activity, TrendingUp, Flame, Calendar, UserCircle, Moon, Apple, Heart, Droplet, Sun, Trophy, DollarSign } from "lucide-react";
 import Layout from "@/components/Layout";
 import FloatingChatbot from "@/components/dashboard/FloatingChatbot";
 import SpermValueChart from "@/components/dashboard/SpermValueChart";
@@ -127,8 +127,24 @@ export default function Dashboard() {
                 <Sun className="w-4 h-4 text-gray-600 dark:text-gray-400" />
               )}
             </button>
+
+            {/* New: Leaderboard and Pricing buttons next to notifications (mobile) */}
+            <button
+              onClick={() => navigate('/leaderboard')}
+              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
+              title="Leaderboard"
+            >
+              <Trophy className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+            </button>
+            <button
+              onClick={() => navigate('/pricing')}
+              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
+              title="Pricing"
+            >
+              <DollarSign className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+            </button>
             
-            <button className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg">
+            <button className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg" title="Notifications">
               <span className="text-base">🔔</span>
             </button>
           </div>
