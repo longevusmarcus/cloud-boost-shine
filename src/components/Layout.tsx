@@ -1,6 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight, Moon, Sun, Trophy, DollarSign, Bell } from "lucide-react";
+import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight, Moon, Sun, Trophy, DollarSign, Bell, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useTheme } from "@/components/ThemeProvider";
@@ -58,6 +58,10 @@ export default function Layout({ children }: LayoutProps) {
   ];
 
   const isActive = (path: string) => location.pathname === path;
+  
+  // Pages that should show back button instead of floating buttons
+  const pagesWithBackButton = ['/profile', '/leaderboard', '/pricing'];
+  const shouldShowBackButton = pagesWithBackButton.includes(location.pathname);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col md:flex-row transition-colors">
@@ -95,58 +99,72 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Mobile Header Buttons */}
-      <div className="fixed top-4 left-4 right-4 z-50 md:hidden flex items-center justify-between">
-        {/* Left side: Notifications and Theme toggle */}
-        <div className="flex items-center gap-2">
-          <button className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center" title="Notifications">
-            <Bell className="w-4 h-4" />
-          </button>
-          
-          <button 
-            onClick={toggleTheme}
+      {shouldShowBackButton ? (
+        /* Back button for profile, leaderboard, and pricing pages */
+        <div className="fixed top-4 left-4 z-50 md:hidden">
+          <button
+            onClick={() => navigate(-1)}
             className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors"
-            title="Toggle theme"
+            title="Go back"
           >
-            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            <ArrowLeft className="w-4 h-4" />
           </button>
         </div>
+      ) : (
+        /* Full header buttons for other pages */
+        <div className="fixed top-4 left-4 right-4 z-50 md:hidden flex items-center justify-between">
+          {/* Left side: Notifications and Theme toggle */}
+          <div className="flex items-center gap-2">
+            <button className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center" title="Notifications">
+              <Bell className="w-4 h-4" />
+            </button>
+            
+            <button 
+              onClick={toggleTheme}
+              className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors"
+              title="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+          </div>
 
-        {/* Right side: Leaderboard, Pricing, and Profile */}
-        <div className="flex items-center gap-2">
-          <Link
-            to="/leaderboard"
-            className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors"
-            title="Leaderboard"
-          >
-            <Trophy className="w-4 h-4" />
-          </Link>
-          
-          <Link
-            to="/pricing"
-            className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors"
-            title="Pricing"
-          >
-            <DollarSign className="w-4 h-4" />
-          </Link>
-          
-          <Link
-            to="/profile"
-            className="w-9 h-9 rounded-full overflow-hidden bg-background border border-border shadow-lg flex items-center justify-center"
-            title="Profile"
-          >
-            {profileImageUrl ? (
-              <Avatar className="w-9 h-9">
-                <AvatarImage src={profileImageUrl} alt={userName || "Profile"} />
-                <AvatarFallback className="text-xs">
-                  {userName?.charAt(0) || 'U'}
-                </AvatarFallback>
-              </Avatar>
-            ) : (
-              <User className="w-4 h-4" />
-            )}
-          </Link>
+          {/* Right side: Leaderboard, Pricing, and Profile */}
+          <div className="flex items-center gap-2">
+            <Link
+              to="/leaderboard"
+              className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors"
+              title="Leaderboard"
+            >
+              <Trophy className="w-4 h-4" />
+            </Link>
+            
+            <Link
+              to="/pricing"
+              className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors"
+              title="Pricing"
+            >
+              <DollarSign className="w-4 h-4" />
+            </Link>
+            
+            <Link
+              to="/profile"
+              className="w-9 h-9 rounded-full overflow-hidden bg-background border border-border shadow-lg flex items-center justify-center"
+              title="Profile"
+            >
+              {profileImageUrl ? (
+                <Avatar className="w-9 h-9">
+                  <AvatarImage src={profileImageUrl} alt={userName || "Profile"} />
+                  <AvatarFallback className="text-xs">
+                    {userName?.charAt(0) || 'U'}
+                  </AvatarFallback>
+                </Avatar>
+              ) : (
+                <User className="w-4 h-4" />
+              )}
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Desktop Sidebar */}
       <aside className={`hidden md:block fixed left-0 top-0 bottom-0 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 z-50 transition-all duration-300 ${
