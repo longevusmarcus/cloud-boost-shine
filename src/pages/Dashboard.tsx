@@ -95,7 +95,7 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto space-y-4 mt-8 md:mt-0">
+      <div className="max-w-3xl mx-auto space-y-4 mt-12 md:mt-0">
         {/* Calendar */}
         <div className="relative">
           <div className="mb-2">
