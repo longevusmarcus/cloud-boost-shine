@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { UserCircle, LogOut, Award, TrendingUp, Flame, Calendar, Target, Zap, Trophy, Camera, Moon, Sun, ArrowLeft, Edit2, Check, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import Layout from "@/components/Layout";
 
 import SubscriptionSection from "@/components/profile/SubscriptionSection";
 import MFASettings from "@/components/profile/MFASettings";
@@ -280,35 +281,8 @@ export default function Profile() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-3 md:p-8">
-        {/* Floating Buttons - Mobile Only */}
-        <div className="fixed top-4 left-0 right-0 z-50 md:hidden flex items-center justify-between px-4">
-          <button 
-            onClick={() => navigate('/dashboard')}
-            className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
-          >
-            <ArrowLeft className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-          </button>
-          
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={toggleTheme}
-              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
-            >
-              {theme === "light" ? (
-                <Moon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-              ) : (
-                <Sun className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-              )}
-            </button>
-            
-            <button className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg">
-              <span className="text-base">🔔</span>
-            </button>
-          </div>
-        </div>
-
-        <div className="max-w-2xl mx-auto space-y-4 md:space-y-6 mt-16 md:mt-0">
+    <Layout>
+      <div className="max-w-2xl mx-auto space-y-4 md:space-y-6 mt-16 md:mt-0">
           {/* Profile Header */}
           <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-8 shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="flex flex-col items-center text-center mb-6">
@@ -790,6 +764,6 @@ export default function Profile() {
             Logout
           </Button>
         </div>
-      </div>
+    </Layout>
   );
 }
