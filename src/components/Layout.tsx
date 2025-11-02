@@ -259,64 +259,64 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Mobile Navigation - Glassmorphic */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden px-4 pb-4">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden px-3 pb-3">
         <div className="relative">
           {/* Glass container */}
-          <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-gray-200/50 dark:border-gray-700/50 px-6 py-4">
+          <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-2xl rounded-3xl shadow-lg border border-gray-200/30 dark:border-gray-700/30 px-4 py-3">
             <div className="flex justify-around items-center relative">
               {/* Dashboard */}
               <Link
                 to="/dashboard"
-                className={`flex flex-col items-center gap-1 transition-all duration-200 ${
+                className={`flex flex-col items-center gap-0.5 transition-all duration-200 ${
                   isActive('/dashboard')
                     ? 'text-gray-900 dark:text-white'
                     : 'text-gray-400 dark:text-gray-500'
                 }`}
               >
-                <Home className="w-6 h-6" strokeWidth={isActive('/dashboard') ? 2.5 : 2} />
-                <span className="text-[11px] font-medium">Dashboard</span>
+                <Home className="w-5 h-5" strokeWidth={isActive('/dashboard') ? 2.5 : 2} />
+                <span className="text-[9px] font-medium">Home</span>
               </Link>
 
               {/* Analytics */}
               <Link
                 to="/analytics"
-                className={`flex flex-col items-center gap-1 transition-all duration-200 ${
+                className={`flex flex-col items-center gap-0.5 transition-all duration-200 ${
                   isActive('/analytics')
                     ? 'text-gray-900 dark:text-white'
                     : 'text-gray-400 dark:text-gray-500'
                 }`}
               >
-                <TrendingUp className="w-6 h-6" strokeWidth={isActive('/analytics') ? 2.5 : 2} />
-                <span className="text-[11px] font-medium">Analytics</span>
+                <TrendingUp className="w-5 h-5" strokeWidth={isActive('/analytics') ? 2.5 : 2} />
+                <span className="text-[9px] font-medium">Stats</span>
               </Link>
 
               {/* Center Floating Button - Spacer */}
-              <div className="w-14"></div>
+              <div className="w-12"></div>
 
               {/* Content */}
               <Link
                 to="/content"
-                className={`flex flex-col items-center gap-1 transition-all duration-200 ${
+                className={`flex flex-col items-center gap-0.5 transition-all duration-200 ${
                   isActive('/content')
                     ? 'text-gray-900 dark:text-white'
                     : 'text-gray-400 dark:text-gray-500'
                 }`}
               >
-                <BookOpen className="w-6 h-6" strokeWidth={isActive('/content') ? 2.5 : 2} />
-                <span className="text-[11px] font-medium">Content</span>
+                <BookOpen className="w-5 h-5" strokeWidth={isActive('/content') ? 2.5 : 2} />
+                <span className="text-[9px] font-medium">Learn</span>
               </Link>
 
               {/* Profile */}
               <Link
                 to="/profile"
-                className={`flex flex-col items-center gap-1 transition-all duration-200 ${
+                className={`flex flex-col items-center gap-0.5 transition-all duration-200 ${
                   isActive('/profile')
                     ? 'text-gray-900 dark:text-white'
                     : 'text-gray-400 dark:text-gray-500'
                 }`}
               >
-                <User className="w-6 h-6" strokeWidth={isActive('/profile') ? 2.5 : 2} />
-                <span className="text-[11px] font-medium">Profile</span>
+                <User className="w-5 h-5" strokeWidth={isActive('/profile') ? 2.5 : 2} />
+                <span className="text-[9px] font-medium">Profile</span>
               </Link>
             </div>
           </div>
@@ -324,9 +324,9 @@ export default function Layout({ children }: LayoutProps) {
           {/* Floating Center Button */}
           <Link
             to="/tracking"
-            className="absolute left-1/2 -translate-x-1/2 -top-6 w-16 h-16 bg-gray-900 dark:bg-gray-800 rounded-full flex items-center justify-center shadow-xl hover:scale-105 transition-transform duration-200"
+            className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 bg-gray-900 dark:bg-gray-800 rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-transform duration-200"
           >
-            <Plus className="w-8 h-8 text-white" strokeWidth={2.5} />
+            <Plus className="w-7 h-7 text-white" strokeWidth={2.5} />
           </Link>
         </div>
       </nav>
