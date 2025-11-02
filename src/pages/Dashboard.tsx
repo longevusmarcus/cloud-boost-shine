@@ -307,33 +307,33 @@ export default function Dashboard() {
 
             {/* User Rank Card */}
             <div className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-950 dark:to-gray-900 border-2 border-gray-700 dark:border-gray-800 p-3 md:p-5 flex flex-col">
-              <h3 className="font-semibold text-white text-[11px] md:text-sm mb-2">Your Rank</h3>
-              <div className="flex-1 flex flex-col items-center justify-center relative">
+              <h3 className="font-semibold text-white text-[11px] md:text-sm mb-1.5">Your Rank</h3>
+              <div className="flex-1 flex flex-col items-center justify-center">
                 {userRank ? (
                   <>
                     {/* Trophy icon for top 3 */}
                     {userRank <= 3 && (
-                      <div className="mb-2">
-                        <Activity className="w-6 h-6 md:w-8 md:h-8 text-yellow-400" />
+                      <div className="mb-1">
+                        <Activity className="w-5 h-5 md:w-6 md:h-6 text-yellow-400" />
                       </div>
                     )}
                     {/* Rank number */}
                     <div className="flex items-baseline gap-0.5">
                       <span className="text-xs md:text-sm text-white/70">#</span>
-                      <span className="text-3xl md:text-4xl font-bold text-white">{userRank}</span>
+                      <span className="text-2xl md:text-3xl font-bold text-white">{userRank}</span>
                     </div>
-                    <p className="text-[9px] md:text-xs text-white/60 mt-1">on leaderboard</p>
+                    <p className="text-[8px] md:text-xs text-white/60 mt-0.5">leaderboard</p>
                   </>
                 ) : (
                   <div className="flex flex-col items-center">
-                    <div className="text-2xl mb-1.5">🏆</div>
-                    <p className="text-[9px] md:text-xs text-white/60 text-center">Loading rank...</p>
+                    <div className="text-xl md:text-2xl mb-1">🏆</div>
+                    <p className="text-[8px] md:text-xs text-white/60 text-center">Loading...</p>
                   </div>
                 )}
               </div>
               <button
                 onClick={() => navigate('/leaderboard')}
-                className="mt-2 text-[9px] md:text-xs text-white/70 hover:text-white transition-colors text-center"
+                className="mt-1 text-[9px] md:text-xs text-white/70 hover:text-white transition-colors text-center"
               >
                 View All →
               </button>
