@@ -101,22 +101,12 @@ export default function Dashboard() {
       <div className="pt-[5vh] max-w-3xl mx-auto space-y-6">
         {/* Floating Icons - Mobile Only */}
         <div className="fixed top-4 left-4 right-4 z-50 md:hidden flex items-center justify-between">
-          <button
-            onClick={() => navigate('/profile')}
-            className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg"
-          >
-            {profile?.profile_image_url ? (
-              <img 
-                src={profile.profile_image_url} 
-                alt="Profile" 
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <UserCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-            )}
-          </button>
-          
+          {/* Left side: Notifications and Theme toggle */}
           <div className="flex items-center gap-2">
+            <button className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg" title="Notifications">
+              <span className="text-base">🔔</span>
+            </button>
+            
             <button 
               onClick={toggleTheme}
               className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
@@ -127,8 +117,10 @@ export default function Dashboard() {
                 <Sun className="w-4 h-4 text-gray-600 dark:text-gray-400" />
               )}
             </button>
+          </div>
 
-            {/* New: Leaderboard and Pricing buttons next to notifications (mobile) */}
+          {/* Right side: Leaderboard, Pricing, and Profile */}
+          <div className="flex items-center gap-2">
             <button
               onClick={() => navigate('/leaderboard')}
               className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
@@ -136,6 +128,7 @@ export default function Dashboard() {
             >
               <Trophy className="w-4 h-4 text-gray-600 dark:text-gray-400" />
             </button>
+            
             <button
               onClick={() => navigate('/pricing')}
               className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
@@ -144,8 +137,19 @@ export default function Dashboard() {
               <DollarSign className="w-4 h-4 text-gray-600 dark:text-gray-400" />
             </button>
             
-            <button className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg" title="Notifications">
-              <span className="text-base">🔔</span>
+            <button
+              onClick={() => navigate('/profile')}
+              className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-lg"
+            >
+              {profile?.profile_image_url ? (
+                <img 
+                  src={profile.profile_image_url} 
+                  alt="Profile" 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <UserCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              )}
             </button>
           </div>
         </div>
