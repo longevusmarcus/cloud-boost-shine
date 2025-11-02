@@ -26,17 +26,17 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
 
       {/* Progress Bar */}
       <div className="relative">
-        <div className="w-full h-8 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+        <div className="w-full h-5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
           <div 
             className="h-full transition-all duration-500 rounded-full relative"
             style={{ 
               width: `${percentage}%`,
-              background: 'linear-gradient(135deg, #3a2f2f 0%, #5d4e4e 25%, #8a7a6f 50%, #b8a592 75%, #d4c4b0 100%)'
+              background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 30%, #3f3f3f 60%, #5a5a5a 85%, #6b6b6b 100%)'
             }}
           >
             {/* Percentage text inside bar */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-xs font-bold text-white drop-shadow-lg">
+              <span className="text-[10px] font-bold text-white drop-shadow-lg">
                 {Math.round(percentage)}%
               </span>
             </div>
