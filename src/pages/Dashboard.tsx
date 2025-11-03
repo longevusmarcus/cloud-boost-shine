@@ -131,7 +131,7 @@ export default function Dashboard() {
                 <button
                   key={idx}
                   onClick={() => setShowTimeline(true)}
-                  className={`flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-semibold transition-all text-xs cursor-pointer ${
+                  className={`flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-semibold transition-all text-xs cursor-pointer pointer-events-auto ${
                     isToday
                       ? 'bg-black dark:bg-white text-white dark:text-black'
                       : isYesterday && isLogged
