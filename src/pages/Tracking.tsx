@@ -197,7 +197,7 @@ export default function Tracking() {
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto space-y-4 mt-16 md:mt-0">
+      <div className="max-w-3xl mx-auto space-y-4 mt-8 md:mt-0">
         {/* Desktop: Full header */}
         <div className="hidden md:block mb-4">
           <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2">Daily Check-in</h1>
