@@ -47,7 +47,7 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
       </div>
 
       {/* CTA Buttons */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
         <button
           onClick={() => navigate('/pricing')}
           className="py-3 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-black font-bold text-sm flex flex-col items-center justify-center gap-1 transition-all shadow-[0_0_30px_rgba(0,0,0,0.4)] hover:shadow-[0_0_50px_rgba(0,0,0,0.6)] dark:shadow-[0_0_30px_rgba(255,255,255,0.5)] dark:hover:shadow-[0_0_50px_rgba(255,255,255,0.7)] animate-pulse hover:scale-105 relative overflow-hidden"
