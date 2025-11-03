@@ -6,7 +6,6 @@ import { Activity, TrendingUp, Flame, Calendar, Heart, Droplet, Moon, Apple, X, 
 import Layout from "@/components/Layout";
 import SpermValueChart from "@/components/dashboard/SpermValueChart";
 import ValueProgressChart from "@/components/dashboard/ValueProgressChart";
-import NotificationCenter from "@/components/NotificationCenter";
 import { decryptDailyLog } from "@/lib/encryption";
 import { useAuditLog } from "@/hooks/useAuditLog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -658,8 +657,6 @@ export default function Dashboard() {
           </div>
         </SheetContent>
       </Sheet>
-      
-      <NotificationCenter />
     </Layout>
   );
 }

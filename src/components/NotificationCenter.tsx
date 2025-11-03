@@ -31,10 +31,10 @@ export default function NotificationCenter() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="fixed bottom-6 right-6 z-50 p-4 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105">
-          <Bell className="w-6 h-6" />
+        <button className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors relative">
+          <Bell className="w-4 h-4" />
           {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 w-6 h-6 bg-destructive text-destructive-foreground text-xs font-bold rounded-full flex items-center justify-center animate-pulse">
+            <span className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-destructive-foreground text-xs font-bold rounded-full flex items-center justify-center">
               {unreadCount > 9 ? '9+' : unreadCount}
             </span>
           )}
