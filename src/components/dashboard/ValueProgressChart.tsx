@@ -82,7 +82,7 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
             <TrendingUp className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span className="text-xs text-emerald-700 dark:text-emerald-300">Current</span>
           </div>
-          <div className="text-2xl font-bold text-emerald-900 dark:text-emerald-100">
+          <div className="text-xl font-bold text-emerald-900 dark:text-emerald-100">
             ${(currentValue / 1000).toFixed(1)}K
           </div>
           <div className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
@@ -95,7 +95,7 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
             <Target className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
             <span className="text-xs text-purple-700 dark:text-purple-300">Maximum</span>
           </div>
-          <div className="text-2xl font-bold text-purple-900 dark:text-purple-100">
+          <div className="text-xl font-bold text-purple-900 dark:text-purple-100">
             ${(maxValue / 1000).toFixed(0)}K
           </div>
           <div className="text-xs text-purple-600 dark:text-purple-400 mt-1">
@@ -108,7 +108,7 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
             <Percent className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
             <span className="text-xs text-blue-700 dark:text-blue-300">Progress</span>
           </div>
-          <div className="text-2xl font-bold text-blue-900 dark:text-blue-100">
+          <div className="text-xl font-bold text-blue-900 dark:text-blue-100">
             {progress.toFixed(1)}%
           </div>
           <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
