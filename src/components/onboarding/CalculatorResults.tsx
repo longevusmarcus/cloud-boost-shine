@@ -20,9 +20,9 @@ export default function CalculatorResults({ userData, onComplete, onBack }) {
 
     const input: DonorProfileInput = {
       ageRange,
-      educationLevel: userData.lifestyle_data?.educationLevel,
-      recipientFamilies: userData.lifestyle_data?.recipientFamilies,
-      transparencyLevel: userData.lifestyle_data?.transparencyLevel,
+      educationLevel: userData.educationLevel,
+      recipientFamilies: userData.recipientFamilies,
+      transparencyLevel: userData.transparencyLevel,
       bmiRange,
       testosteroneUse: userData.lifestyle_data?.testosteroneUse,
       smokingDrugs: userData.lifestyle_data?.smokingDrugs,
