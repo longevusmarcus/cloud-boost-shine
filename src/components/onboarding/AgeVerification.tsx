@@ -7,18 +7,14 @@ import { AlertCircle, ArrowRight } from "lucide-react";
 export default function AgeVerification({ onNext }: { onNext: (data: any) => void }) {
   const [formData, setFormData] = useState({
     age: "",
-    height_feet: "",
-    height_inches: "",
-    weight: ""
+    zipCode: ""
   });
   const [error, setError] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const ageNum = parseInt(formData.age);
-    const heightFeet = parseInt(formData.height_feet);
-    const heightInches = parseInt(formData.height_inches);
-    const weight = parseInt(formData.weight);
     
     if (!formData.age || ageNum < 18) {
       setError("You must be 18 or older to use this app");
@@ -30,26 +26,19 @@ export default function AgeVerification({ onNext }: { onNext: (data: any) => voi
       return;
     }
 
-    if (!formData.height_feet || heightFeet < 3 || heightFeet > 8) {
-      setError("Please enter a valid height");
+    if (!formData.zipCode || formData.zipCode.length !== 5) {
+      setError("Please enter a valid 5-digit ZIP code");
       return;
     }
 
-    if (!formData.height_inches || heightInches < 0 || heightInches > 11) {
-      setError("Inches must be between 0 and 11");
-      return;
-    }
-
-    if (!formData.weight || weight < 50 || weight > 500) {
-      setError("Please enter a valid weight");
+    if (!isChecked) {
+      setError("You must confirm you are 18+ to continue");
       return;
     }
 
     onNext({ 
       age: ageNum,
-      height_feet: heightFeet,
-      height_inches: heightInches,
-      weight: weight
+      zipCode: formData.zipCode
     });
   };
 
@@ -77,54 +66,35 @@ export default function AgeVerification({ onNext }: { onNext: (data: any) => voi
 
         <div>
           <Label className="text-foreground text-sm font-medium mb-1.5 block">
-            Height
-          </Label>
-          <div className="flex gap-3">
-            <div className="flex-1">
-              <Input
-                type="number"
-                value={formData.height_feet}
-                onChange={(e) => {
-                  setFormData({ ...formData, height_feet: e.target.value });
-                  setError("");
-                }}
-                placeholder="Feet"
-                min="3"
-                max="8"
-                className="h-11 md:h-12 text-base rounded-xl"
-              />
-            </div>
-            <div className="flex-1">
-              <Input
-                type="number"
-                value={formData.height_inches}
-                onChange={(e) => {
-                  setFormData({ ...formData, height_inches: e.target.value });
-                  setError("");
-                }}
-                placeholder="Inches"
-                min="0"
-                max="11"
-                className="h-11 md:h-12 text-base rounded-xl"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <Label className="text-foreground text-sm font-medium mb-1.5 block">
-            Weight (lbs)
+            ZIP Code
           </Label>
           <Input
-            type="number"
-            value={formData.weight}
+            type="text"
+            value={formData.zipCode}
             onChange={(e) => {
-              setFormData({ ...formData, weight: e.target.value });
+              const value = e.target.value.replace(/\D/g, '').slice(0, 5);
+              setFormData({ ...formData, zipCode: value });
               setError("");
             }}
-            placeholder="Enter your weight"
+            placeholder="ZIP"
+            maxLength={5}
             className="h-11 md:h-12 text-base rounded-xl"
           />
+        </div>
+
+        <div className="flex items-start gap-3 p-4 rounded-xl bg-muted/50">
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={(e) => {
+              setIsChecked(e.target.checked);
+              setError("");
+            }}
+            className="mt-1 w-5 h-5 rounded border-2 border-muted-foreground"
+          />
+          <label className="text-sm text-foreground">
+            You must be 18+ to use Batch.
+          </label>
         </div>
 
         {error && (

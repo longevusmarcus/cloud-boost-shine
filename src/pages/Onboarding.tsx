@@ -35,7 +35,15 @@ export default function Onboarding() {
   };
 
   const handleLifestyleQuiz = (data: any) => {
-    setUserData({ ...userData, ...data });
+    // Extract height, weight from lifestyle_data and merge with userData
+    const { height_feet, height_inches, weight, ...lifestyleData } = data.lifestyle_data || data;
+    setUserData({ 
+      ...userData, 
+      height_feet, 
+      height_inches, 
+      weight,
+      lifestyle_data: lifestyleData 
+    });
     setStep(4);
   };
 

@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 
 export default function LifestyleQuiz({ onNext, onBack }) {
   const [formData, setFormData] = useState({
+    height_feet: "",
+    height_inches: "",
+    weight: "",
     educationLevel: "",
     recipientFamilies: "",
     transparencyLevel: "",
@@ -17,6 +21,9 @@ export default function LifestyleQuiz({ onNext, onBack }) {
 
   const isComplete = () => {
     return (
+      formData.height_feet &&
+      formData.height_inches &&
+      formData.weight &&
       formData.educationLevel &&
       formData.recipientFamilies &&
       formData.transparencyLevel &&
@@ -39,6 +46,45 @@ export default function LifestyleQuiz({ onNext, onBack }) {
       <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-8">Help us understand your profile to calculate your sperm valuation</p>
 
       <div className="space-y-4 sm:space-y-6 max-h-[55vh] sm:max-h-[60vh] overflow-y-auto pr-2">
+        <div>
+          <Label className="text-foreground text-sm font-medium mb-2 block">Height</Label>
+          <div className="flex gap-3">
+            <div className="flex-1">
+              <Input
+                type="number"
+                value={formData.height_feet}
+                onChange={(e) => setFormData({...formData, height_feet: e.target.value})}
+                placeholder="Feet"
+                min="3"
+                max="8"
+                className="h-12 rounded-xl"
+              />
+            </div>
+            <div className="flex-1">
+              <Input
+                type="number"
+                value={formData.height_inches}
+                onChange={(e) => setFormData({...formData, height_inches: e.target.value})}
+                placeholder="Inches"
+                min="0"
+                max="11"
+                className="h-12 rounded-xl"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <Label className="text-foreground text-sm font-medium mb-2 block">Weight (lbs)</Label>
+          <Input
+            type="number"
+            value={formData.weight}
+            onChange={(e) => setFormData({...formData, weight: e.target.value})}
+            placeholder="Enter your weight"
+            className="h-12 rounded-xl"
+          />
+        </div>
+
         <div>
           <Label className="text-foreground text-sm font-medium mb-2 block">Education Level</Label>
           <Select value={formData.educationLevel} onValueChange={(value) => setFormData({...formData, educationLevel: value})}>
