@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ArrowRight, ArrowLeft, Info } from "lucide-react";
 
 export default function LifestyleQuiz({ onNext, onBack }) {
   const [formData, setFormData] = useState({
@@ -35,7 +36,19 @@ export default function LifestyleQuiz({ onNext, onBack }) {
 
       <div className="space-y-4 sm:space-y-6 max-h-[55vh] sm:max-h-[60vh] overflow-y-auto pr-2">
         <div>
-          <Label className="text-foreground text-sm font-medium mb-2 block">Testosterone Supplements</Label>
+          <div className="flex items-center gap-2 mb-2">
+            <Label className="text-foreground text-sm font-medium">Testosterone Supplements</Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>Testosterone supplements can negatively impact natural sperm production by suppressing hormonal signals needed for healthy sperm development.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <Select value={formData.testosteroneUse} onValueChange={(value) => setFormData({...formData, testosteroneUse: value})}>
             <SelectTrigger className="h-12 rounded-xl">
               <SelectValue placeholder="Select status" />
@@ -48,7 +61,19 @@ export default function LifestyleQuiz({ onNext, onBack }) {
         </div>
 
         <div>
-          <Label className="text-foreground text-sm font-medium mb-2 block">Smoking / Drug Use</Label>
+          <div className="flex items-center gap-2 mb-2">
+            <Label className="text-foreground text-sm font-medium">Smoking / Drug Use</Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>Smoking and drug use significantly reduce sperm quality, motility, and count. Clean lifestyle habits are crucial for optimal fertility and sperm value.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <Select value={formData.smokingDrugs} onValueChange={(value) => setFormData({...formData, smokingDrugs: value})}>
             <SelectTrigger className="h-12 rounded-xl">
               <SelectValue placeholder="Select status" />
@@ -62,7 +87,19 @@ export default function LifestyleQuiz({ onNext, onBack }) {
         </div>
 
         <div>
-          <Label className="text-foreground text-sm font-medium mb-2 block">Stress Level</Label>
+          <div className="flex items-center gap-2 mb-2">
+            <Label className="text-foreground text-sm font-medium">Stress Level</Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>High stress elevates cortisol levels, which can impair testosterone production and reduce sperm quality, concentration, and motility.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <Select value={formData.stressLevel} onValueChange={(value) => setFormData({...formData, stressLevel: value})}>
             <SelectTrigger className="h-12 rounded-xl">
               <SelectValue placeholder="Select level" />
@@ -76,7 +113,19 @@ export default function LifestyleQuiz({ onNext, onBack }) {
         </div>
 
         <div>
-          <Label className="text-foreground text-sm font-medium mb-2 block">Ejaculation Frequency</Label>
+          <div className="flex items-center gap-2 mb-2">
+            <Label className="text-foreground text-sm font-medium">Ejaculation Frequency</Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>Optimal ejaculation frequency (2-3 times per week) maintains the best balance of sperm count, quality, and freshness for maximum fertility potential.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <Select value={formData.ejaculationFreq} onValueChange={(value) => setFormData({...formData, ejaculationFreq: value})}>
             <SelectTrigger className="h-12 rounded-xl">
               <SelectValue placeholder="Select frequency" />

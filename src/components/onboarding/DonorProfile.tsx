@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ArrowRight, ArrowLeft, Info } from "lucide-react";
 
 export default function DonorProfile({ onNext, onBack }) {
   const [formData, setFormData] = useState({
@@ -98,7 +99,19 @@ export default function DonorProfile({ onNext, onBack }) {
         )}
 
         <div>
-          <Label className="text-foreground text-sm font-medium mb-2 block">Education Level</Label>
+          <div className="flex items-center gap-2 mb-2">
+            <Label className="text-foreground text-sm font-medium">Education Level</Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>Higher education levels are associated with increased sperm value due to genetic potential and intellectual contribution to offspring.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <Select value={formData.educationLevel} onValueChange={(value) => setFormData({...formData, educationLevel: value})}>
             <SelectTrigger className="h-12 rounded-xl">
               <SelectValue placeholder="Select level" />
@@ -113,7 +126,19 @@ export default function DonorProfile({ onNext, onBack }) {
         </div>
 
         <div>
-          <Label className="text-foreground text-sm font-medium mb-2 block">How many recipient families would you serve?</Label>
+          <div className="flex items-center gap-2 mb-2">
+            <Label className="text-foreground text-sm font-medium">How many recipient families would you serve?</Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>Exclusivity increases sperm value. Donors willing to serve fewer families command premium pricing due to scarcity and personalized involvement.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <p className="text-xs text-muted-foreground mb-2">If you were to donate sperm</p>
           <Select value={formData.recipientFamilies} onValueChange={(value) => setFormData({...formData, recipientFamilies: value})}>
             <SelectTrigger className="h-12 rounded-xl">
@@ -128,7 +153,19 @@ export default function DonorProfile({ onNext, onBack }) {
         </div>
 
         <div>
-          <Label className="text-foreground text-sm font-medium mb-2 block">Information Sharing / Transparency</Label>
+          <div className="flex items-center gap-2 mb-2">
+            <Label className="text-foreground text-sm font-medium">Information Sharing / Transparency</Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>Greater transparency and willingness to share medical, genetic, and personal information increases trust and value for recipient families.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <p className="text-xs text-muted-foreground mb-2">How much information would you share?</p>
           <Select value={formData.transparencyLevel} onValueChange={(value) => setFormData({...formData, transparencyLevel: value})}>
             <SelectTrigger className="h-12 rounded-xl">
