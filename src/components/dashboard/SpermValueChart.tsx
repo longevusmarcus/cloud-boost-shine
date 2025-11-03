@@ -38,7 +38,7 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
             
             {/* Percentage text inside bar */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-[9px] font-bold text-white drop-shadow-lg">
+              <span className="text-[9px] font-bold text-white dark:text-white drop-shadow-lg">
                 {Math.round(percentage)}%
               </span>
             </div>
