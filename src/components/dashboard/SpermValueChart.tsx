@@ -48,7 +48,7 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
 
       {/* CTA */}
       <button
-        onClick={() => navigate('/profile')}
+        onClick={() => navigate('/pricing')}
         className="w-full py-3 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-black font-semibold text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-[0_0_20px_rgba(0,0,0,0.3)] hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] dark:shadow-[0_0_20px_rgba(255,255,255,0.3)] dark:hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
       >
         <TrendingUp className="w-4 h-4" />
