@@ -41,8 +41,8 @@ const generateStockChartData = (range: TimeRange, currentValue: number, maxValue
     } else if (range === "1W") {
       // Weekly: Small but noticeable progress (~7% growth)
       targetPercentage = 0.07;
-      easedProgress = progress * 0.95 + (progress * progress) * 0.05;
-      variation = Math.sin(i * 0.6) * currentValue * 0.005;
+      easedProgress = progress; // Linear for smooth gradual increase
+      variation = Math.sin(i * 0.6) * currentValue * 0.001; // Minimal variation to avoid decreases
     } else if (range === "1M") {
       // Monthly: Moderate progress (~25% toward goal)
       targetPercentage = 0.25;
