@@ -23,6 +23,33 @@ export default function Analytics() {
     loadData();
   }, [selectedPeriod]);
 
+  // Calculate trends for masturbation and exercise - MUST be before early returns
+  const trends = useMemo(() => {
+    if (logs.length < 2) return { masturbation: 'stable', exercise: 'stable' };
+    
+    const recentLogs = logs.slice(-3);
+    const previousLogs = logs.slice(-6, -3);
+    
+    if (recentLogs.length === 0) return { masturbation: 'stable', exercise: 'stable' };
+    
+    const recentMasturbation = recentLogs.reduce((acc, log) => acc + (log.masturbation_count || 0), 0) / recentLogs.length;
+    const previousMasturbation = previousLogs.length > 0 
+      ? previousLogs.reduce((acc, log) => acc + (log.masturbation_count || 0), 0) / previousLogs.length 
+      : recentMasturbation;
+    
+    const recentExercise = recentLogs.reduce((acc, log) => acc + (log.exercise_minutes || 0), 0) / recentLogs.length;
+    const previousExercise = previousLogs.length > 0
+      ? previousLogs.reduce((acc, log) => acc + (log.exercise_minutes || 0), 0) / previousLogs.length
+      : recentExercise;
+    
+    const masturbationTrend = recentMasturbation > previousMasturbation + 0.3 ? 'up' : 
+                             recentMasturbation < previousMasturbation - 0.3 ? 'down' : 'stable';
+    const exerciseTrend = recentExercise > previousExercise + 5 ? 'up' : 
+                         recentExercise < previousExercise - 5 ? 'down' : 'stable';
+    
+    return { masturbation: masturbationTrend, exercise: exerciseTrend };
+  }, [logs]);
+
   const loadData = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -97,33 +124,6 @@ export default function Analytics() {
   const avgExercise = logs.length > 0
     ? Math.round(logs.reduce((acc, log) => acc + (log.exercise_minutes || 0), 0) / logs.length)
     : 0;
-
-  // Calculate trends for masturbation and exercise
-  const trends = useMemo(() => {
-    if (logs.length < 2) return { masturbation: 'stable', exercise: 'stable' };
-    
-    const recentLogs = logs.slice(-3);
-    const previousLogs = logs.slice(-6, -3);
-    
-    if (recentLogs.length === 0) return { masturbation: 'stable', exercise: 'stable' };
-    
-    const recentMasturbation = recentLogs.reduce((acc, log) => acc + (log.masturbation_count || 0), 0) / recentLogs.length;
-    const previousMasturbation = previousLogs.length > 0 
-      ? previousLogs.reduce((acc, log) => acc + (log.masturbation_count || 0), 0) / previousLogs.length 
-      : recentMasturbation;
-    
-    const recentExercise = recentLogs.reduce((acc, log) => acc + (log.exercise_minutes || 0), 0) / recentLogs.length;
-    const previousExercise = previousLogs.length > 0
-      ? previousLogs.reduce((acc, log) => acc + (log.exercise_minutes || 0), 0) / previousLogs.length
-      : recentExercise;
-    
-    const masturbationTrend = recentMasturbation > previousMasturbation + 0.3 ? 'up' : 
-                             recentMasturbation < previousMasturbation - 0.3 ? 'down' : 'stable';
-    const exerciseTrend = recentExercise > previousExercise + 5 ? 'up' : 
-                         recentExercise < previousExercise - 5 ? 'down' : 'stable';
-    
-    return { masturbation: masturbationTrend, exercise: exerciseTrend };
-  }, [logs]);
 
   return (
     <Layout>
