@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Line, ComposedChart } from "recharts";
 import { format } from "date-fns";
-import { TrendingUp, Target, Calendar } from "lucide-react";
+import { TrendingUp, Target, Percent, Award, Crown, Gem, Zap, Medal, Trophy, Info } from "lucide-react";
 
 interface ValueProgressChartProps {
   currentValue: number;
@@ -56,109 +56,185 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
     return data;
   }, [recentLogs, currentValue]);
 
-  const maxValue = 1000;
-  const progress = (currentValue / maxValue) * 100;
+  const maxValue = 70000;
+  const progress = Math.min((currentValue / maxValue) * 100, 100);
 
   return (
     <div className="space-y-6">
-      {/* Header Stats */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-            <span className="text-xs text-gray-600 dark:text-gray-400">Current</span>
-          </div>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
-            ${currentValue}
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
-          <div className="flex items-center gap-2 mb-2">
-            <Target className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-            <span className="text-xs text-gray-600 dark:text-gray-400">Max</span>
-          </div>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
-            ${maxValue}
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
-          <div className="flex items-center gap-2 mb-2">
-            <Calendar className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-            <span className="text-xs text-gray-600 dark:text-gray-400">Progress</span>
-          </div>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
-            {progress.toFixed(0)}%
+      {/* Disclaimer Note */}
+      <div className="bg-blue-50 dark:bg-blue-950 rounded-2xl p-4 border border-blue-200 dark:border-blue-900">
+        <div className="flex gap-3">
+          <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">Value Reference</h4>
+            <p className="text-xs text-blue-800 dark:text-blue-200">
+              Maximum value of $70,000 represents optimal fertility metrics for healthy young individuals. 
+              Actual fertility value varies by age, health status, and lifestyle factors.
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Progress Bar */}
-      <div className="space-y-2">
-        <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400">
-          <span>Your Journey</span>
-          <span className="font-semibold">${currentValue} / ${maxValue}</span>
+      {/* Header Stats */}
+      <div className="grid grid-cols-3 gap-3">
+        <div className="bg-gradient-to-br from-emerald-50 via-emerald-100 to-teal-100 dark:from-emerald-950 dark:via-emerald-900 dark:to-teal-950 rounded-2xl p-4 border border-emerald-200 dark:border-emerald-800 shadow-sm">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="p-1.5 rounded-lg bg-emerald-200 dark:bg-emerald-800">
+              <TrendingUp className="w-4 h-4 text-emerald-700 dark:text-emerald-300" />
+            </div>
+            <span className="text-xs font-medium text-emerald-700 dark:text-emerald-300">Current Value</span>
+          </div>
+          <div className="text-2xl font-bold text-emerald-900 dark:text-emerald-100">
+            ${currentValue.toLocaleString()}
+          </div>
+          <div className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
+            Portfolio Balance
+          </div>
         </div>
-        <div className="h-3 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+
+        <div className="bg-gradient-to-br from-purple-50 via-purple-100 to-violet-100 dark:from-purple-950 dark:via-purple-900 dark:to-violet-950 rounded-2xl p-4 border border-purple-200 dark:border-purple-800 shadow-sm">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="p-1.5 rounded-lg bg-purple-200 dark:bg-purple-800">
+              <Target className="w-4 h-4 text-purple-700 dark:text-purple-300" />
+            </div>
+            <span className="text-xs font-medium text-purple-700 dark:text-purple-300">Maximum</span>
+          </div>
+          <div className="text-2xl font-bold text-purple-900 dark:text-purple-100">
+            ${maxValue.toLocaleString()}
+          </div>
+          <div className="text-xs text-purple-600 dark:text-purple-400 mt-1">
+            Peak Potential
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-blue-50 via-blue-100 to-cyan-100 dark:from-blue-950 dark:via-blue-900 dark:to-cyan-950 rounded-2xl p-4 border border-blue-200 dark:border-blue-800 shadow-sm">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="p-1.5 rounded-lg bg-blue-200 dark:bg-blue-800">
+              <Percent className="w-4 h-4 text-blue-700 dark:text-blue-300" />
+            </div>
+            <span className="text-xs font-medium text-blue-700 dark:text-blue-300">Progress</span>
+          </div>
+          <div className="text-2xl font-bold text-blue-900 dark:text-blue-100">
+            {progress.toFixed(1)}%
+          </div>
+          <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+            To Maximum
+          </div>
+        </div>
+      </div>
+
+      {/* Progress Bar - Financial Style */}
+      <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Portfolio Growth</h3>
+          <div className="flex items-center gap-2">
+            <Zap className="w-4 h-4 text-emerald-500" />
+            <span className="text-sm font-bold text-gray-900 dark:text-white">
+              ${currentValue.toLocaleString()} / ${maxValue.toLocaleString()}
+            </span>
+          </div>
+        </div>
+        <div className="relative h-4 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-full overflow-hidden shadow-inner">
           <div
-            className="h-full bg-gradient-to-r from-gray-400 via-gray-600 to-black dark:from-gray-500 dark:via-gray-300 dark:to-white transition-all duration-500 rounded-full"
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600 dark:from-emerald-500 dark:via-teal-400 dark:to-cyan-500 rounded-full transition-all duration-700 shadow-lg"
+            style={{ width: `${progress}%` }}
+          />
+          <div
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/20 to-transparent rounded-full transition-all duration-700"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className="flex justify-between text-xs text-gray-500 dark:text-gray-500">
-          <span>$0</span>
-          <span>$250</span>
-          <span>$500</span>
-          <span>$750</span>
-          <span>$1000</span>
+        <div className="flex justify-between text-xs text-gray-500 dark:text-gray-500 mt-3">
+          <span className="font-medium">$0</span>
+          <span>$17.5K</span>
+          <span>$35K</span>
+          <span>$52.5K</span>
+          <span className="font-medium">$70K</span>
         </div>
       </div>
 
-      {/* Chart */}
+      {/* Financial Portfolio Chart */}
       {chartData.length > 0 && (
-        <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 border border-gray-200 dark:border-gray-800">
-          <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Value Progression</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <AreaChart data={chartData}>
+        <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-base font-bold text-gray-900 dark:text-white">Portfolio Performance</h3>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-100 dark:bg-emerald-900 rounded-full">
+              <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+                +{((currentValue / 50 - 1) * 100).toFixed(1)}%
+              </span>
+            </div>
+          </div>
+          
+          <ResponsiveContainer width="100%" height={280}>
+            <ComposedChart data={chartData}>
               <defs>
-                <linearGradient id="valueGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="rgb(0, 0, 0)" stopOpacity={0.3} />
-                  <stop offset="100%" stopColor="rgb(0, 0, 0)" stopOpacity={0.05} />
+                <linearGradient id="portfolioGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="rgb(16, 185, 129)" stopOpacity={0.4} />
+                  <stop offset="50%" stopColor="rgb(20, 184, 166)" stopOpacity={0.2} />
+                  <stop offset="100%" stopColor="rgb(6, 182, 212)" stopOpacity={0.1} />
                 </linearGradient>
-                <linearGradient id="valueGradientDark" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="rgb(255, 255, 255)" stopOpacity={0.3} />
-                  <stop offset="100%" stopColor="rgb(255, 255, 255)" stopOpacity={0.05} />
-                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(156, 163, 175, 0.2)" />
+              
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                stroke="rgba(156, 163, 175, 0.15)" 
+                vertical={false}
+              />
+              
               <XAxis
                 dataKey="date"
                 tickFormatter={(value) => format(new Date(value), "MMM d")}
                 stroke="rgb(156, 163, 175)"
-                style={{ fontSize: '11px' }}
+                style={{ fontSize: '11px', fontWeight: 500 }}
+                tickLine={false}
+                axisLine={false}
               />
+              
               <YAxis
                 stroke="rgb(156, 163, 175)"
-                style={{ fontSize: '11px' }}
-                tickFormatter={(value) => `$${value}`}
+                style={{ fontSize: '11px', fontWeight: 500 }}
+                tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`}
+                tickLine={false}
+                axisLine={false}
+                width={50}
               />
+              
               <Tooltip
                 content={({ active, payload }) => {
                   if (active && payload && payload.length) {
                     const data = payload[0].payload;
                     return (
-                      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 shadow-lg">
-                        <p className="font-semibold text-gray-900 dark:text-white mb-2">
-                          {format(new Date(data.date), "MMM d, yyyy")}
+                      <div className="bg-white dark:bg-gray-800 border-2 border-emerald-200 dark:border-emerald-800 rounded-2xl p-4 shadow-xl">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                          <p className="font-semibold text-gray-900 dark:text-white text-sm">
+                            {format(new Date(data.date), "MMM d, yyyy")}
+                          </p>
+                        </div>
+                        <p className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                          ${data.value.toLocaleString()}
                         </p>
-                        <p className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                          ${data.value}
-                        </p>
-                        <div className="space-y-1 text-xs text-gray-600 dark:text-gray-400">
-                          <p>💧 Masturbation: {data.masturbation}</p>
-                          <p>😴 Sleep: {data.sleep}h</p>
-                          <p>🥗 Diet: {data.diet}</p>
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2">
+                            <p className="text-gray-600 dark:text-gray-400">Masturbation</p>
+                            <p className="font-bold text-gray-900 dark:text-white">{data.masturbation}x</p>
+                          </div>
+                          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2">
+                            <p className="text-gray-600 dark:text-gray-400">Sleep</p>
+                            <p className="font-bold text-gray-900 dark:text-white">{data.sleep}h</p>
+                          </div>
+                          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 col-span-2">
+                            <p className="text-gray-600 dark:text-gray-400">Diet</p>
+                            <p className="font-bold text-gray-900 dark:text-white capitalize">{data.diet}</p>
+                          </div>
                         </div>
                       </div>
                     );
@@ -166,68 +242,132 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
                   return null;
                 }}
               />
+              
               <Area
                 type="monotone"
                 dataKey="value"
-                stroke="rgb(0, 0, 0)"
+                stroke="url(#portfolioGradient)"
+                strokeWidth={0}
+                fill="url(#portfolioGradient)"
+              />
+              
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="rgb(16, 185, 129)"
                 strokeWidth={3}
-                fill="url(#valueGradient)"
-                className="dark:stroke-white"
                 dot={{
-                  fill: 'rgb(0, 0, 0)',
-                  r: 4,
-                  strokeWidth: 2,
+                  fill: 'rgb(16, 185, 129)',
+                  r: 5,
+                  strokeWidth: 3,
                   stroke: 'rgb(255, 255, 255)',
-                  className: 'dark:fill-white dark:stroke-gray-900'
+                  filter: 'url(#glow)'
                 }}
                 activeDot={{
-                  r: 6,
-                  strokeWidth: 3,
-                  className: 'cursor-pointer'
+                  r: 7,
+                  strokeWidth: 4,
+                  stroke: 'rgb(255, 255, 255)',
+                  fill: 'rgb(16, 185, 129)',
+                  className: 'cursor-pointer',
+                  filter: 'url(#glow)'
                 }}
               />
-            </AreaChart>
+            </ComposedChart>
           </ResponsiveContainer>
         </div>
       )}
 
-      {/* Milestones */}
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-3xl p-4 border border-gray-200 dark:border-gray-700">
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Next Milestones</h3>
-        <div className="space-y-2">
+      {/* Achievement Milestones */}
+      <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-3xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+        <div className="flex items-center gap-2 mb-4">
+          <Trophy className="w-5 h-5 text-amber-500" />
+          <h3 className="text-base font-bold text-gray-900 dark:text-white">Achievement Tiers</h3>
+        </div>
+        <div className="space-y-3">
           {[
-            { value: 100, label: "Bronze Tier", reached: currentValue >= 100 },
-            { value: 250, label: "Silver Tier", reached: currentValue >= 250 },
-            { value: 500, label: "Gold Tier", reached: currentValue >= 500 },
-            { value: 750, label: "Platinum Tier", reached: currentValue >= 750 },
-            { value: 1000, label: "Diamond Tier", reached: currentValue >= 1000 },
-          ].map((milestone) => (
-            <div
-              key={milestone.value}
-              className={`flex items-center justify-between p-2 rounded-xl transition-all ${
-                milestone.reached
-                  ? 'bg-black dark:bg-white text-white dark:text-black'
-                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400'
-              }`}
-            >
-              <span className="text-sm font-medium">{milestone.label}</span>
-              <span className="text-sm font-bold">${milestone.value}</span>
-              {milestone.reached && <span className="text-lg">✓</span>}
-            </div>
-          ))}
+            { value: 5000, label: "Bronze Tier", icon: Medal, color: "amber", reached: currentValue >= 5000 },
+            { value: 15000, label: "Silver Tier", icon: Award, color: "gray", reached: currentValue >= 15000 },
+            { value: 30000, label: "Gold Tier", icon: Crown, color: "yellow", reached: currentValue >= 30000 },
+            { value: 50000, label: "Platinum Tier", icon: Gem, color: "cyan", reached: currentValue >= 50000 },
+            { value: 70000, label: "Diamond Tier", icon: Zap, color: "purple", reached: currentValue >= 70000 },
+          ].map((milestone) => {
+            const Icon = milestone.icon;
+            return (
+              <div
+                key={milestone.value}
+                className={`flex items-center justify-between p-4 rounded-2xl transition-all ${
+                  milestone.reached
+                    ? 'bg-gradient-to-r from-gray-900 to-black dark:from-white dark:to-gray-100 shadow-lg scale-[1.02]'
+                    : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-xl ${
+                    milestone.reached 
+                      ? 'bg-white/20 dark:bg-black/20' 
+                      : `bg-${milestone.color}-100 dark:bg-${milestone.color}-900`
+                  }`}>
+                    <Icon className={`w-5 h-5 ${
+                      milestone.reached
+                        ? 'text-white dark:text-black'
+                        : `text-${milestone.color}-600 dark:text-${milestone.color}-400`
+                    }`} />
+                  </div>
+                  <div>
+                    <p className={`text-sm font-semibold ${
+                      milestone.reached
+                        ? 'text-white dark:text-black'
+                        : 'text-gray-900 dark:text-white'
+                    }`}>
+                      {milestone.label}
+                    </p>
+                    <p className={`text-xs ${
+                      milestone.reached
+                        ? 'text-white/70 dark:text-black/70'
+                        : 'text-gray-500 dark:text-gray-400'
+                    }`}>
+                      ${milestone.value.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+                {milestone.reached && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">✓</span>
+                  </div>
+                )}
+                {!milestone.reached && currentValue > 0 && (
+                  <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                    ${(milestone.value - currentValue).toLocaleString()} to go
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      {/* Tips */}
-      <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 rounded-3xl p-4 border border-blue-200 dark:border-blue-900">
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">💡 Pro Tips</h3>
-        <ul className="space-y-1 text-xs text-gray-700 dark:text-gray-300">
-          <li>✓ Get 7+ hours of sleep consistently</li>
-          <li>✓ Maintain a balanced diet</li>
-          <li>✓ Exercise regularly (30+ min/day)</li>
-          <li>✓ Stay hydrated with electrolytes</li>
-          <li>✓ Manage stress levels</li>
-        </ul>
+      {/* Optimization Tips */}
+      <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-emerald-950 dark:via-teal-950 dark:to-cyan-950 rounded-3xl p-6 border border-emerald-200 dark:border-emerald-900 shadow-sm">
+        <div className="flex items-center gap-2 mb-4">
+          <Zap className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          <h3 className="text-base font-bold text-gray-900 dark:text-white">Optimization Strategies</h3>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            { icon: "😴", label: "Quality Sleep", desc: "7-9 hours nightly" },
+            { icon: "🥗", label: "Balanced Diet", desc: "Nutrient-rich foods" },
+            { icon: "💪", label: "Regular Exercise", desc: "30+ min daily" },
+            { icon: "⚡", label: "Electrolytes", desc: "Stay hydrated" },
+            { icon: "🧘", label: "Stress Management", desc: "Keep levels low" },
+            { icon: "🚫", label: "Moderation", desc: "Limit frequency" },
+          ].map((tip, i) => (
+            <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl p-3 border border-emerald-100 dark:border-emerald-900">
+              <div className="text-2xl mb-2">{tip.icon}</div>
+              <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">{tip.label}</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">{tip.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
