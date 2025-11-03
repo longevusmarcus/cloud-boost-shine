@@ -280,33 +280,33 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
                 key={milestone.value}
                 className={`flex items-center justify-between p-4 rounded-2xl transition-all ${
                   milestone.reached
-                    ? 'bg-gray-900 dark:bg-gray-100 border border-gray-900 dark:border-gray-100'
+                    ? 'bg-white dark:bg-gray-900 border border-gray-900 dark:border-gray-100'
                     : 'bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700'
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <div className={`p-2 rounded-xl ${
                     milestone.reached 
-                      ? 'bg-white/20 dark:bg-black/20' 
+                      ? 'bg-gray-100 dark:bg-gray-800' 
                       : 'bg-gray-200 dark:bg-gray-700'
                   }`}>
                     <Icon className={`w-4 h-4 ${
                       milestone.reached
-                        ? 'text-white dark:text-black'
+                        ? 'text-gray-900 dark:text-white'
                         : 'text-gray-600 dark:text-gray-400'
                     }`} />
                   </div>
                   <div>
                     <p className={`text-sm font-semibold ${
                       milestone.reached
-                        ? 'text-white dark:text-black'
+                        ? 'text-gray-900 dark:text-white'
                         : 'text-gray-900 dark:text-white'
                     }`}>
                       {milestone.label}
                     </p>
                     <p className={`text-xs ${
                       milestone.reached
-                        ? 'text-white/70 dark:text-black/70'
+                        ? 'text-gray-600 dark:text-gray-400'
                         : 'text-gray-500 dark:text-gray-400'
                     }`}>
                       ${(milestone.value / 1000).toFixed(0)}K
@@ -315,7 +315,7 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
                 </div>
                 {milestone.reached && (
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl text-white dark:text-black">✓</span>
+                    <span className="text-2xl text-gray-900 dark:text-white">✓</span>
                   </div>
                 )}
                 {!milestone.reached && currentValue > 0 && (
