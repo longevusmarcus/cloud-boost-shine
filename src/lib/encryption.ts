@@ -153,7 +153,7 @@ export async function encryptDailyLog(
   log: any,
   userId: string
 ): Promise<any> {
-  const sensitiveFields = ['notes', 'masturbation_count'];
+  const sensitiveFields = ['notes'];
   
   const encrypted = { ...log };
   
@@ -173,7 +173,7 @@ export async function decryptDailyLog(
   encryptedLog: any,
   userId: string
 ): Promise<any> {
-  const sensitiveFields = ['notes', 'masturbation_count'];
+  const sensitiveFields = ['notes'];
   
   const decrypted = { ...encryptedLog };
   
@@ -181,10 +181,7 @@ export async function decryptDailyLog(
     if (encryptedLog[field]) {
       try {
         const decryptedValue = await decryptField(encryptedLog[field], userId);
-        // Convert back to number if it's masturbation_count
-        decrypted[field] = field === 'masturbation_count'
-          ? parseInt(decryptedValue)
-          : decryptedValue;
+        decrypted[field] = decryptedValue;
       } catch (error) {
         console.warn(`Failed to decrypt field ${field}:`, error);
         decrypted[field] = null;
