@@ -117,20 +117,10 @@ export default function Pricing() {
             {/* Continue Button */}
             <Button
               onClick={() => navigate("/profile")}
-              className="w-full h-11 rounded-full bg-foreground text-background hover:bg-foreground/90 font-semibold mb-2.5 text-sm"
+              className="w-full h-11 rounded-full bg-foreground text-background hover:bg-foreground/90 font-semibold text-sm"
             >
               Continue
             </Button>
-
-            {/* View More Link */}
-            <div className="text-center">
-              <button
-                onClick={() => navigate("/profile")}
-                className="text-xs text-primary hover:underline font-medium"
-              >
-                View all features
-              </button>
-            </div>
         </div>
       </div>
     </div>
