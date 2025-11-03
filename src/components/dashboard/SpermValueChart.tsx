@@ -47,30 +47,30 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
       </div>
 
       {/* CTA Buttons */}
-      <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
+      <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto">
         <button
           onClick={() => navigate('/pricing')}
-          className="py-3 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-black font-bold text-sm flex flex-col items-center justify-center gap-1 transition-all shadow-[0_0_30px_rgba(0,0,0,0.4)] hover:shadow-[0_0_50px_rgba(0,0,0,0.6)] dark:shadow-[0_0_30px_rgba(255,255,255,0.5)] dark:hover:shadow-[0_0_50px_rgba(255,255,255,0.7)] animate-pulse hover:scale-105 relative overflow-hidden"
+          className="py-2.5 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-black font-bold text-xs flex flex-col items-center justify-center gap-1 transition-all shadow-[0_0_30px_rgba(0,0,0,0.4)] hover:shadow-[0_0_50px_rgba(0,0,0,0.6)] dark:shadow-[0_0_30px_rgba(255,255,255,0.5)] dark:hover:shadow-[0_0_50px_rgba(255,255,255,0.7)] animate-pulse hover:scale-105 relative overflow-hidden"
         >
           {/* Highlight glow effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent dark:via-black/20 animate-pulse" />
           
-          <TrendingUp className="w-5 h-5 relative z-10" />
+          <TrendingUp className="w-4 h-4 relative z-10" />
           <div className="text-center leading-tight relative z-10">
-            <div className="text-sm">Increase</div>
-            <div className="text-sm">your value</div>
+            <div className="text-xs">Increase</div>
+            <div className="text-xs">your value</div>
           </div>
         </button>
         
         <button
           disabled
-          className="py-3 rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-semibold text-sm flex flex-col items-center justify-center gap-1 border-2 border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-60"
+          className="py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-semibold text-xs flex flex-col items-center justify-center gap-1 border-2 border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-60"
         >
           <DollarSign className="w-4 h-4" />
           <div className="text-center leading-tight">
-            <div className="text-sm">Sell</div>
+            <div className="text-xs">Sell</div>
           </div>
-          <span className="text-[10px] font-normal text-gray-500 dark:text-gray-400">Not available yet</span>
+          <span className="text-[9px] font-normal text-gray-500 dark:text-gray-400">Not available yet</span>
         </button>
       </div>
     </div>
