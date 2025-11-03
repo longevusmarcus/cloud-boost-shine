@@ -252,33 +252,16 @@ export default function Dashboard() {
             {/* Floating Sperm Animations */}
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute top-4 left-2 animate-float" style={{ animationDelay: '0s', animationDuration: '4s' }}>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-300 opacity-40">
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-300 opacity-30">
                   <circle cx="8" cy="8" r="4" fill="currentColor" />
                   <path d="M12 8 Q16 4, 20 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
                 </svg>
               </div>
 
               <div className="absolute bottom-10 right-2 animate-float" style={{ animationDelay: '2s', animationDuration: '5.5s' }}>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-300 opacity-35">
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-300 opacity-25">
                   <circle cx="8" cy="8" r="4" fill="currentColor" />
                   <path d="M12 8 Q16 10, 20 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
-                </svg>
-              </div>
-
-              {/* Sperm entering and exploding animations */}
-              {/* From left - head faces right toward center */}
-              <div className="absolute -left-20 top-1/2 animate-enter-explode" style={{ animationDelay: '0s', animationDuration: '3s' }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400">
-                  <circle cx="8" cy="8" r="4" fill="currentColor" />
-                  <path d="M12 8 Q16 6, 22 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
-                </svg>
-              </div>
-
-              {/* From right - rotated 180° so head faces left toward center */}
-              <div className="absolute -right-20 top-1/3 animate-enter-explode" style={{ animationDelay: '2s', animationDuration: '3.5s' }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-gray-500 dark:text-gray-400" style={{ transform: 'rotate(180deg)' }}>
-                  <circle cx="8" cy="8" r="4" fill="currentColor" />
-                  <path d="M12 8 Q16 6, 22 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
                 </svg>
               </div>
             </div>
