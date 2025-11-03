@@ -25,10 +25,10 @@ export default function InsightCard({
       />
       
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/95" />
       
       {/* Content */}
-      <div className="relative h-full flex flex-col justify-between p-7">
+      <div className="relative h-full flex flex-col justify-between p-8">
         {/* Icon */}
         <div className="flex justify-start">
           <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
