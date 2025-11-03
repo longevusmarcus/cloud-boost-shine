@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
 import { Activity, TrendingUp, Flame, Calendar, Heart, Droplet, Moon, Apple, X } from "lucide-react";
 import Layout from "@/components/Layout";
-import SpermValueChart from "@/components/dashboard/SpermValueChart";
+import ValueProgressChart from "@/components/dashboard/ValueProgressChart";
 import { decryptDailyLog } from "@/lib/encryption";
 import { useAuditLog } from "@/hooks/useAuditLog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -17,6 +17,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [userRank, setUserRank] = useState<number | null>(null);
   const [showTimeline, setShowTimeline] = useState(false);
+  const [showValueChart, setShowValueChart] = useState(false);
   const { logAction } = useAuditLog();
 
   useEffect(() => {
@@ -151,11 +152,14 @@ export default function Dashboard() {
         </div>
 
         {/* Main Circle - Sperm Value */}
-        <div className="flex justify-center py-2 mt-4">
+        <button 
+          onClick={() => setShowValueChart(true)}
+          className="flex justify-center py-2 mt-4 w-full cursor-pointer hover:scale-105 transition-transform active:scale-95"
+        >
           <div className="relative">
             {/* Pulsing rings */}
-            <div className="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-700 opacity-20 animate-ping" style={{ animationDuration: '3s' }} />
-            <div className="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-700 opacity-10 animate-pulse" style={{ animationDuration: '2s' }} />
+            <div className="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-700 opacity-20 animate-ping pointer-events-none" style={{ animationDuration: '3s' }} />
+            <div className="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-700 opacity-10 animate-pulse pointer-events-none" style={{ animationDuration: '2s' }} />
 
             {/* Main Circle */}
             <div className="relative w-56 h-56 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-950 dark:to-gray-900 flex flex-col items-center justify-center shadow-lg border border-transparent dark:border-gray-700">
@@ -251,10 +255,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Sperm Value Chart */}
-        <SpermValueChart currentValue={profile?.sperm_value || 50} />
+        </button>
 
         {/* Daily Feed Section */}
         <div>
@@ -575,6 +576,20 @@ export default function Dashboard() {
                 })
               )}
             </div>
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* Value Progress Chart Sheet */}
+      <Sheet open={showValueChart} onOpenChange={setShowValueChart}>
+        <SheetContent side="bottom" className="h-[90vh] rounded-t-3xl p-0 overflow-hidden">
+          <SheetHeader className="p-6 pb-4 border-b border-gray-200 dark:border-gray-800">
+            <SheetTitle className="text-xl font-bold text-center">Sperm Value Progression</SheetTitle>
+            <p className="text-sm text-gray-600 dark:text-gray-400 text-center">Track your journey to maximum value</p>
+          </SheetHeader>
+          
+          <div className="overflow-y-auto h-[calc(90vh-100px)] px-6 py-6">
+            <ValueProgressChart currentValue={profile?.sperm_value || 50} recentLogs={recentLogs} />
           </div>
         </SheetContent>
       </Sheet>
