@@ -28,24 +28,17 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
       <div className="relative">
         <div className="w-full h-3 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
           <div 
-            className="h-full transition-all duration-500 rounded-full relative"
+            className="h-full transition-all duration-500 rounded-full bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600 dark:from-emerald-500 dark:via-teal-400 dark:to-cyan-500 shadow-lg relative"
             style={{ 
               width: `${percentage}%`,
             }}
           >
-            {/* Light mode gradient (white/light purple - soft) */}
-            <div className="absolute inset-0 rounded-full dark:hidden" style={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8f7ff 30%, #f0edff 60%, #e8e3ff 85%, #e0d9ff 100%)'
-            }} />
-            
-            {/* Dark mode gradient (dark grey/black) */}
-            <div className="absolute inset-0 rounded-full hidden dark:block" style={{
-              background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 30%, #3f3f3f 60%, #5a5a5a 85%, #6b6b6b 100%)'
-            }} />
+            {/* Shine effect overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-full" />
             
             {/* Percentage text inside bar */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-[9px] font-bold text-gray-900 dark:text-white drop-shadow-lg">
+              <span className="text-[9px] font-bold text-white drop-shadow-lg">
                 {Math.round(percentage)}%
               </span>
             </div>
