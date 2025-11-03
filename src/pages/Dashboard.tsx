@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
-import { Activity, TrendingUp, Flame, Calendar, Heart, Droplet, Moon, Apple, X } from "lucide-react";
+import { Activity, TrendingUp, Flame, Calendar, Heart, Droplet, Moon, Apple, X, CheckCircle2, Edit3, BarChart3, Award } from "lucide-react";
 import Layout from "@/components/Layout";
 import SpermValueChart from "@/components/dashboard/SpermValueChart";
 import ValueProgressChart from "@/components/dashboard/ValueProgressChart";
@@ -317,9 +317,9 @@ export default function Dashboard() {
             >
               <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-2 md:mb-3">
                 {todayLog ? (
-                  <span className="text-xl md:text-3xl">✓</span>
+                  <CheckCircle2 className="w-6 h-6 md:w-8 md:h-8 text-gray-900 dark:text-white" />
                 ) : (
-                  <span className="text-xl md:text-3xl">📝</span>
+                  <Edit3 className="w-6 h-6 md:w-8 md:h-8 text-gray-600 dark:text-gray-400" />
                 )}
               </div>
               <h3 className="font-semibold text-gray-900 dark:text-white text-center text-[11px] md:text-sm mb-0.5">
@@ -350,7 +350,7 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div className="flex-1 flex flex-col items-center justify-center">
-                  <div className="text-2xl mb-1.5">📊</div>
+                  <BarChart3 className="w-8 h-8 md:w-10 md:h-10 text-gray-400 dark:text-gray-600 mb-2" />
                   <p className="text-[9px] md:text-xs text-gray-600 dark:text-gray-400 text-center">No data yet</p>
                   <p className="text-[8px] md:text-xs text-gray-500 dark:text-gray-500 text-center mt-0.5">Log today</p>
                 </div>
@@ -378,7 +378,7 @@ export default function Dashboard() {
                   </>
                 ) : (
                   <div className="flex flex-col items-center">
-                    <div className="text-xl md:text-2xl mb-1">🏆</div>
+                    <Award className="w-8 h-8 md:w-10 md:h-10 text-gray-400 dark:text-gray-600 mb-2" />
                     <p className="text-[8px] md:text-xs text-gray-600 dark:text-gray-400 text-center">Loading...</p>
                   </div>
                 )}
