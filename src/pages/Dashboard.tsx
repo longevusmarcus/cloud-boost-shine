@@ -672,10 +672,9 @@ export default function Dashboard() {
             {/* Floating Button */}
             <Button
               onClick={() => navigate('/pricing')}
-              className={`fixed bottom-8 left-1/2 -translate-x-1/2 bg-background/80 backdrop-blur-sm border border-foreground/10 text-foreground hover:bg-background/90 hover:border-foreground/20 shadow-lg transition-all duration-300 rounded-full px-6 py-2 h-auto text-sm font-medium ${
+              className={`fixed bottom-8 left-1/2 -translate-x-1/2 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100 border-0 shadow-lg transition-all duration-300 rounded-full px-6 py-2 h-auto text-sm font-medium ${
                 showFloatingButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
               }`}
-              variant="outline"
             >
               <ArrowUp className="w-4 h-4 mr-2" />
               Increase your value
