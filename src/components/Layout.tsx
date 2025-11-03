@@ -250,10 +250,14 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Mobile Navigation - Glassmorphic */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden px-3 pb-3">
+      <nav className={`fixed bottom-0 left-0 right-0 z-50 md:hidden px-3 pb-3 transition-all duration-300 ${
+        isOnTrackingPage ? 'pointer-events-none' : ''
+      }`}>
         <div className="relative">
           {/* Glass container */}
-          <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-2xl rounded-3xl shadow-lg border border-gray-200/30 dark:border-gray-700/30 px-4 py-3">
+          <div className={`bg-white/70 dark:bg-gray-900/70 backdrop-blur-2xl rounded-3xl shadow-lg border border-gray-200/30 dark:border-gray-700/30 px-4 py-3 transition-all duration-300 ${
+            isOnTrackingPage ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+          }`}>
             <div className="flex justify-around items-center relative">
               {/* Dashboard */}
               <Link
