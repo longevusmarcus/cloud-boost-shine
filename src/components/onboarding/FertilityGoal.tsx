@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowLeft, Target, Heart, Snowflake, Gift, TrendingUp } from "lucide-react";
+import { ArrowRight, ArrowLeft, Heart, Snowflake, Gift, TrendingUp } from "lucide-react";
 
 const goals = [
   { id: "optimize", label: "Optimize Health", icon: TrendingUp, description: "Improve overall sperm quality" },
   { id: "freeze", label: "Freeze Sperm", icon: Snowflake, description: "Preserve for future use" },
-  { id: "donate", label: "Sperm Donation", icon: Gift, description: "Help others conceive" },
-  { id: "conceive", label: "Conceive Now", icon: Heart, description: "Planning to have children" },
-  { id: "maintain", label: "Maintain Health", icon: Target, description: "Keep current health status" }
+  { id: "sell", label: "Sell sperm", icon: Gift, description: "Get paid to donate" },
+  { id: "check", label: "Check fertility stats", icon: Heart, description: "See where you stand" }
 ];
 
 export default function FertilityGoal({ onNext, onBack }) {
