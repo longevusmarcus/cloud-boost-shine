@@ -21,7 +21,6 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [isEditingBasic, setIsEditingBasic] = useState(false);
-  const [isEditingLifestyle, setIsEditingLifestyle] = useState(false);
   const [basicForm, setBasicForm] = useState({
     full_name: '',
     age: '',
@@ -29,21 +28,6 @@ export default function Profile() {
     height_feet: '',
     height_inches: '',
     weight: ''
-  });
-  const [lifestyleForm, setLifestyleForm] = useState({
-    smoking: '',
-    alcohol: '',
-    exercise: '',
-    diet_quality: '',
-    sleep_hours: '',
-    stress_level: '',
-    masturbation_frequency: '',
-    sexual_activity: '',
-    supplements: '',
-    career_status: '',
-    family_pledge: '',
-    tight_clothing: false,
-    hot_baths: false
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -76,21 +60,6 @@ export default function Profile() {
         height_feet: profileData?.height_feet?.toString() || '',
         height_inches: profileData?.height_inches?.toString() || '',
         weight: profileData?.weight?.toString() || ''
-      });
-      setLifestyleForm({
-        smoking: profileData?.smoking || '',
-        alcohol: profileData?.alcohol || '',
-        exercise: profileData?.exercise || '',
-        diet_quality: profileData?.diet_quality || '',
-        sleep_hours: profileData?.sleep_hours?.toString() || '',
-        stress_level: profileData?.stress_level || '',
-        masturbation_frequency: profileData?.masturbation_frequency || '',
-        sexual_activity: profileData?.sexual_activity || '',
-        supplements: profileData?.supplements || '',
-        career_status: profileData?.career_status || '',
-        family_pledge: profileData?.family_pledge || '',
-        tight_clothing: profileData?.tight_clothing || false,
-        hot_baths: profileData?.hot_baths || false
       });
     } catch (error) {
       console.error('Error loading data:', error);
@@ -211,48 +180,6 @@ export default function Profile() {
       });
 
       setIsEditingBasic(false);
-      loadData();
-    } catch (error: any) {
-      toast({
-        title: "Update failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleSaveLifestyle = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) throw new Error("Not authenticated");
-
-      const { error } = await supabase
-        .from('user_profiles')
-        .update({
-          smoking: lifestyleForm.smoking,
-          alcohol: lifestyleForm.alcohol,
-          exercise: lifestyleForm.exercise,
-          diet_quality: lifestyleForm.diet_quality,
-          sleep_hours: lifestyleForm.sleep_hours ? parseFloat(lifestyleForm.sleep_hours) : null,
-          stress_level: lifestyleForm.stress_level,
-          masturbation_frequency: lifestyleForm.masturbation_frequency,
-          sexual_activity: lifestyleForm.sexual_activity,
-          supplements: lifestyleForm.supplements,
-          career_status: lifestyleForm.career_status,
-          family_pledge: lifestyleForm.family_pledge,
-          tight_clothing: lifestyleForm.tight_clothing,
-          hot_baths: lifestyleForm.hot_baths,
-        })
-        .eq('user_id', session.user.id);
-
-      if (error) throw error;
-
-      toast({
-        title: "Success!",
-        description: "Lifestyle info updated",
-      });
-
-      setIsEditingLifestyle(false);
       loadData();
     } catch (error: any) {
       toast({
@@ -539,202 +466,6 @@ export default function Profile() {
               </div>
             )}
           </div>
-
-          {/* Lifestyle Info */}
-          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Lifestyle Info</h2>
-              {!isEditingLifestyle ? (
-                <button
-                  onClick={() => setIsEditingLifestyle(true)}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-                >
-                  <Edit2 className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                </button>
-              ) : (
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => {
-                      setIsEditingLifestyle(false);
-                      loadData();
-                    }}
-                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-                  >
-                    <X className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                  </button>
-                  <button
-                    onClick={handleSaveLifestyle}
-                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-                  >
-                    <Check className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {isEditingLifestyle ? (
-              <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
-                <div>
-                  <Label className="text-xs text-gray-500 dark:text-gray-400">Smoking</Label>
-                  <Select value={lifestyleForm.smoking} onValueChange={(value) => setLifestyleForm({...lifestyleForm, smoking: value})}>
-                    <SelectTrigger className="h-9 text-sm">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="never">Never</SelectItem>
-                      <SelectItem value="occasionally">Occasionally</SelectItem>
-                      <SelectItem value="regularly">Regularly</SelectItem>
-                      <SelectItem value="quit">Quit</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-500 dark:text-gray-400">Alcohol</Label>
-                  <Select value={lifestyleForm.alcohol} onValueChange={(value) => setLifestyleForm({...lifestyleForm, alcohol: value})}>
-                    <SelectTrigger className="h-9 text-sm">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="none">None</SelectItem>
-                      <SelectItem value="light">Light</SelectItem>
-                      <SelectItem value="moderate">Moderate</SelectItem>
-                      <SelectItem value="heavy">Heavy</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-500 dark:text-gray-400">Exercise</Label>
-                  <Select value={lifestyleForm.exercise} onValueChange={(value) => setLifestyleForm({...lifestyleForm, exercise: value})}>
-                    <SelectTrigger className="h-9 text-sm">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="sedentary">Sedentary</SelectItem>
-                      <SelectItem value="light">Light</SelectItem>
-                      <SelectItem value="moderate">Moderate</SelectItem>
-                      <SelectItem value="intense">Intense</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-500 dark:text-gray-400">Diet</Label>
-                  <Select value={lifestyleForm.diet_quality} onValueChange={(value) => setLifestyleForm({...lifestyleForm, diet_quality: value})}>
-                    <SelectTrigger className="h-9 text-sm">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="poor">Poor</SelectItem>
-                      <SelectItem value="average">Average</SelectItem>
-                      <SelectItem value="good">Good</SelectItem>
-                      <SelectItem value="excellent">Excellent</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-500 dark:text-gray-400">Sleep (hrs)</Label>
-                  <Input
-                    type="number"
-                    step="0.5"
-                    value={lifestyleForm.sleep_hours}
-                    onChange={(e) => setLifestyleForm({ ...lifestyleForm, sleep_hours: e.target.value })}
-                    className="h-9 text-sm"
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-500 dark:text-gray-400">Stress</Label>
-                  <Select value={lifestyleForm.stress_level} onValueChange={(value) => setLifestyleForm({...lifestyleForm, stress_level: value})}>
-                    <SelectTrigger className="h-9 text-sm">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="low">Low</SelectItem>
-                      <SelectItem value="moderate">Moderate</SelectItem>
-                      <SelectItem value="high">High</SelectItem>
-                      <SelectItem value="extreme">Extreme</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-500 dark:text-gray-400">Supplements</Label>
-                  <Select value={lifestyleForm.supplements} onValueChange={(value) => setLifestyleForm({...lifestyleForm, supplements: value})}>
-                    <SelectTrigger className="h-9 text-sm">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="none">None</SelectItem>
-                      <SelectItem value="basic">Basic</SelectItem>
-                      <SelectItem value="fertility">Fertility</SelectItem>
-                      <SelectItem value="comprehensive">Comprehensive</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="flex items-center gap-2 pt-2">
-                  <Checkbox
-                    id="tight"
-                    checked={lifestyleForm.tight_clothing}
-                    onCheckedChange={(checked) => setLifestyleForm({...lifestyleForm, tight_clothing: !!checked})}
-                  />
-                  <Label htmlFor="tight" className="text-xs cursor-pointer">Tight clothing</Label>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="hot"
-                    checked={lifestyleForm.hot_baths}
-                    onCheckedChange={(checked) => setLifestyleForm({...lifestyleForm, hot_baths: !!checked})}
-                  />
-                  <Label htmlFor="hot" className="text-xs cursor-pointer">Hot baths/saunas</Label>
-                </div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
-                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
-                  <span className="text-gray-500 dark:text-gray-400">Smoking</span>
-                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.smoking || 'Not set'}</span>
-                </div>
-                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
-                  <span className="text-gray-500 dark:text-gray-400">Alcohol</span>
-                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.alcohol || 'Not set'}</span>
-                </div>
-                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
-                  <span className="text-gray-500 dark:text-gray-400">Exercise</span>
-                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.exercise || 'Not set'}</span>
-                </div>
-                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
-                  <span className="text-gray-500 dark:text-gray-400">Diet</span>
-                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.diet_quality || 'Not set'}</span>
-                </div>
-                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
-                  <span className="text-gray-500 dark:text-gray-400">Sleep</span>
-                  <span className="text-gray-900 dark:text-white font-medium">{profile?.sleep_hours ? `${profile.sleep_hours} hrs` : 'Not set'}</span>
-                </div>
-                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
-                  <span className="text-gray-500 dark:text-gray-400">Stress</span>
-                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.stress_level || 'Not set'}</span>
-                </div>
-                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
-                  <span className="text-gray-500 dark:text-gray-400">Supplements</span>
-                  <span className="text-gray-900 dark:text-white font-medium capitalize">{profile?.supplements || 'Not set'}</span>
-                </div>
-                <div className="flex justify-between col-span-2 border-b border-gray-100 dark:border-gray-800 pb-2">
-                  <span className="text-gray-500 dark:text-gray-400">Tight clothing</span>
-                  <span className="text-gray-900 dark:text-white font-medium">{profile?.tight_clothing ? 'Yes' : 'No'}</span>
-                </div>
-                <div className="flex justify-between col-span-2">
-                  <span className="text-gray-500 dark:text-gray-400">Hot baths</span>
-                  <span className="text-gray-900 dark:text-white font-medium">{profile?.hot_baths ? 'Yes' : 'No'}</span>
-                </div>
-              </div>
-            )}
-          </div>
-
 
           {/* MFA Settings */}
           <div id="mfa-section">
