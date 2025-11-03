@@ -75,11 +75,7 @@ export default function Content() {
       }
     } catch (error: any) {
       console.error('Error generating content:', error);
-      toast({
-        title: "Content Generation Error",
-        description: error.message || "Failed to generate personalized content",
-        variant: "destructive",
-      });
+      // Silently fail - don't show error to user
     } finally {
       setIsGenerating(false);
     }
