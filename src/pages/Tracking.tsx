@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { CheckCircle, FlaskConical, TrendingUp, UserCircle, Moon, Sun } from "lucide-react";
+import { CheckCircle, FlaskConical, TrendingUp, UserCircle, Moon, Sun, Edit, Droplet, Apple, Activity } from "lucide-react";
 import Layout from "@/components/Layout";
 import DailyLogForm from "@/components/tracking/DailyLogForm";
 import TestResultUpload from "@/components/tracking/TestResultUpload";
@@ -11,6 +11,7 @@ import { toast } from "@/hooks/use-toast";
 import { useTheme } from "@/components/ThemeProvider";
 import { encryptDailyLog, decryptDailyLog, decryptTestResult } from "@/lib/encryption";
 import { useAuditLog } from "@/hooks/useAuditLog";
+import { Button } from "@/components/ui/button";
 
 export default function Tracking() {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ export default function Tracking() {
   const [testResults, setTestResults] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("daily");
   const [loading, setLoading] = useState(true);
+  const [showCompletionState, setShowCompletionState] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const { logAction } = useAuditLog();
 
   useEffect(() => {
@@ -146,10 +149,12 @@ export default function Tracking() {
       toast({
         title: "✓ Saved",
         description: "Daily check-in complete",
-        className: "bg-black text-white border-none",
+        className: "bg-black dark:bg-white text-white dark:text-black border-none",
       });
       
       await loadData();
+      setShowCompletionState(true);
+      setEditMode(false);
     } catch (error: any) {
       console.error("Error saving log:", error);
     }
@@ -242,11 +247,102 @@ export default function Tracking() {
         {/* Content */}
         <div className="pb-24 md:pb-6">{activeTab === "daily" ? (
           <div className="bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-950 rounded-3xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-800">
-            <h1 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">Daily Check-in</h1>
-            <DailyLogForm
-              initialData={todayLog}
-              onSubmit={handleSubmit}
-            />
+            {todayLog && !editMode && !showCompletionState ? (
+              // Summary view when log exists
+              <div className="space-y-4">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h1 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Today's Check-in</h1>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Completed at {format(new Date(todayLog.created_at), "h:mm a")}</p>
+                  </div>
+                  <CheckCircle className="w-6 h-6 text-green-500" />
+                </div>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Droplet className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                      <span className="text-xs text-gray-600 dark:text-gray-400">Masturbation</span>
+                    </div>
+                    <div className="text-xl font-bold text-gray-900 dark:text-white">
+                      {todayLog.masturbation_count ?? "N/A"}
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Moon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                      <span className="text-xs text-gray-600 dark:text-gray-400">Sleep</span>
+                    </div>
+                    <div className="text-xl font-bold text-gray-900 dark:text-white">
+                      {todayLog.sleep_hours ? `${todayLog.sleep_hours}h` : "N/A"}
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Apple className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                      <span className="text-xs text-gray-600 dark:text-gray-400">Diet</span>
+                    </div>
+                    <div className="text-sm font-semibold text-gray-900 dark:text-white capitalize">
+                      {todayLog.diet_quality || "N/A"}
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Activity className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                      <span className="text-xs text-gray-600 dark:text-gray-400">Exercise</span>
+                    </div>
+                    <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                      {todayLog.exercise_minutes ? `${todayLog.exercise_minutes}m` : "N/A"}
+                    </div>
+                  </div>
+                </div>
+
+                {todayLog.notes && (
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
+                    <h4 className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Notes</h4>
+                    <p className="text-sm text-gray-900 dark:text-white">{todayLog.notes}</p>
+                  </div>
+                )}
+
+                <Button
+                  onClick={() => setEditMode(true)}
+                  className="w-full h-12 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-[20px] font-semibold"
+                >
+                  <Edit className="w-4 h-4 mr-2" />
+                  Edit Check-in
+                </Button>
+              </div>
+            ) : showCompletionState ? (
+              // Completion state after saving
+              <div className="text-center py-12">
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                  <CheckCircle className="w-10 h-10 text-green-600 dark:text-green-400" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Check-in Complete!</h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  Daily check-in ended, come back tomorrow
+                </p>
+                <Button
+                  onClick={() => navigate('/dashboard')}
+                  className="bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-black rounded-[20px] px-8"
+                >
+                  Go to Dashboard
+                </Button>
+              </div>
+            ) : (
+              // Form view
+              <>
+                <h1 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">Daily Check-in</h1>
+                <DailyLogForm
+                  initialData={todayLog}
+                  onSubmit={handleSubmit}
+                />
+              </>
+            )}
           </div>
           ) : (
             <div className="space-y-4 md:space-y-6">
