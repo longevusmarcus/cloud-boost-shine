@@ -79,46 +79,40 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-gradient-to-br from-emerald-50 via-emerald-100 to-teal-100 dark:from-emerald-950 dark:via-emerald-900 dark:to-teal-950 rounded-2xl p-4 border border-emerald-200 dark:border-emerald-800 shadow-sm">
           <div className="flex items-center gap-2 mb-2">
-            <div className="p-1.5 rounded-lg bg-emerald-200 dark:bg-emerald-800">
-              <TrendingUp className="w-4 h-4 text-emerald-700 dark:text-emerald-300" />
-            </div>
-            <span className="text-xs font-medium text-emerald-700 dark:text-emerald-300">Current Value</span>
+            <TrendingUp className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+            <span className="text-xs text-emerald-700 dark:text-emerald-300">Current</span>
           </div>
           <div className="text-2xl font-bold text-emerald-900 dark:text-emerald-100">
-            ${currentValue.toLocaleString()}
+            ${(currentValue / 1000).toFixed(1)}K
           </div>
           <div className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
-            Portfolio Balance
+            Balance
           </div>
         </div>
 
         <div className="bg-gradient-to-br from-purple-50 via-purple-100 to-violet-100 dark:from-purple-950 dark:via-purple-900 dark:to-violet-950 rounded-2xl p-4 border border-purple-200 dark:border-purple-800 shadow-sm">
           <div className="flex items-center gap-2 mb-2">
-            <div className="p-1.5 rounded-lg bg-purple-200 dark:bg-purple-800">
-              <Target className="w-4 h-4 text-purple-700 dark:text-purple-300" />
-            </div>
-            <span className="text-xs font-medium text-purple-700 dark:text-purple-300">Maximum</span>
+            <Target className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+            <span className="text-xs text-purple-700 dark:text-purple-300">Maximum</span>
           </div>
           <div className="text-2xl font-bold text-purple-900 dark:text-purple-100">
-            ${maxValue.toLocaleString()}
+            ${(maxValue / 1000).toFixed(0)}K
           </div>
           <div className="text-xs text-purple-600 dark:text-purple-400 mt-1">
-            Peak Potential
+            Potential
           </div>
         </div>
 
         <div className="bg-gradient-to-br from-blue-50 via-blue-100 to-cyan-100 dark:from-blue-950 dark:via-blue-900 dark:to-cyan-950 rounded-2xl p-4 border border-blue-200 dark:border-blue-800 shadow-sm">
           <div className="flex items-center gap-2 mb-2">
-            <div className="p-1.5 rounded-lg bg-blue-200 dark:bg-blue-800">
-              <Percent className="w-4 h-4 text-blue-700 dark:text-blue-300" />
-            </div>
-            <span className="text-xs font-medium text-blue-700 dark:text-blue-300">Progress</span>
+            <Percent className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+            <span className="text-xs text-blue-700 dark:text-blue-300">Progress</span>
           </div>
           <div className="text-2xl font-bold text-blue-900 dark:text-blue-100">
             {progress.toFixed(1)}%
           </div>
           <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
-            To Maximum
+            Complete
           </div>
         </div>
       </div>
@@ -128,9 +122,9 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
         <div className="flex justify-between items-center mb-3">
           <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Portfolio Growth</h3>
           <div className="flex items-center gap-2">
-            <Zap className="w-4 h-4 text-emerald-500" />
+            <Zap className="w-3.5 h-3.5 text-emerald-500" />
             <span className="text-sm font-bold text-gray-900 dark:text-white">
-              ${currentValue.toLocaleString()} / ${maxValue.toLocaleString()}
+              ${(currentValue / 1000).toFixed(1)}K / ${(maxValue / 1000).toFixed(0)}K
             </span>
           </div>
         </div>
@@ -159,7 +153,7 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-base font-bold text-gray-900 dark:text-white">Portfolio Performance</h3>
             <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-100 dark:bg-emerald-900 rounded-full">
-              <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
                 +{((currentValue / 50 - 1) * 100).toFixed(1)}%
               </span>
@@ -220,7 +214,7 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
                           </p>
                         </div>
                         <p className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
-                          ${data.value.toLocaleString()}
+                          ${(data.value / 1000).toFixed(1)}K
                         </p>
                         <div className="grid grid-cols-2 gap-2 text-xs">
                           <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2">
@@ -280,7 +274,7 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
       {/* Achievement Milestones */}
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-3xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
         <div className="flex items-center gap-2 mb-4">
-          <Trophy className="w-5 h-5 text-amber-500" />
+          <Trophy className="w-4 h-4 text-amber-500" />
           <h3 className="text-base font-bold text-gray-900 dark:text-white">Achievement Tiers</h3>
         </div>
         <div className="space-y-3">
@@ -307,7 +301,7 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
                       ? 'bg-white/20 dark:bg-black/20' 
                       : `bg-${milestone.color}-100 dark:bg-${milestone.color}-900`
                   }`}>
-                    <Icon className={`w-5 h-5 ${
+                    <Icon className={`w-4 h-4 ${
                       milestone.reached
                         ? 'text-white dark:text-black'
                         : `text-${milestone.color}-600 dark:text-${milestone.color}-400`
@@ -326,7 +320,7 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
                         ? 'text-white/70 dark:text-black/70'
                         : 'text-gray-500 dark:text-gray-400'
                     }`}>
-                      ${milestone.value.toLocaleString()}
+                      ${(milestone.value / 1000).toFixed(0)}K
                     </p>
                   </div>
                 </div>
@@ -337,7 +331,7 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
                 )}
                 {!milestone.reached && currentValue > 0 && (
                   <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                    ${(milestone.value - currentValue).toLocaleString()} to go
+                    ${((milestone.value - currentValue) / 1000).toFixed(1)}K to go
                   </span>
                 )}
               </div>
@@ -349,7 +343,7 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
       {/* Optimization Tips */}
       <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-emerald-950 dark:via-teal-950 dark:to-cyan-950 rounded-3xl p-6 border border-emerald-200 dark:border-emerald-900 shadow-sm">
         <div className="flex items-center gap-2 mb-4">
-          <Zap className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          <Zap className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           <h3 className="text-base font-bold text-gray-900 dark:text-white">Optimization Strategies</h3>
         </div>
         <div className="grid grid-cols-2 gap-3">
