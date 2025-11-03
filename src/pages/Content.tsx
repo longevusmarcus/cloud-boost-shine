@@ -159,7 +159,7 @@ export default function Content() {
           <div className="space-y-6">
             {/* Refresh Button */}
             {personalizedContent.length > 0 && !isGenerating && (
-              <div className="flex justify-end">
+              <div className="flex justify-center">
                 <button
                   onClick={handleRefresh}
                   className="flex items-center gap-2 px-4 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
