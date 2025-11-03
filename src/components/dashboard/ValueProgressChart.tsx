@@ -6,8 +6,8 @@ import { TrendingUp, Target, Percent, Award, Crown, Gem, Zap, Medal, Trophy, Inf
 const timeRanges = ["1D", "1W", "1M", "3M", "6M", "1Y", "MAX"] as const;
 type TimeRange = typeof timeRanges[number];
 
-// Generate mock historical data for stock-style chart
-const generateStockChartData = (range: TimeRange, currentValue: number) => {
+// Generate projection data from current value to max value
+const generateStockChartData = (range: TimeRange, currentValue: number, maxValue: number = 70000) => {
   const dataPoints: { time: string; value: number }[] = [];
   const now = new Date();
   
@@ -22,17 +22,25 @@ const generateStockChartData = (range: TimeRange, currentValue: number) => {
   };
   
   const config = configs[range];
-  const startValue = currentValue * 0.7; // Start at 70% of current value
   
+  // Calculate growth trajectory from current value to max value
   for (let i = 0; i < config.points; i++) {
-    const date = new Date(now.getTime() - (config.points - i - 1) * config.interval);
+    const date = new Date(now.getTime() + i * config.interval);
     const progress = i / (config.points - 1);
-    const randomVariation = (Math.random() - 0.5) * 0.1;
-    const value = startValue + (currentValue - startValue) * progress + currentValue * randomVariation;
+    
+    // Smooth S-curve progression towards max value
+    const easedProgress = progress < 0.5 
+      ? 2 * progress * progress 
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+    
+    const value = currentValue + (maxValue - currentValue) * easedProgress;
+    
+    // Add slight realistic variation
+    const variation = Math.sin(i * 0.5) * (maxValue - currentValue) * 0.02;
     
     dataPoints.push({
       time: config.format(date),
-      value: Math.max(0, value),
+      value: Math.min(maxValue, Math.max(currentValue, value + variation)),
     });
   }
   
@@ -46,10 +54,11 @@ interface ValueProgressChartProps {
 
 export default function ValueProgressChart({ currentValue, recentLogs }: ValueProgressChartProps) {
   const [selectedRange, setSelectedRange] = useState<TimeRange>("1M");
+  const maxValue = 70000;
   
-  const stockChartData = useMemo(() => generateStockChartData(selectedRange, currentValue), [selectedRange, currentValue]);
-  const minStockValue = Math.min(...stockChartData.map(d => d.value));
-  const maxStockValue = Math.max(...stockChartData.map(d => d.value));
+  const stockChartData = useMemo(() => generateStockChartData(selectedRange, currentValue, maxValue), [selectedRange, currentValue, maxValue]);
+  const minStockValue = currentValue * 0.95;
+  const maxStockValue = maxValue;
   
   const chartData = useMemo(() => {
     // Generate data points based on recent logs
@@ -98,7 +107,6 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
     return data;
   }, [recentLogs, currentValue]);
 
-  const maxValue = 70000;
   const progress = Math.min((currentValue / maxValue) * 100, 100);
 
   return (
@@ -111,8 +119,8 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
             <p className="text-3xl font-bold text-gray-900 dark:text-white">
               ${currentValue.toLocaleString()}
             </p>
-            <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium">
-              +{((currentValue / (currentValue * 0.7) - 1) * 100).toFixed(1)}% Growth
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Current Value → <span className="text-emerald-600 dark:text-emerald-400 font-semibold">${maxValue.toLocaleString()}</span> Max
             </p>
           </div>
 
