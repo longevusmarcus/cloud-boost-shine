@@ -13,6 +13,7 @@ type ContentCard = {
   subtitle: string;
   overview: string;
   category: string;
+  imageUrl?: string;
 };
 
 export default function Content() {
@@ -78,7 +79,10 @@ export default function Content() {
     }
   };
 
-  const getCategoryImage = (category: string) => {
+  const getCategoryImage = (category: string, imageUrl?: string) => {
+    // Use AI-generated image if available, otherwise fall back to category-based images
+    if (imageUrl) return imageUrl;
+    
     switch (category) {
       case 'nutrition': return "https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=800&q=80";
       case 'sleep': return "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800&q=80";
@@ -142,10 +146,10 @@ export default function Content() {
                   <InsightCard
                     key={index}
                     title={card.title}
-                    subtitle={card.subtitle}
-                    overview={card.overview}
-                    icon={getCategoryIcon(card.category)}
-                    backgroundImage={getCategoryImage(card.category)}
+                  subtitle={card.subtitle}
+                  overview={card.overview}
+                  icon={getCategoryIcon(card.category)}
+                  backgroundImage={getCategoryImage(card.category, card.imageUrl)}
                   />
                 ))}
               </div>

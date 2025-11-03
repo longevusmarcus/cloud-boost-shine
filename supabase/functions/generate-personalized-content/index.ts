@@ -129,8 +129,58 @@ Generate exactly 4 content cards with different focus areas. Each card should be
     }
 
     const content = JSON.parse(toolCall.function.arguments);
+    const contentCards = content.cards || [];
+    
+    console.log(`Generated ${contentCards.length} content cards, now generating images...`);
 
-    return new Response(JSON.stringify(content), {
+    // Generate AI images for each card
+    const cardsWithImages = await Promise.all(
+      contentCards.map(async (card: any) => {
+        try {
+          const imagePrompt = `Create a professional, inspiring health and wellness image for: ${card.title}. ${card.subtitle}. Style: modern, clean, motivational, cinematic. Ultra high resolution 16:9 aspect ratio.`;
+          
+          const imageResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${LOVABLE_API_KEY}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              model: "google/gemini-2.5-flash-image-preview",
+              messages: [
+                {
+                  role: "user",
+                  content: imagePrompt
+                }
+              ],
+              modalities: ["image", "text"]
+            }),
+          });
+
+          if (!imageResponse.ok) {
+            console.error(`Failed to generate image for ${card.title}: ${imageResponse.status}`);
+            return { ...card, imageUrl: null };
+          }
+
+          const imageData = await imageResponse.json();
+          const generatedImageUrl = imageData.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+          
+          console.log(`Generated image for ${card.title}: ${generatedImageUrl ? 'success' : 'failed'}`);
+          
+          return {
+            ...card,
+            imageUrl: generatedImageUrl || null
+          };
+        } catch (error) {
+          console.error(`Error generating image for ${card.title}:`, error);
+          return { ...card, imageUrl: null };
+        }
+      })
+    );
+
+    console.log(`Completed image generation for all cards`);
+
+    return new Response(JSON.stringify({ cards: cardsWithImages }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
