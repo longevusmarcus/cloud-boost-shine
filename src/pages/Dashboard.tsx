@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
-import { Activity, TrendingUp, Flame, Calendar, Heart, Droplet, Moon, Apple, X, CheckCircle2, Edit3, BarChart3, Award } from "lucide-react";
+import { Activity, TrendingUp, Flame, Calendar, Heart, Droplet, Moon, Apple, X, CheckCircle2, Edit3, BarChart3, Award, ArrowUp } from "lucide-react";
 import Layout from "@/components/Layout";
 import SpermValueChart from "@/components/dashboard/SpermValueChart";
 import ValueProgressChart from "@/components/dashboard/ValueProgressChart";
 import { decryptDailyLog } from "@/lib/encryption";
 import { useAuditLog } from "@/hooks/useAuditLog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -21,7 +22,9 @@ export default function Dashboard() {
   const [showValueChart, setShowValueChart] = useState(false);
   const [dailyTip, setDailyTip] = useState<string | null>(null);
   const [isGeneratingTip, setIsGeneratingTip] = useState(false);
+  const [showFloatingButton, setShowFloatingButton] = useState(true);
   const { logAction } = useAuditLog();
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     loadData();
@@ -652,8 +655,31 @@ export default function Dashboard() {
             <p className="text-sm text-gray-600 dark:text-gray-400 text-center">Track your journey to maximum value</p>
           </SheetHeader>
           
-          <div className="overflow-y-auto h-[calc(85vh-100px)] px-6 py-6 touch-pan-y overscroll-contain">
+          <div 
+            className="overflow-y-auto h-[calc(85vh-100px)] px-6 py-6 touch-pan-y overscroll-contain relative"
+            onScroll={(e) => {
+              setShowFloatingButton(false);
+              if (scrollTimeoutRef.current) {
+                clearTimeout(scrollTimeoutRef.current);
+              }
+              scrollTimeoutRef.current = setTimeout(() => {
+                setShowFloatingButton(true);
+              }, 150);
+            }}
+          >
             <ValueProgressChart currentValue={profile?.sperm_value || 50} recentLogs={recentLogs} />
+            
+            {/* Floating Button */}
+            <Button
+              onClick={() => navigate('/pricing')}
+              className={`fixed bottom-8 left-1/2 -translate-x-1/2 bg-background/80 backdrop-blur-sm border border-foreground/10 text-foreground hover:bg-background/90 hover:border-foreground/20 shadow-lg transition-all duration-300 rounded-full px-6 py-2 h-auto text-sm font-medium ${
+                showFloatingButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+              }`}
+              variant="outline"
+            >
+              <ArrowUp className="w-4 h-4 mr-2" />
+              Increase your value
+            </Button>
           </div>
         </SheetContent>
       </Sheet>
