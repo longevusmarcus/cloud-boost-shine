@@ -4,7 +4,6 @@ import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, Chevro
 import { supabase } from "@/integrations/supabase/client";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useTheme } from "@/components/ThemeProvider";
-import NotificationCenter from "@/components/NotificationCenter";
 
 interface LayoutProps {
   children: ReactNode;
@@ -80,7 +79,6 @@ export default function Layout({ children }: LayoutProps) {
       <div className={`hidden md:flex fixed top-4 right-4 z-50 gap-2 transition-all duration-300 ${
         isOnTrackingPage ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100 scale-100'
       }`}>
-        <NotificationCenter />
         <Link
           to="/leaderboard"
           className="w-11 h-11 rounded-full bg-background border-2 border-border shadow-lg flex items-center justify-center hover:bg-accent transition-all hover:scale-105"
@@ -123,10 +121,8 @@ export default function Layout({ children }: LayoutProps) {
         <div className={`fixed top-4 left-4 right-4 z-50 md:hidden flex items-center justify-between transition-all duration-300 ${
           isOnTrackingPage ? 'opacity-0 pointer-events-none scale-95' : 'opacity-100 scale-100'
         }`}>
-          {/* Left side: Notifications and Theme toggle */}
+          {/* Left side: Theme toggle */}
           <div className="flex items-center gap-2">
-            <NotificationCenter />
-            
             <button
               onClick={toggleTheme}
               className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors"
