@@ -7,6 +7,8 @@ import LifestyleQuiz from "@/components/onboarding/LifestyleQuiz";
 import FertilityGoal from "@/components/onboarding/FertilityGoal";
 import DonorProfile from "@/components/onboarding/DonorProfile";
 import CalculatorResults from "@/components/onboarding/CalculatorResults";
+import { calculateSpermValuation, calculateBMIRange, getAgeRange } from "@/lib/sperm-valuation";
+import type { DonorProfileInput } from "@/lib/sperm-valuation";
 
 export default function Onboarding() {
   const navigate = useNavigate();
@@ -49,12 +51,38 @@ export default function Onboarding() {
     setStep(4);
   };
 
-  const handleLifestyleQuiz = (data: any) => {
-    setUserData({ 
+  const handleLifestyleQuiz = async (data: any) => {
+    const completeUserData = { 
       ...userData, 
       lifestyle_data: data.lifestyle_data 
-    });
-    setStep(5);
+    };
+    setUserData(completeUserData);
+    
+    // Calculate sperm value automatically without showing the results page
+    const bmiRange = calculateBMIRange(
+      completeUserData.height_feet,
+      completeUserData.height_inches,
+      completeUserData.weight
+    );
+    const ageRange = getAgeRange(completeUserData.age);
+
+    const input: DonorProfileInput = {
+      ageRange,
+      educationLevel: completeUserData.educationLevel,
+      recipientFamilies: completeUserData.recipientFamilies,
+      transparencyLevel: completeUserData.transparencyLevel,
+      bmiRange,
+      testosteroneUse: completeUserData.lifestyle_data?.testosteroneUse,
+      smokingDrugs: completeUserData.lifestyle_data?.smokingDrugs,
+      stressLevel: completeUserData.lifestyle_data?.stressLevel,
+      ejaculationFreq: completeUserData.lifestyle_data?.ejaculationFreq,
+    };
+
+    const result = calculateSpermValuation(input);
+    const calculatedValue = Math.round(result.estimatedSpermValue);
+    
+    // Directly complete onboarding with calculated value
+    await handleComplete(calculatedValue);
   };
 
   const getSpermLevel = (value: number) => {
@@ -158,7 +186,6 @@ export default function Onboarding() {
             <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 2 ? 'bg-primary' : 'bg-muted'}`} />
             <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 3 ? 'bg-primary' : 'bg-muted'}`} />
             <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 4 ? 'bg-primary' : 'bg-muted'}`} />
-            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 5 ? 'bg-primary' : 'bg-muted'}`} />
           </div>
         </div>
 
