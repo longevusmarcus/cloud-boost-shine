@@ -1,6 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight, Moon, Sun, Trophy, DollarSign, Bell, ArrowLeft, TrendingUp, Plus } from "lucide-react";
+import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight, Moon, Sun, Trophy, DollarSign, Bell, ArrowLeft, TrendingUp, Plus, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useTheme } from "@/components/ThemeProvider";
@@ -61,6 +61,9 @@ export default function Layout({ children }: LayoutProps) {
   // Pages that should show back button instead of floating buttons
   const pagesWithBackButton = ['/leaderboard', '/pricing'];
   const shouldShowBackButton = pagesWithBackButton.includes(location.pathname);
+  
+  // Hide floating buttons when on tracking page
+  const isOnTrackingPage = location.pathname === '/tracking';
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col md:flex-row transition-colors">
@@ -73,7 +76,9 @@ export default function Layout({ children }: LayoutProps) {
       `}</style>
 
       {/* Desktop Floating Action Buttons */}
-      <div className="hidden md:flex fixed top-4 right-4 z-50 gap-2">
+      <div className={`hidden md:flex fixed top-4 right-4 z-50 gap-2 transition-all duration-300 ${
+        isOnTrackingPage ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100 scale-100'
+      }`}>
         <Link
           to="/leaderboard"
           className="w-11 h-11 rounded-full bg-background border-2 border-border shadow-lg flex items-center justify-center hover:bg-accent transition-all hover:scale-105"
@@ -100,7 +105,9 @@ export default function Layout({ children }: LayoutProps) {
       {/* Mobile Header Buttons */}
       {shouldShowBackButton ? (
         /* Back button for profile, leaderboard, and pricing pages */
-        <div className="fixed top-4 left-4 z-50 md:hidden">
+        <div className={`fixed top-4 left-4 z-50 md:hidden transition-all duration-300 ${
+          isOnTrackingPage ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}>
           <button
             onClick={() => navigate(-1)}
             className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors"
@@ -111,7 +118,9 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       ) : (
         /* Full header buttons for other pages */
-        <div className="fixed top-4 left-4 right-4 z-50 md:hidden flex items-center justify-between">
+        <div className={`fixed top-4 left-4 right-4 z-50 md:hidden flex items-center justify-between transition-all duration-300 ${
+          isOnTrackingPage ? 'opacity-0 pointer-events-none scale-95' : 'opacity-100 scale-100'
+        }`}>
           {/* Left side: Notifications and Theme toggle */}
           <div className="flex items-center gap-2">
             <button className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center" title="Notifications">
@@ -305,10 +314,16 @@ export default function Layout({ children }: LayoutProps) {
 
           {/* Floating Center Button */}
           <Link
-            to="/tracking"
-            className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 bg-gray-900 dark:bg-gray-800 rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-transform duration-200"
+            to={isOnTrackingPage ? "/dashboard" : "/tracking"}
+            className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 bg-gray-900 dark:bg-gray-800 rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-all duration-300"
           >
-            <Plus className="w-7 h-7 text-white" strokeWidth={2.5} />
+            <div className={`transition-all duration-300 ${isOnTrackingPage ? 'rotate-90' : 'rotate-0'}`}>
+              {isOnTrackingPage ? (
+                <X className="w-7 h-7 text-white" strokeWidth={2.5} />
+              ) : (
+                <Plus className="w-7 h-7 text-white" strokeWidth={2.5} />
+              )}
+            </div>
           </Link>
         </div>
       </nav>
