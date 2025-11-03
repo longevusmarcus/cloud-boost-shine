@@ -244,7 +244,7 @@ export default function Layout({ children }: LayoutProps) {
       <div className={`pb-20 md:pb-0 transition-all duration-300 overflow-x-hidden ${
         sidebarCollapsed ? 'md:ml-20' : 'md:ml-72'
       }`}>
-        <div className="w-full max-w-4xl mx-auto px-4 pt-4 md:pt-6">
+        <div className="w-full max-w-4xl mx-auto px-2 pt-2 md:pt-4">
           {children}
         </div>
       </div>
