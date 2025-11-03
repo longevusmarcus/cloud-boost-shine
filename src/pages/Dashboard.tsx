@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
 import { Activity, TrendingUp, Flame, Calendar, Heart, Droplet, Moon, Apple, X } from "lucide-react";
 import Layout from "@/components/Layout";
+import SpermValueChart from "@/components/dashboard/SpermValueChart";
 import ValueProgressChart from "@/components/dashboard/ValueProgressChart";
 import { decryptDailyLog } from "@/lib/encryption";
 import { useAuditLog } from "@/hooks/useAuditLog";
@@ -256,6 +257,9 @@ export default function Dashboard() {
             </div>
           </div>
         </button>
+
+        {/* Sperm Value Progress Bar */}
+        <SpermValueChart currentValue={profile?.sperm_value || 50} />
 
         {/* Daily Feed Section */}
         <div>
