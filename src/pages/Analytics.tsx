@@ -181,14 +181,14 @@ export default function Analytics() {
             <div className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">hours/night</div>
           </div>
 
-          {/* Avg Exercise */}
+          {/* Tests Taken */}
           <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
-              <Activity className="w-4 h-4 md:w-5 md:h-5" />
-              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Exercise</span>
+              <FileText className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Tests Taken</span>
             </div>
-            <div className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">{avgExercise}</div>
-            <div className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">min/day</div>
+            <div className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">{testResults.length}</div>
+            <div className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">total</div>
           </div>
         </div>
 
@@ -287,14 +287,14 @@ export default function Analytics() {
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">Activity Summary</h2>
           <div className="space-y-3 md:space-y-4">
-            {/* Avg Exercise */}
+            {/* Tests Taken */}
             <div className="flex items-center gap-3 md:gap-4 py-2 md:py-3">
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">
-                <Zap className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-white" />
+                <FileText className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-white" />
               </div>
               <div className="flex-1">
-                <div className="text-base md:text-xl font-semibold text-gray-900 dark:text-white">Avg Exercise</div>
-                <div className="text-gray-600 dark:text-gray-400 text-sm md:text-base">{avgExercise} min/day</div>
+                <div className="text-base md:text-xl font-semibold text-gray-900 dark:text-white">Tests Taken</div>
+                <div className="text-gray-600 dark:text-gray-400 text-sm md:text-base">{testResults.length} total</div>
               </div>
             </div>
 
