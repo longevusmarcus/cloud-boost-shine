@@ -6,26 +6,26 @@ import { TrendingUp, Target, Percent, Award, Crown, Gem, Zap, Medal, Trophy, Inf
 const timeRanges = ["1D", "1W", "1M", "3M", "6M", "1Y", "MAX"] as const;
 type TimeRange = typeof timeRanges[number];
 
-// Generate projection data from current value to max value
+// Generate projection data from current value to max value with real dates
 const generateStockChartData = (range: TimeRange, currentValue: number, maxValue: number = 70000) => {
-  const dataPoints: { time: string; value: number }[] = [];
-  const now = new Date();
+  const dataPoints: { time: string; value: number; isToday: boolean }[] = [];
+  const today = new Date();
   
   const configs = {
-    "1D": { points: 24, interval: 60 * 60 * 1000, format: (d: Date) => d.getHours() + ":00" },
-    "1W": { points: 7, interval: 24 * 60 * 60 * 1000, format: (d: Date) => d.toLocaleDateString("en-US", { weekday: "short" }) },
-    "1M": { points: 30, interval: 24 * 60 * 60 * 1000, format: (d: Date) => d.getDate().toString() },
-    "3M": { points: 12, interval: 7 * 24 * 60 * 60 * 1000, format: (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "numeric" }) },
-    "6M": { points: 26, interval: 7 * 24 * 60 * 60 * 1000, format: (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "numeric" }) },
-    "1Y": { points: 12, interval: 30 * 24 * 60 * 60 * 1000, format: (d: Date) => d.toLocaleDateString("en-US", { month: "short" }) },
-    "MAX": { points: 24, interval: 30 * 24 * 60 * 60 * 1000, format: (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "2-digit" }) },
+    "1D": { points: 24, interval: 60 * 60 * 1000, format: (d: Date) => format(d, "ha") },
+    "1W": { points: 7, interval: 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM d") },
+    "1M": { points: 30, interval: 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM d") },
+    "3M": { points: 12, interval: 7 * 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM d") },
+    "6M": { points: 26, interval: 7 * 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM d") },
+    "1Y": { points: 12, interval: 30 * 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM yyyy") },
+    "MAX": { points: 24, interval: 30 * 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM yyyy") },
   };
   
   const config = configs[range];
   
   // Calculate growth trajectory from current value to max value
   for (let i = 0; i < config.points; i++) {
-    const date = new Date(now.getTime() + i * config.interval);
+    const date = new Date(today.getTime() + i * config.interval);
     const progress = i / (config.points - 1);
     
     // Smooth S-curve progression towards max value
@@ -41,6 +41,7 @@ const generateStockChartData = (range: TimeRange, currentValue: number, maxValue
     dataPoints.push({
       time: config.format(date),
       value: Math.min(maxValue, Math.max(currentValue, value + variation)),
+      isToday: i === 0,
     });
   }
   
@@ -120,7 +121,7 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
               ${currentValue.toLocaleString()}
             </p>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Current Value → <span className="text-emerald-600 dark:text-emerald-400 font-semibold">${maxValue.toLocaleString()}</span> Max
+              <span className="font-semibold">{format(new Date(), "MMM d, yyyy")}</span> → <span className="text-emerald-600 dark:text-emerald-400 font-semibold">${maxValue.toLocaleString()}</span> Target
             </p>
           </div>
 
@@ -158,6 +159,9 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
                   className="text-gray-500 dark:text-gray-400"
                   axisLine={false}
                   tickLine={false}
+                  angle={-45}
+                  textAnchor="end"
+                  height={60}
                 />
                 <YAxis 
                   domain={[minStockValue * 0.95, maxStockValue * 1.05]}
@@ -174,7 +178,25 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
                     borderRadius: "12px",
                     color: "hsl(var(--foreground))",
                   }}
-                  formatter={(value: number) => [`$${value.toLocaleString(undefined, { maximumFractionDigits: 0 })}`, "Value"]}
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      const data = payload[0].payload;
+                      return (
+                        <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl p-3 shadow-xl">
+                          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+                            {data.isToday ? "Today" : "Projected"}
+                          </p>
+                          <p className="text-xs font-medium text-gray-900 dark:text-white mb-2">
+                            {data.time}
+                          </p>
+                          <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                            ${data.value.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                          </p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
                 />
                 <Area
                   type="monotone"
