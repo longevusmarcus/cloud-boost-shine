@@ -1,9 +1,10 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight, Moon, Sun, Trophy, DollarSign, Bell, ArrowLeft, TrendingUp, Plus, X } from "lucide-react";
+import { Home, Calendar, BarChart3, BookOpen, User, Droplet, ChevronLeft, ChevronRight, Moon, Sun, Trophy, DollarSign, ArrowLeft, TrendingUp, Plus, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useTheme } from "@/components/ThemeProvider";
+import NotificationCenter from "@/components/NotificationCenter";
 
 interface LayoutProps {
   children: ReactNode;
@@ -79,6 +80,7 @@ export default function Layout({ children }: LayoutProps) {
       <div className={`hidden md:flex fixed top-4 right-4 z-50 gap-2 transition-all duration-300 ${
         isOnTrackingPage ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100 scale-100'
       }`}>
+        <NotificationCenter />
         <Link
           to="/leaderboard"
           className="w-11 h-11 rounded-full bg-background border-2 border-border shadow-lg flex items-center justify-center hover:bg-accent transition-all hover:scale-105"
@@ -123,11 +125,9 @@ export default function Layout({ children }: LayoutProps) {
         }`}>
           {/* Left side: Notifications and Theme toggle */}
           <div className="flex items-center gap-2">
-            <button className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center" title="Notifications">
-              <Bell className="w-4 h-4" />
-            </button>
+            <NotificationCenter />
             
-            <button 
+            <button
               onClick={toggleTheme}
               className="w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center transition-colors"
               title="Toggle theme"
