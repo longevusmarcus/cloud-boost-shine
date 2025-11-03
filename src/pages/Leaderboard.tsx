@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Trophy, Medal, Award, TrendingUp } from "lucide-react";
-import Layout from "@/components/Layout";
 import { supabase } from "@/integrations/supabase/client";
 
 interface LeaderboardEntry {
@@ -64,17 +63,15 @@ export default function Leaderboard() {
 
   if (loading) {
     return (
-      <Layout>
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-900 dark:border-white border-t-transparent" />
-        </div>
-      </Layout>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-900 dark:border-white border-t-transparent" />
+      </div>
     );
   }
 
   return (
-    <Layout>
-      <div className="max-w-2xl mx-auto py-8 px-4 mt-16 md:mt-0">
+    <div className="min-h-screen">
+      <div className="max-w-2xl mx-auto py-8 px-4">
         {/* Header */}
         <div className="mb-12 text-center">
           <h1 className="text-2xl font-semibold text-foreground mb-2 tracking-tight">Leaderboard</h1>
@@ -165,6 +162,6 @@ export default function Leaderboard() {
           ))}
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }

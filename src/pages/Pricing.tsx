@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -36,23 +35,22 @@ export default function Pricing() {
   ];
 
   return (
-    <Layout>
-      <div className="min-h-screen flex items-center justify-center px-4 py-4 mt-6 md:mt-0">
-        <div className="w-full max-w-md">
-          {/* Card Container */}
-          <div className="bg-background rounded-3xl shadow-xl border border-border p-6">
-            {/* Header */}
-            <div className="text-center mb-6">
-              <h1 className="text-2xl font-bold text-foreground mb-2">
-                Start Your Journey
-              </h1>
-              <p className="text-xs text-muted-foreground">
-                Choose the perfect plan for your sperm health goals
-              </p>
-            </div>
+    <div className="min-h-screen flex items-center justify-center px-3 py-2">
+      <div className="w-full max-w-md">
+        {/* Card Container */}
+        <div className="bg-background rounded-3xl shadow-xl border border-border p-4">
+          {/* Header */}
+          <div className="text-center mb-4">
+            <h1 className="text-2xl font-bold text-foreground mb-2">
+              Start Your Journey
+            </h1>
+            <p className="text-xs text-muted-foreground">
+              Choose the perfect plan for your sperm health goals
+            </p>
+          </div>
 
-            {/* Pricing Options */}
-            <div className="space-y-2.5 mb-6">
+          {/* Pricing Options */}
+          <div className="space-y-2.5 mb-4">
               {plans.map((plan) => (
                 <button
                   key={plan.id}
@@ -123,9 +121,8 @@ export default function Pricing() {
                 View all features
               </button>
             </div>
-          </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }
