@@ -66,7 +66,7 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
           disabled
           className="py-3 rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-semibold text-sm flex flex-col items-center justify-center gap-1 border-2 border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-60"
         >
-          <DollarSign className="w-5 h-5" />
+          <DollarSign className="w-4 h-4" />
           <div className="text-center leading-tight">
             <div className="text-sm">Sell</div>
           </div>
