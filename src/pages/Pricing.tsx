@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Pricing() {
   const navigate = useNavigate();
-  const [selectedPlan, setSelectedPlan] = useState("lifetime");
+  const [selectedPlan, setSelectedPlan] = useState("kit");
 
   const plans = [
     {
