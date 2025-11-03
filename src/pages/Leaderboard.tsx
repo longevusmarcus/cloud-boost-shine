@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Trophy, Medal, Award, TrendingUp } from "lucide-react";
+import { Trophy, Medal, Award, TrendingUp, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 
 interface LeaderboardEntry {
   rank: number;
@@ -12,6 +13,7 @@ interface LeaderboardEntry {
 }
 
 export default function Leaderboard() {
+  const navigate = useNavigate();
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentUserRank, setCurrentUserRank] = useState<number | null>(null);
@@ -71,6 +73,16 @@ export default function Leaderboard() {
 
   return (
     <div className="min-h-screen">
+      {/* Floating Back Button - Mobile Only */}
+      <div className="fixed top-4 left-4 z-50 md:hidden">
+        <button 
+          onClick={() => navigate('/dashboard')}
+          className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
+        >
+          <ArrowLeft className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+        </button>
+      </div>
+
       <div className="max-w-2xl mx-auto py-8 px-4">
         {/* Header */}
         <div className="mb-12 text-center">
