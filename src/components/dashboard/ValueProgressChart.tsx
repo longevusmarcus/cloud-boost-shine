@@ -37,32 +37,38 @@ const generateStockChartData = (range: TimeRange, currentValue: number, maxValue
       // Daily: Very minimal increase - just show slight natural variation (~1% growth)
       targetPercentage = 0.01;
       easedProgress = progress * progress * (3 - 2 * progress);
-      variation = Math.sin(i * 0.8) * currentValue * 0.002;
+      // Wave pattern with multiple frequencies for natural look
+      variation = (Math.sin(i * 0.8) * 0.6 + Math.sin(i * 1.3) * 0.4) * currentValue * 0.008;
     } else if (range === "1W") {
       // Weekly: Small but noticeable progress (~7% growth)
       targetPercentage = 0.07;
       easedProgress = progress; // Linear for smooth gradual increase
-      variation = Math.sin(i * 0.6) * currentValue * 0.001; // Minimal variation to avoid decreases
+      // Gentle wave pattern
+      variation = (Math.sin(i * 0.9) * 0.7 + Math.cos(i * 0.6) * 0.3) * currentValue * 0.012;
     } else if (range === "1M") {
       // Monthly: Moderate progress (~25% toward goal)
       targetPercentage = 0.25;
       easedProgress = progress * 0.95 + (Math.sqrt(progress)) * 0.05;
-      variation = Math.sin(i * 0.4) * (maxValue - currentValue) * 0.005;
+      // More pronounced waves for longer timeframe
+      variation = (Math.sin(i * 0.5) * 0.6 + Math.sin(i * 0.9) * 0.4) * (maxValue - currentValue) * 0.015;
     } else if (range === "3M") {
       // 3 Months: Significant progress (~60% toward goal)
       targetPercentage = 0.60;
       easedProgress = progress * 0.98 + (Math.sqrt(progress)) * 0.02;
-      variation = Math.sin(i * 0.3) * (maxValue - currentValue) * 0.004;
+      // Wave pattern for realism
+      variation = (Math.sin(i * 0.4) * 0.7 + Math.cos(i * 0.25) * 0.3) * (maxValue - currentValue) * 0.012;
     } else if (range === "6M") {
       // 6 Months: Nearly reach goal (~95% of goal)
       targetPercentage = 0.95;
       easedProgress = progress * 0.98 + (Math.sqrt(progress)) * 0.02;
-      variation = Math.sin(i * 0.3) * (maxValue - currentValue) * 0.003;
+      // Subtle waves as it approaches the goal
+      variation = (Math.sin(i * 0.3) * 0.6 + Math.sin(i * 0.15) * 0.4) * (maxValue - currentValue) * 0.01;
     } else {
       // 1Y and MAX: Reach full goal (100%)
       targetPercentage = 1.0;
       easedProgress = progress * 0.98 + (Math.sqrt(progress)) * 0.02;
-      variation = Math.sin(i * 0.3) * (maxValue - currentValue) * 0.003;
+      // Very subtle waves for long timeframe
+      variation = (Math.sin(i * 0.2) * 0.7 + Math.cos(i * 0.12) * 0.3) * (maxValue - currentValue) * 0.008;
     }
     
     // Calculate the actual target value based on percentage
