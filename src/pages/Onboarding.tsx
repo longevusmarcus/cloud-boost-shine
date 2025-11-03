@@ -91,6 +91,9 @@ export default function Onboarding() {
         smokingDrugs: userData.lifestyle_data?.smokingDrugs,
         stressLevel: userData.lifestyle_data?.stressLevel,
         ejaculationFreq: userData.lifestyle_data?.ejaculationFreq,
+        alcohol: userData.lifestyle_data?.alcohol,
+        exercise: userData.lifestyle_data?.exercise,
+        sleepHours: userData.lifestyle_data?.sleepHours,
       };
 
       const { error } = await supabase
@@ -106,6 +109,11 @@ export default function Onboarding() {
           stress_level: userData.lifestyle_data?.stressLevel,
           masturbation_frequency: userData.lifestyle_data?.ejaculationFreq,
           supplements: userData.lifestyle_data?.testosteroneUse === 'Taking supplements' ? 'yes' : 'no',
+          alcohol: userData.lifestyle_data?.alcohol,
+          exercise: userData.lifestyle_data?.exercise,
+          sleep_hours: userData.lifestyle_data?.sleepHours === '7-8 hours' ? 7.5 : 
+                       userData.lifestyle_data?.sleepHours === '5-6 hours' ? 5.5 :
+                       userData.lifestyle_data?.sleepHours === 'Less than 5 hours' ? 4.5 : 8.5,
           sperm_value: spermValue,
           sperm_level: spermLevel,
           onboarding_completed: true

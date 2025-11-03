@@ -12,6 +12,9 @@ export default function LifestyleQuiz({ onNext, onBack }) {
     smokingDrugs: "",
     stressLevel: "",
     ejaculationFreq: "",
+    alcohol: "",
+    exercise: "",
+    sleepHours: "",
   });
 
   const isComplete = () => {
@@ -19,7 +22,10 @@ export default function LifestyleQuiz({ onNext, onBack }) {
       formData.testosteroneUse &&
       formData.smokingDrugs &&
       formData.stressLevel &&
-      formData.ejaculationFreq
+      formData.ejaculationFreq &&
+      formData.alcohol &&
+      formData.exercise &&
+      formData.sleepHours
     );
   };
 
@@ -139,6 +145,90 @@ export default function LifestyleQuiz({ onNext, onBack }) {
               <SelectItem value="Daily">Daily</SelectItem>
               <SelectItem value="Weekly">Weekly</SelectItem>
               <SelectItem value="Rarely">Rarely</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <Label className="text-foreground text-sm font-medium">Alcohol Consumption</Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p className="font-semibold mb-1">Alcohol & Fertility</p>
+                  <p className="text-xs">Heavy alcohol consumption (14+ drinks/week) reduces testosterone by 6.8% and impairs sperm production. Even moderate drinking can decrease sperm concentration and motility. Alcohol also increases oxidative stress, damaging sperm DNA. Limiting consumption to occasional or none optimizes reproductive health and maintains higher sperm quality for better fertility outcomes.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+          <Select value={formData.alcohol} onValueChange={(value) => setFormData({...formData, alcohol: value})}>
+            <SelectTrigger className="h-12 rounded-xl">
+              <SelectValue placeholder="Select frequency" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="None">None</SelectItem>
+              <SelectItem value="Occasional (1-2 drinks/week)">Occasional (1-2 drinks/week)</SelectItem>
+              <SelectItem value="Moderate (3-7 drinks/week)">Moderate (3-7 drinks/week)</SelectItem>
+              <SelectItem value="Heavy (8+ drinks/week)">Heavy (8+ drinks/week)</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <Label className="text-foreground text-sm font-medium">Exercise Frequency</Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p className="font-semibold mb-1">Exercise & Sperm Health</p>
+                  <p className="text-xs">Regular moderate exercise (3-5x/week) boosts testosterone by 15-20% and improves sperm count by up to 73%. Exercise reduces oxidative stress, enhances blood flow to reproductive organs, and improves overall metabolic health. However, excessive training (intense daily workouts) can temporarily suppress testosterone. Optimal balance: 150 minutes of moderate cardio plus strength training weekly.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+          <Select value={formData.exercise} onValueChange={(value) => setFormData({...formData, exercise: value})}>
+            <SelectTrigger className="h-12 rounded-xl">
+              <SelectValue placeholder="Select frequency" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Sedentary (little/no exercise)">Sedentary (little/no exercise)</SelectItem>
+              <SelectItem value="Light (1-2x/week)">Light (1-2x/week)</SelectItem>
+              <SelectItem value="Moderate (3-5x/week)">Moderate (3-5x/week)</SelectItem>
+              <SelectItem value="Intense (6-7x/week)">Intense (6-7x/week)</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <Label className="text-foreground text-sm font-medium">Average Sleep per Night</Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p className="font-semibold mb-1">Sleep & Testosterone</p>
+                  <p className="text-xs">Sleep is when 60-70% of daily testosterone is produced. Men sleeping 7-8 hours have 15% higher testosterone than those sleeping 5 hours. Just one week of poor sleep (under 5 hours) can reduce testosterone by 10-15%. Chronic sleep deprivation impairs sperm production, motility, and morphology. Consistent 7-9 hour sleep schedules optimize hormonal balance and sperm quality.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+          <Select value={formData.sleepHours} onValueChange={(value) => setFormData({...formData, sleepHours: value})}>
+            <SelectTrigger className="h-12 rounded-xl">
+              <SelectValue placeholder="Select hours" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Less than 5 hours">Less than 5 hours</SelectItem>
+              <SelectItem value="5-6 hours">5-6 hours</SelectItem>
+              <SelectItem value="7-8 hours">7-8 hours</SelectItem>
+              <SelectItem value="9+ hours">9+ hours</SelectItem>
             </SelectContent>
           </Select>
         </div>
