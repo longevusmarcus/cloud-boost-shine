@@ -10,7 +10,6 @@ import { UserCircle, LogOut, Award, TrendingUp, Flame, Calendar, Target, Zap, Tr
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
 
-import SubscriptionSection from "@/components/profile/SubscriptionSection";
 import MFASettings from "@/components/profile/MFASettings";
 import { useTheme } from "@/components/ThemeProvider";
 
@@ -330,13 +329,6 @@ export default function Profile() {
               
               {/* Quick Actions */}
               <div className="flex flex-wrap justify-center gap-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                <button
-                  onClick={() => document.getElementById('subscription-section')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-                >
-                  Manage Subscription
-                </button>
-                <span className="text-gray-300 dark:text-gray-700">•</span>
                 <button
                   onClick={() => navigate('/account')}
                   className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
@@ -747,11 +739,6 @@ export default function Profile() {
           {/* MFA Settings */}
           <div id="mfa-section">
             <MFASettings />
-          </div>
-
-          {/* Subscription Section */}
-          <div id="subscription-section">
-            <SubscriptionSection />
           </div>
 
           {/* Logout */}

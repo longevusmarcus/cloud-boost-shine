@@ -84,7 +84,10 @@ export default function Onboarding() {
           height_inches: userData.height_inches,
           weight: userData.weight,
           goal: userData.fertility_goal,
+          smoking: userData.lifestyle_data?.smokingDrugs,
           stress_level: userData.lifestyle_data?.stressLevel,
+          masturbation_frequency: userData.lifestyle_data?.ejaculationFreq,
+          supplements: userData.lifestyle_data?.testosteroneUse === 'Taking supplements' ? 'yes' : 'no',
           sperm_value: spermValue,
           sperm_level: spermLevel,
           onboarding_completed: true
