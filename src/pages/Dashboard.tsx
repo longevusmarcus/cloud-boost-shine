@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
-import { Activity, TrendingUp, Flame, Calendar, Heart, Droplet, Moon, Apple } from "lucide-react";
+import { Activity, TrendingUp, Flame, Calendar, Heart, Droplet, Moon, Apple, X } from "lucide-react";
 import Layout from "@/components/Layout";
 import SpermValueChart from "@/components/dashboard/SpermValueChart";
 import { decryptDailyLog } from "@/lib/encryption";
 import { useAuditLog } from "@/hooks/useAuditLog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ export default function Dashboard() {
   const [recentLogs, setRecentLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [userRank, setUserRank] = useState<number | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedLog, setSelectedLog] = useState<any>(null);
   const { logAction } = useAuditLog();
 
   useEffect(() => {
@@ -105,6 +108,14 @@ export default function Dashboard() {
   const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
   const loggedDates = new Set(recentLogs.map(log => log.date));
 
+  const handleDayClick = (dateStr: string) => {
+    const log = recentLogs.find(l => l.date === dateStr);
+    if (log) {
+      setSelectedDate(dateStr);
+      setSelectedLog(log);
+    }
+  };
+
   return (
     <Layout>
       <div className="max-w-3xl mx-auto space-y-4 mt-12 md:mt-0">
@@ -126,22 +137,24 @@ export default function Dashboard() {
               const isYesterday = format(day, "yyyy-MM-dd") === format(yesterdayDate, "yyyy-MM-dd");
 
               return (
-                <div
+                <button
                   key={idx}
+                  onClick={() => handleDayClick(dateStr)}
+                  disabled={!isLogged}
                   className={`flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-semibold transition-all text-xs ${
                     isToday
                       ? 'bg-black dark:bg-white text-white dark:text-black'
                       : isYesterday && isLogged
-                      ? 'bg-black dark:bg-white text-white dark:text-black'
+                      ? 'bg-black dark:bg-white text-white dark:text-black hover:scale-110'
                       : isLogged && isPast
-                      ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500'
+                      ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 hover:scale-110 cursor-pointer'
                       : isPast
-                      ? 'border-2 border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-600'
-                      : 'border-2 border-dashed border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500'
+                      ? 'border-2 border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-600 cursor-not-allowed'
+                      : 'border-2 border-dashed border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
                   }`}
                 >
                   {dayNum}
-                </div>
+                </button>
               );
             })}
           </div>
@@ -423,6 +436,89 @@ export default function Dashboard() {
           --enter-y: -140px;
         }
       `}</style>
+
+      {/* Day Log Dialog */}
+      <Dialog open={!!selectedDate} onOpenChange={() => setSelectedDate(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-bold">
+              {selectedDate && format(new Date(selectedDate), "MMMM d, yyyy")}
+            </DialogTitle>
+          </DialogHeader>
+          {selectedLog && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Droplet className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                    <span className="text-xs text-gray-600 dark:text-gray-400">Masturbation</span>
+                  </div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {selectedLog.masturbation_count ?? "N/A"}
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Moon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                    <span className="text-xs text-gray-600 dark:text-gray-400">Sleep</span>
+                  </div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {selectedLog.sleep_hours ? `${selectedLog.sleep_hours}h` : "N/A"}
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Apple className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                    <span className="text-xs text-gray-600 dark:text-gray-400">Diet Quality</span>
+                  </div>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white capitalize">
+                    {selectedLog.diet_quality || "N/A"}
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Activity className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                    <span className="text-xs text-gray-600 dark:text-gray-400">Exercise</span>
+                  </div>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white">
+                    {selectedLog.exercise_minutes ? `${selectedLog.exercise_minutes}m` : "N/A"}
+                  </div>
+                </div>
+              </div>
+
+              {selectedLog.sleep_quality && (
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Sleep Quality</div>
+                  <div className="text-base font-semibold text-gray-900 dark:text-white capitalize">
+                    {selectedLog.sleep_quality}
+                  </div>
+                </div>
+              )}
+
+              {selectedLog.stress_level !== null && (
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Stress Level</div>
+                  <div className="text-base font-semibold text-gray-900 dark:text-white">
+                    {selectedLog.stress_level}/10
+                  </div>
+                </div>
+              )}
+
+              {selectedLog.notes && (
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mb-2">Notes</div>
+                  <div className="text-sm text-gray-900 dark:text-white">
+                    {selectedLog.notes}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 }
