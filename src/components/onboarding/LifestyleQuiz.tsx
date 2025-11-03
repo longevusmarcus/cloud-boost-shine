@@ -44,7 +44,8 @@ export default function LifestyleQuiz({ onNext, onBack }) {
                   <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
-                  <p>Testosterone supplements can negatively impact natural sperm production by suppressing hormonal signals needed for healthy sperm development.</p>
+                  <p className="font-semibold mb-1">Testosterone & Fertility</p>
+                  <p className="text-xs">Exogenous testosterone supplementation suppresses the pituitary gland's production of FSH and LH hormones, which are critical for sperm production. This can reduce sperm count by 90% or more. Donors not using testosterone supplements have significantly higher sperm counts and quality, increasing market value by up to 75%. Natural testosterone levels are optimal for fertility.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -69,7 +70,8 @@ export default function LifestyleQuiz({ onNext, onBack }) {
                   <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
-                  <p>Smoking and drug use significantly reduce sperm quality, motility, and count. Clean lifestyle habits are crucial for optimal fertility and sperm value.</p>
+                  <p className="font-semibold mb-1">Impact of Smoking & Drugs</p>
+                  <p className="text-xs">Smoking reduces sperm count by 23%, decreases motility by 13%, and causes DNA fragmentation that affects embryo development. Marijuana use can reduce sperm concentration by 29%. Cocaine and other drugs severely impair sperm production and quality. Non-users command the highest premiums as recipients prioritize clean genetic material for their children's long-term health outcomes.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -95,7 +97,8 @@ export default function LifestyleQuiz({ onNext, onBack }) {
                   <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
-                  <p>High stress elevates cortisol levels, which can impair testosterone production and reduce sperm quality, concentration, and motility.</p>
+                  <p className="font-semibold mb-1">Stress & Sperm Quality</p>
+                  <p className="text-xs">Chronic stress elevates cortisol, which disrupts the hypothalamic-pituitary-gonadal axis responsible for testosterone and sperm production. High stress reduces sperm concentration by up to 38% and impairs motility. Men with low stress levels produce 25-30% more viable sperm. Stress management through exercise, meditation, and adequate sleep directly improves fertility markers and donor value.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -121,7 +124,8 @@ export default function LifestyleQuiz({ onNext, onBack }) {
                   <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
-                  <p>Optimal ejaculation frequency (2-3 times per week) maintains the best balance of sperm count, quality, and freshness for maximum fertility potential.</p>
+                  <p className="font-semibold mb-1">Optimal Ejaculation Frequency</p>
+                  <p className="text-xs">Sperm quality follows a "Goldilocks principle"—too frequent reduces count, too rare increases DNA fragmentation. Daily or 2-3x weekly ejaculation optimizes both sperm count (200-500M per ejaculate) and quality with minimal DNA damage. Abstinence beyond 5 days increases oxidative stress on sperm. Multiple daily ejaculations reduce concentration by 50%+. Regular, moderate frequency maximizes donor specimen quality.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

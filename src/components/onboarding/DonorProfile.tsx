@@ -107,7 +107,8 @@ export default function DonorProfile({ onNext, onBack }) {
                   <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
-                  <p>Higher education levels are associated with increased sperm value due to genetic potential and intellectual contribution to offspring.</p>
+                  <p className="font-semibold mb-1">Why Education Matters</p>
+                  <p className="text-xs">Higher education levels significantly increase sperm value in the donor market. Recipients often seek donors with strong academic backgrounds as indicators of intelligence, discipline, and genetic potential. Post-graduate degrees can increase your valuation by up to 25-30% compared to high school education alone.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -134,7 +135,8 @@ export default function DonorProfile({ onNext, onBack }) {
                   <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
-                  <p>Exclusivity increases sperm value. Donors willing to serve fewer families command premium pricing due to scarcity and personalized involvement.</p>
+                  <p className="font-semibold mb-1">The Exclusivity Premium</p>
+                  <p className="text-xs">Limited availability dramatically increases value. Donors willing to serve only 1 family can command 10x higher rates than those serving unlimited families. This reflects both scarcity economics and the appeal of exclusive genetic lineage. Many recipients are willing to pay premium prices to ensure their child has no genetic half-siblings.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -161,7 +163,8 @@ export default function DonorProfile({ onNext, onBack }) {
                   <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
-                  <p>Greater transparency and willingness to share medical, genetic, and personal information increases trust and value for recipient families.</p>
+                  <p className="font-semibold mb-1">Trust Through Transparency</p>
+                  <p className="text-xs">Full transparency with medical records, complete DNA profiles, personal information, and contact details commands the highest premiums. Recipients value comprehensive genetic screening and the possibility of future contact. Open donors (willing to share identity) can earn 40-50% more than anonymous donors due to growing demand for donor-conceived children to know their biological origins.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
