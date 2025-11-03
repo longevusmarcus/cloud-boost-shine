@@ -33,9 +33,9 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
               width: `${percentage}%`,
             }}
           >
-            {/* Light mode gradient (white/grey) */}
+            {/* Light mode gradient (white/light purple - soft) */}
             <div className="absolute inset-0 rounded-full dark:hidden" style={{
-              background: 'linear-gradient(135deg, #e5e5e5 0%, #d4d4d4 30%, #c4c4c4 60%, #b5b5b5 85%, #a3a3a3 100%)'
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8f7ff 30%, #f0edff 60%, #e8e3ff 85%, #e0d9ff 100%)'
             }} />
             
             {/* Dark mode gradient (dark grey/black) */}
