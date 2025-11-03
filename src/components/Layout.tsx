@@ -314,13 +314,13 @@ export default function Layout({ children }: LayoutProps) {
           {/* Floating Center Button */}
           <Link
             to={isOnTrackingPage ? "/dashboard" : "/tracking"}
-            className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 bg-gray-900 dark:bg-gray-800 rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-all duration-300"
+            className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 bg-gray-900 dark:bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-all duration-300"
           >
             <div className={`transition-all duration-300 ${isOnTrackingPage ? 'rotate-90' : 'rotate-0'}`}>
               {isOnTrackingPage ? (
-                <X className="w-7 h-7 text-white" strokeWidth={2.5} />
+                <X className="w-7 h-7 text-white dark:text-black" strokeWidth={2.5} />
               ) : (
-                <Plus className="w-7 h-7 text-white" strokeWidth={2.5} />
+                <Plus className="w-7 h-7 text-white dark:text-black" strokeWidth={2.5} />
               )}
             </div>
           </Link>
