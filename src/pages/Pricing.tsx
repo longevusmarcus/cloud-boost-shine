@@ -19,7 +19,7 @@ export default function Pricing() {
     {
       id: "lifetime",
       name: "LIFETIME",
-      price: "$99.99",
+      price: "$89.99",
       period: "one-time",
       description: "Unlimited access forever",
       badge: "Best value",
