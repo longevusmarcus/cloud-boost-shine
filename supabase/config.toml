@@ -2,3 +2,9 @@ project_id = "bafhpykxquyceemjmbqd"
 
 [functions.parse-test-pdf]
 verify_jwt = true
+
+[functions.generate-personalized-content]
+verify_jwt = true
+
+[functions.generate-daily-tip]
+verify_jwt = true

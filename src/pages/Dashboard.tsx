@@ -19,6 +19,8 @@ export default function Dashboard() {
   const [userRank, setUserRank] = useState<number | null>(null);
   const [showTimeline, setShowTimeline] = useState(false);
   const [showValueChart, setShowValueChart] = useState(false);
+  const [dailyTip, setDailyTip] = useState<string | null>(null);
+  const [isGeneratingTip, setIsGeneratingTip] = useState(false);
   const { logAction } = useAuditLog();
 
   useEffect(() => {
@@ -88,10 +90,52 @@ export default function Dashboard() {
         tableName: 'daily_logs',
         details: 'Viewed dashboard'
       });
+
+      // Generate daily tip
+      if (profileData) {
+        generateDailyTip(profileData, decryptedTodayLog);
+      }
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const generateDailyTip = async (profileData: any, todayLogData: any) => {
+    // Check if we already have a tip cached for today
+    const cachedTip = localStorage.getItem('dailyTip');
+    const cachedDate = localStorage.getItem('dailyTipDate');
+    const today = format(new Date(), "yyyy-MM-dd");
+    
+    if (cachedTip && cachedDate === today) {
+      setDailyTip(cachedTip);
+      return;
+    }
+
+    setIsGeneratingTip(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-daily-tip', {
+        body: { 
+          profile: profileData,
+          todayLog: todayLogData 
+        }
+      });
+
+      if (error) throw error;
+
+      if (data?.tip) {
+        setDailyTip(data.tip);
+        // Cache tip for today
+        localStorage.setItem('dailyTip', data.tip);
+        localStorage.setItem('dailyTipDate', today);
+      }
+    } catch (error: any) {
+      console.error('Error generating tip:', error);
+      // Fallback to default tip
+      setDailyTip("Zinc-rich foods boost sperm production");
+    } finally {
+      setIsGeneratingTip(false);
     }
   };
 
@@ -351,9 +395,15 @@ export default function Dashboard() {
             <div className="flex-shrink-0 w-28 h-36 md:w-40 md:h-52 rounded-3xl bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 border-2 border-blue-200 dark:border-blue-900 p-3 md:p-5 flex flex-col">
               <h3 className="font-semibold text-gray-900 dark:text-white text-[11px] md:text-sm mb-2">Daily Tip</h3>
               <div className="flex-1 flex flex-col justify-center">
-                <p className="text-[9px] md:text-xs text-gray-700 dark:text-gray-300 leading-relaxed italic">
-                  "Zinc-rich foods boost sperm production"
-                </p>
+                {isGeneratingTip ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-6 w-6 border-2 border-gray-900 dark:border-white border-t-transparent" />
+                  </div>
+                ) : (
+                  <p className="text-[9px] md:text-xs text-gray-700 dark:text-gray-300 leading-relaxed italic">
+                    "{dailyTip || "Zinc-rich foods boost sperm production"}"
+                  </p>
+                )}
               </div>
               <button
                 onClick={() => navigate('/content')}
