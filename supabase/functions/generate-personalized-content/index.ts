@@ -137,7 +137,7 @@ Generate exactly 4 content cards with different focus areas. Each card should be
     const cardsWithImages = await Promise.all(
       contentCards.map(async (card: any) => {
         try {
-          const imagePrompt = `Create a professional, inspiring health and wellness image for: ${card.title}. ${card.subtitle}. Style: modern, clean, motivational, cinematic. Ultra high resolution 16:9 aspect ratio.`;
+          const imagePrompt = `Create a professional, inspiring health and wellness image for: ${card.title}. ${card.subtitle}. Style: modern, clean, motivational, cinematic. Ultra high resolution 16:9 aspect ratio. IMPORTANT: No text, no words, no letters in the image. Pure visual imagery only.`;
           
           const imageResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
             method: "POST",

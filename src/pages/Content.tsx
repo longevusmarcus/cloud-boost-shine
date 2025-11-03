@@ -45,6 +45,16 @@ export default function Content() {
   }, []);
 
   const generatePersonalizedContent = async (profileData: any) => {
+    // Check if we have cached content from today
+    const cachedContent = localStorage.getItem('personalizedContent');
+    const cachedDate = localStorage.getItem('personalizedContentDate');
+    const today = new Date().toDateString();
+    
+    if (cachedContent && cachedDate === today) {
+      setPersonalizedContent(JSON.parse(cachedContent));
+      return;
+    }
+
     setIsGenerating(true);
     try {
       const { data, error } = await supabase.functions.invoke('generate-personalized-content', {
@@ -55,6 +65,9 @@ export default function Content() {
 
       if (data?.cards) {
         setPersonalizedContent(data.cards);
+        // Cache the content for today
+        localStorage.setItem('personalizedContent', JSON.stringify(data.cards));
+        localStorage.setItem('personalizedContentDate', today);
       }
     } catch (error: any) {
       console.error('Error generating content:', error);
