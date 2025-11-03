@@ -127,9 +127,13 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
             </span>
           </div>
         </div>
-        <div className="relative h-3 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+        <div className="relative h-4 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-full overflow-hidden shadow-inner">
           <div
-            className="absolute inset-y-0 left-0 bg-gray-900 dark:bg-gray-100 rounded-full transition-all duration-700"
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600 dark:from-emerald-500 dark:via-teal-400 dark:to-cyan-500 rounded-full transition-all duration-700 shadow-lg"
+            style={{ width: `${progress}%` }}
+          />
+          <div
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/20 to-transparent rounded-full transition-all duration-700"
             style={{ width: `${progress}%` }}
           />
         </div>
