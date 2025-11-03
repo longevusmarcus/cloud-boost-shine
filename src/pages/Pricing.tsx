@@ -22,7 +22,7 @@ export default function Pricing() {
       price: "$89.99",
       period: "one-time",
       description: "Unlimited access forever",
-      badge: "Best value",
+      badge: null,
     },
     {
       id: "kit",
@@ -30,7 +30,7 @@ export default function Pricing() {
       price: "$99.99",
       period: "one-time",
       description: "At-home test kit + lifetime app access",
-      badge: null,
+      badge: "Best value",
     },
   ];
 
