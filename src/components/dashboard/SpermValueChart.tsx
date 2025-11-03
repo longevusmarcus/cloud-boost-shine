@@ -64,11 +64,11 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
         
         <button
           disabled
-          className="py-3 rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-semibold text-sm flex flex-col items-center justify-center border-2 border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-60"
+          className="py-3 rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-semibold text-sm flex flex-col items-center justify-center gap-1 border-2 border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-60"
         >
-          <div className="flex items-center gap-2">
-            <DollarSign className="w-4 h-4" />
-            <span>Sell</span>
+          <DollarSign className="w-5 h-5" />
+          <div className="text-center leading-tight">
+            <div className="text-sm">Sell</div>
           </div>
           <span className="text-[10px] font-normal text-gray-500 dark:text-gray-400">Not available yet</span>
         </button>
