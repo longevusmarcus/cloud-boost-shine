@@ -30,28 +30,35 @@ const generateStockChartData = (range: TimeRange, currentValue: number, maxValue
     
     let easedProgress: number;
     let variation = 0;
+    let dailyGrowthFactor = 1;
     
     // Different progression curves for different timeframes
     if (range === "1D") {
-      // Daily: Ultra-smooth cubic easing with minimal variation
+      // Daily: Very minimal increase - just show slight natural variation
+      // Only increase by a tiny fraction over the day (about 0.5-1% max)
+      dailyGrowthFactor = 0.01; // 1% max growth in a day
       easedProgress = progress * progress * (3 - 2 * progress); // Smoothstep
-      variation = Math.sin(i * 0.8) * (maxValue - currentValue) * 0.005; // Very subtle variation
+      variation = Math.sin(i * 0.8) * currentValue * 0.002; // Very subtle variation based on current value
     } else if (range === "1W") {
-      // Weekly: Gradual linear progression with slight easing at the end
+      // Weekly: Gradual progression showing ~5-10% growth over the week
+      dailyGrowthFactor = 0.1; // 10% growth over a week
       easedProgress = progress * 0.95 + (progress * progress) * 0.05;
       variation = Math.sin(i * 0.6) * (maxValue - currentValue) * 0.008;
     } else {
-      // Monthly and longer: Very gradual, nearly linear progression
-      // Slight ease-out at the end to smoothly reach the goal
+      // Monthly and longer: Gradual progression toward max value
+      dailyGrowthFactor = 1; // Full progression to max value
       easedProgress = progress * 0.98 + (Math.sqrt(progress)) * 0.02;
-      // Minimal variation for longer timeframes to show steady growth
       variation = Math.sin(i * 0.3) * (maxValue - currentValue) * 0.003;
     }
     
-    // Ensure we reach exactly maxValue at the last point
-    const targetValue = progress === 1 
+    // Calculate target value based on timeframe
+    const growthAmount = range === "1D" || range === "1W"
+      ? currentValue * dailyGrowthFactor // For short timeframes, grow from current value
+      : (maxValue - currentValue) * dailyGrowthFactor; // For long timeframes, progress toward max
+    
+    const targetValue = progress === 1 && (range !== "1D" && range !== "1W")
       ? maxValue 
-      : currentValue + (maxValue - currentValue) * easedProgress;
+      : currentValue + growthAmount * easedProgress;
     
     const finalValue = progress === 1 
       ? maxValue 
