@@ -47,10 +47,10 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
       </div>
 
       {/* CTA Buttons */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="space-y-3">
         <button
           onClick={() => navigate('/pricing')}
-          className="py-3 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-black font-semibold text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-[0_0_20px_rgba(0,0,0,0.3)] hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] dark:shadow-[0_0_20px_rgba(255,255,255,0.3)] dark:hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
+          className="w-full py-3 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-black font-semibold text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-[0_0_20px_rgba(0,0,0,0.3)] hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] dark:shadow-[0_0_20px_rgba(255,255,255,0.3)] dark:hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
         >
           <TrendingUp className="w-4 h-4" />
           Increase your value
@@ -58,7 +58,7 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
         
         <button
           disabled
-          className="py-3 rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-semibold text-sm flex flex-col items-center justify-center border-2 border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-60"
+          className="w-full py-3 rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-semibold text-sm flex flex-col items-center justify-center border-2 border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-60"
         >
           <div className="flex items-center gap-2">
             <DollarSign className="w-4 h-4" />
