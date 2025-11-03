@@ -147,30 +147,17 @@ export default function CalculatorResults({ userData, onComplete, onBack }) {
         <p className="text-xs text-gray-600 mb-2">
           Confirm your sperm value with professional analysis
         </p>
-        <div className="flex flex-col sm:flex-row gap-2 w-full">
-          <a
-            href="https://www.hellosperm.com/products/yo-home-sperm-test"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1"
-          >
-            <Button variant="outline" className="w-full h-8 px-2 border-gray-300 text-black hover:bg-white rounded-lg text-[11px] sm:text-xs font-medium">
-              <span className="truncate">Test Health (YO)</span>
-              <ExternalLink className="w-3 h-3 ml-1 flex-shrink-0" />
-            </Button>
-          </a>
-          <a
-            href="https://www.givelegacy.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1"
-          >
-            <Button variant="outline" className="w-full h-8 px-2 border-gray-300 text-black hover:bg-white rounded-lg text-[11px] sm:text-xs font-medium">
-              <span className="truncate">Freeze (Legacy)</span>
-              <ExternalLink className="w-3 h-3 ml-1 flex-shrink-0" />
-            </Button>
-          </a>
-        </div>
+        <a
+          href="https://www.hellosperm.com/products/yo-home-sperm-test"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block"
+        >
+          <Button variant="outline" className="w-full h-8 px-2 border-gray-300 text-black hover:bg-white rounded-lg text-[11px] sm:text-xs font-medium">
+            <span className="truncate">Test Health (YO)</span>
+            <ExternalLink className="w-3 h-3 ml-1 flex-shrink-0" />
+          </Button>
+        </a>
       </div>
 
       {/* Action Buttons */}
