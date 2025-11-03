@@ -25,6 +25,16 @@ export default function Dashboard() {
 
   useEffect(() => {
     loadData();
+    
+    // Check if it's the first visit to dashboard
+    const hasSeenValueChart = localStorage.getItem('hasSeenValueChart');
+    if (!hasSeenValueChart) {
+      // Delay opening slightly to allow page to render
+      setTimeout(() => {
+        setShowValueChart(true);
+        localStorage.setItem('hasSeenValueChart', 'true');
+      }, 500);
+    }
   }, []);
 
   const loadData = async () => {
