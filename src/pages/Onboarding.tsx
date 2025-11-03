@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import AgeVerification from "@/components/onboarding/AgeVerification";
 import LifestyleQuiz from "@/components/onboarding/LifestyleQuiz";
 import FertilityGoal from "@/components/onboarding/FertilityGoal";
+import DonorProfile from "@/components/onboarding/DonorProfile";
 import CalculatorResults from "@/components/onboarding/CalculatorResults";
 
 export default function Onboarding() {
@@ -34,17 +35,26 @@ export default function Onboarding() {
     setStep(3);
   };
 
-  const handleLifestyleQuiz = (data: any) => {
-    // Extract height, weight from lifestyle_data and merge with userData
-    const { height_feet, height_inches, weight, ...lifestyleData } = data.lifestyle_data || data;
+  const handleDonorProfile = (data: any) => {
+    const donorData = data.donor_profile;
     setUserData({ 
       ...userData, 
-      height_feet, 
-      height_inches, 
-      weight,
-      lifestyle_data: lifestyleData 
+      height_feet: donorData.height_feet,
+      height_inches: donorData.height_inches,
+      weight: donorData.weight,
+      educationLevel: donorData.educationLevel,
+      recipientFamilies: donorData.recipientFamilies,
+      transparencyLevel: donorData.transparencyLevel
     });
     setStep(4);
+  };
+
+  const handleLifestyleQuiz = (data: any) => {
+    setUserData({ 
+      ...userData, 
+      lifestyle_data: data.lifestyle_data 
+    });
+    setStep(5);
   };
 
   const getSpermLevel = (value: number) => {
@@ -74,9 +84,9 @@ export default function Onboarding() {
 
       // Store lifestyle data as JSONB for flexibility
       const lifestyleData = {
-        educationLevel: userData.lifestyle_data?.educationLevel,
-        recipientFamilies: userData.lifestyle_data?.recipientFamilies,
-        transparencyLevel: userData.lifestyle_data?.transparencyLevel,
+        educationLevel: userData.educationLevel,
+        recipientFamilies: userData.recipientFamilies,
+        transparencyLevel: userData.transparencyLevel,
         testosteroneUse: userData.lifestyle_data?.testosteroneUse,
         smokingDrugs: userData.lifestyle_data?.smokingDrugs,
         stressLevel: userData.lifestyle_data?.stressLevel,
@@ -140,14 +150,16 @@ export default function Onboarding() {
             <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 2 ? 'bg-primary' : 'bg-muted'}`} />
             <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 3 ? 'bg-primary' : 'bg-muted'}`} />
             <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 4 ? 'bg-primary' : 'bg-muted'}`} />
+            <div className={`h-2 flex-1 rounded-full transition-colors ${step >= 5 ? 'bg-primary' : 'bg-muted'}`} />
           </div>
         </div>
 
         <div className="bg-card rounded-3xl p-4 sm:p-5 md:p-6 shadow-lg border border-border">
           {step === 1 && <AgeVerification onNext={handleAgeVerification} />}
           {step === 2 && <FertilityGoal onNext={handleFertilityGoal} onBack={handleBack} />}
-          {step === 3 && <LifestyleQuiz onNext={handleLifestyleQuiz} onBack={handleBack} />}
-          {step === 4 && (
+          {step === 3 && <DonorProfile onNext={handleDonorProfile} onBack={handleBack} />}
+          {step === 4 && <LifestyleQuiz onNext={handleLifestyleQuiz} onBack={handleBack} />}
+          {step === 5 && (
             <CalculatorResults 
               userData={userData} 
               onComplete={handleComplete}

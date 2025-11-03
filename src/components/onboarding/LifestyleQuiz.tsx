@@ -7,12 +7,6 @@ import { ArrowRight, ArrowLeft } from "lucide-react";
 
 export default function LifestyleQuiz({ onNext, onBack }) {
   const [formData, setFormData] = useState({
-    height_feet: "",
-    height_inches: "",
-    weight: "",
-    educationLevel: "",
-    recipientFamilies: "",
-    transparencyLevel: "",
     testosteroneUse: "",
     smokingDrugs: "",
     stressLevel: "",
@@ -21,12 +15,6 @@ export default function LifestyleQuiz({ onNext, onBack }) {
 
   const isComplete = () => {
     return (
-      formData.height_feet &&
-      formData.height_inches &&
-      formData.weight &&
-      formData.educationLevel &&
-      formData.recipientFamilies &&
-      formData.transparencyLevel &&
       formData.testosteroneUse &&
       formData.smokingDrugs &&
       formData.stressLevel &&
@@ -46,91 +34,6 @@ export default function LifestyleQuiz({ onNext, onBack }) {
       <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-8">Help us understand your profile to calculate your sperm valuation</p>
 
       <div className="space-y-4 sm:space-y-6 max-h-[55vh] sm:max-h-[60vh] overflow-y-auto pr-2">
-        <div>
-          <Label className="text-foreground text-sm font-medium mb-2 block">Height</Label>
-          <div className="flex gap-3">
-            <div className="flex-1">
-              <Input
-                type="number"
-                value={formData.height_feet}
-                onChange={(e) => setFormData({...formData, height_feet: e.target.value})}
-                placeholder="Feet"
-                min="3"
-                max="8"
-                className="h-12 rounded-xl"
-              />
-            </div>
-            <div className="flex-1">
-              <Input
-                type="number"
-                value={formData.height_inches}
-                onChange={(e) => setFormData({...formData, height_inches: e.target.value})}
-                placeholder="Inches"
-                min="0"
-                max="11"
-                className="h-12 rounded-xl"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <Label className="text-foreground text-sm font-medium mb-2 block">Weight (lbs)</Label>
-          <Input
-            type="number"
-            value={formData.weight}
-            onChange={(e) => setFormData({...formData, weight: e.target.value})}
-            placeholder="Enter your weight"
-            className="h-12 rounded-xl"
-          />
-        </div>
-
-        <div>
-          <Label className="text-foreground text-sm font-medium mb-2 block">Education Level</Label>
-          <Select value={formData.educationLevel} onValueChange={(value) => setFormData({...formData, educationLevel: value})}>
-            <SelectTrigger className="h-12 rounded-xl">
-              <SelectValue placeholder="Select level" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Post-graduate">Post-graduate</SelectItem>
-              <SelectItem value="Graduate">Graduate</SelectItem>
-              <SelectItem value="College">College</SelectItem>
-              <SelectItem value="High school">High school</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div>
-          <Label className="text-foreground text-sm font-medium mb-2 block">How many recipient families would you serve?</Label>
-          <p className="text-xs text-muted-foreground mb-2">If you were to donate sperm</p>
-          <Select value={formData.recipientFamilies} onValueChange={(value) => setFormData({...formData, recipientFamilies: value})}>
-            <SelectTrigger className="h-12 rounded-xl">
-              <SelectValue placeholder="Select preference" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1">1 family only</SelectItem>
-              <SelectItem value="Up to 5">Up to 5 families</SelectItem>
-              <SelectItem value="Any number">Any number of families</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div>
-          <Label className="text-foreground text-sm font-medium mb-2 block">Information Sharing / Transparency</Label>
-          <p className="text-xs text-muted-foreground mb-2">How much information would you share?</p>
-          <Select value={formData.transparencyLevel} onValueChange={(value) => setFormData({...formData, transparencyLevel: value})}>
-            <SelectTrigger className="h-12 rounded-xl">
-              <SelectValue placeholder="Select level" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Medical/full DNA/personal/contact">Medical/full DNA/personal/contact</SelectItem>
-              <SelectItem value="Medical/full DNA/personal, no name">Medical/full DNA/personal, no name</SelectItem>
-              <SelectItem value="Medical/DNA, screening only">Medical/DNA, screening only</SelectItem>
-              <SelectItem value="Standard tests only">Standard tests only</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
         <div>
           <Label className="text-foreground text-sm font-medium mb-2 block">Testosterone Supplements</Label>
           <Select value={formData.testosteroneUse} onValueChange={(value) => setFormData({...formData, testosteroneUse: value})}>
@@ -202,7 +105,7 @@ export default function LifestyleQuiz({ onNext, onBack }) {
           disabled={!isComplete()}
           className="flex-1 h-12 rounded-xl disabled:opacity-50"
         >
-          Calculate Score
+          Next
           <ArrowRight className="w-5 h-5 ml-2" />
         </Button>
       </div>
