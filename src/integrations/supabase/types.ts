@@ -55,6 +55,7 @@ export type Database = {
       }
       daily_logs: {
         Row: {
+          alcohol: boolean | null
           created_at: string | null
           date: string
           diet_quality: string | null
@@ -66,11 +67,14 @@ export type Database = {
           notes: string | null
           sleep_hours: number | null
           sleep_quality: string | null
+          smoking: boolean | null
           stress_level: number | null
+          testosterone: boolean | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
+          alcohol?: boolean | null
           created_at?: string | null
           date: string
           diet_quality?: string | null
@@ -82,11 +86,14 @@ export type Database = {
           notes?: string | null
           sleep_hours?: number | null
           sleep_quality?: string | null
+          smoking?: boolean | null
           stress_level?: number | null
+          testosterone?: boolean | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
+          alcohol?: boolean | null
           created_at?: string | null
           date?: string
           diet_quality?: string | null
@@ -98,7 +105,9 @@ export type Database = {
           notes?: string | null
           sleep_hours?: number | null
           sleep_quality?: string | null
+          smoking?: boolean | null
           stress_level?: number | null
+          testosterone?: boolean | null
           updated_at?: string | null
           user_id?: string
         }

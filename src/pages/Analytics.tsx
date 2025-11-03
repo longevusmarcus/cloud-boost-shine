@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format, subDays } from "date-fns";
-import { TrendingUp, Calendar, Activity, Moon, UserCircle, FileText, Zap, Heart, Sun } from "lucide-react";
+import { TrendingUp, Calendar, Activity, Moon, UserCircle, FileText, Zap, Heart, Sun, TrendingDown, Minus } from "lucide-react";
 import Layout from "@/components/Layout";
 import TestResultDisplay from "@/components/tracking/TestResultDisplay";
 import { useTheme } from "@/components/ThemeProvider";
@@ -97,6 +97,33 @@ export default function Analytics() {
   const avgExercise = logs.length > 0
     ? Math.round(logs.reduce((acc, log) => acc + (log.exercise_minutes || 0), 0) / logs.length)
     : 0;
+
+  // Calculate trends for masturbation and exercise
+  const trends = useMemo(() => {
+    if (logs.length < 2) return { masturbation: 'stable', exercise: 'stable' };
+    
+    const recentLogs = logs.slice(-3);
+    const previousLogs = logs.slice(-6, -3);
+    
+    if (recentLogs.length === 0) return { masturbation: 'stable', exercise: 'stable' };
+    
+    const recentMasturbation = recentLogs.reduce((acc, log) => acc + (log.masturbation_count || 0), 0) / recentLogs.length;
+    const previousMasturbation = previousLogs.length > 0 
+      ? previousLogs.reduce((acc, log) => acc + (log.masturbation_count || 0), 0) / previousLogs.length 
+      : recentMasturbation;
+    
+    const recentExercise = recentLogs.reduce((acc, log) => acc + (log.exercise_minutes || 0), 0) / recentLogs.length;
+    const previousExercise = previousLogs.length > 0
+      ? previousLogs.reduce((acc, log) => acc + (log.exercise_minutes || 0), 0) / previousLogs.length
+      : recentExercise;
+    
+    const masturbationTrend = recentMasturbation > previousMasturbation + 0.3 ? 'up' : 
+                             recentMasturbation < previousMasturbation - 0.3 ? 'down' : 'stable';
+    const exerciseTrend = recentExercise > previousExercise + 5 ? 'up' : 
+                         recentExercise < previousExercise - 5 ? 'down' : 'stable';
+    
+    return { masturbation: masturbationTrend, exercise: exerciseTrend };
+  }, [logs]);
 
   return (
     <Layout>
@@ -253,6 +280,92 @@ export default function Analytics() {
                   const maxSleep = 12;
                   const sleepValue = Number(log.sleep_hours) || 0;
                   const height = (sleepValue / maxSleep) * 100;
+                  return (
+                    <div key={log.id} className="flex-1 flex flex-col items-center gap-1 md:gap-2 max-w-[32px] md:max-w-[40px]">
+                      <div className="w-full rounded-t-lg relative h-full">
+                        <div 
+                          className="absolute bottom-0 w-full rounded-t-lg transition-all bg-gray-900 dark:bg-white"
+                          style={{ 
+                            height: `${Math.max(height, 2)}%`
+                          }}
+                        />
+                      </div>
+                      {(index === 0 || index === logs.length - 1 || logs.length < 8) && (
+                        <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400">
+                          {format(new Date(log.date), 'MMM d')}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Masturbation Trends */}
+        {logs.length > 0 && (
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between mb-1 md:mb-2">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Masturbation Trends</h2>
+              <div className="flex items-center gap-1">
+                {trends.masturbation === 'up' && <TrendingUp className="w-5 h-5 text-red-500" />}
+                {trends.masturbation === 'down' && <TrendingDown className="w-5 h-5 text-green-500" />}
+                {trends.masturbation === 'stable' && <Minus className="w-5 h-5 text-gray-500" />}
+              </div>
+            </div>
+            <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4 md:mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
+            <div className="h-40 md:h-48 flex items-end justify-center gap-1 md:gap-2">
+              {logs.length === 0 ? (
+                <div className="text-center text-gray-500 dark:text-gray-400 text-sm">No data</div>
+              ) : (
+                logs.map((log, index) => {
+                  const maxCount = 5;
+                  const countValue = Number(log.masturbation_count) || 0;
+                  const height = (countValue / maxCount) * 100;
+                  return (
+                    <div key={log.id} className="flex-1 flex flex-col items-center gap-1 md:gap-2 max-w-[32px] md:max-w-[40px]">
+                      <div className="w-full rounded-t-lg relative h-full">
+                        <div 
+                          className="absolute bottom-0 w-full rounded-t-lg transition-all bg-gray-900 dark:bg-white"
+                          style={{ 
+                            height: `${Math.max(height, 2)}%`
+                          }}
+                        />
+                      </div>
+                      {(index === 0 || index === logs.length - 1 || logs.length < 8) && (
+                        <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400">
+                          {format(new Date(log.date), 'MMM d')}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Exercise Trends */}
+        {logs.length > 0 && (
+          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-8 border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between mb-1 md:mb-2">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Exercise Trends</h2>
+              <div className="flex items-center gap-1">
+                {trends.exercise === 'up' && <TrendingUp className="w-5 h-5 text-green-500" />}
+                {trends.exercise === 'down' && <TrendingDown className="w-5 h-5 text-red-500" />}
+                {trends.exercise === 'stable' && <Minus className="w-5 h-5 text-gray-500" />}
+              </div>
+            </div>
+            <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4 md:mb-6">Last {selectedPeriod === "7d" ? "7" : "30"} days</p>
+            <div className="h-40 md:h-48 flex items-end justify-center gap-1 md:gap-2">
+              {logs.length === 0 ? (
+                <div className="text-center text-gray-500 dark:text-gray-400 text-sm">No data</div>
+              ) : (
+                logs.map((log, index) => {
+                  const maxMinutes = 120;
+                  const minutesValue = Number(log.exercise_minutes) || 0;
+                  const height = (minutesValue / maxMinutes) * 100;
                   return (
                     <div key={log.id} className="flex-1 flex flex-col items-center gap-1 md:gap-2 max-w-[32px] md:max-w-[40px]">
                       <div className="w-full rounded-t-lg relative h-full">

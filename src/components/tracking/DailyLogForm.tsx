@@ -16,6 +16,9 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
     stress_level: null,
     exercise_minutes: "",
     electrolytes: null,
+    alcohol: null,
+    smoking: null,
+    testosterone: null,
     notes: ""
   });
 
@@ -32,7 +35,10 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
       formData.diet_quality !== "" &&
       formData.stress_level !== null &&
       formData.exercise_minutes !== "" &&
-      formData.electrolytes !== null
+      formData.electrolytes !== null &&
+      formData.alcohol !== null &&
+      formData.smoking !== null &&
+      formData.testosterone !== null
     );
   };
 
@@ -230,6 +236,66 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
             <CircularButton
               selected={formData.electrolytes === true}
               onClick={() => setFormData({ ...formData, electrolytes: true })}
+              icon={Zap}
+              label="Yes"
+            />
+          </div>
+        </div>
+
+        {/* Alcohol Section */}
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-0.5">Alcohol</h3>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">Did you consume alcohol?</p>
+          <div className="flex gap-3 justify-start">
+            <CircularButton
+              selected={formData.alcohol === false}
+              onClick={() => setFormData({ ...formData, alcohol: false })}
+              icon={Circle}
+              label="No"
+            />
+            <CircularButton
+              selected={formData.alcohol === true}
+              onClick={() => setFormData({ ...formData, alcohol: true })}
+              icon={Coffee}
+              label="Yes"
+            />
+          </div>
+        </div>
+
+        {/* Smoking Section */}
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-0.5">Smoking</h3>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">Did you smoke?</p>
+          <div className="flex gap-3 justify-start">
+            <CircularButton
+              selected={formData.smoking === false}
+              onClick={() => setFormData({ ...formData, smoking: false })}
+              icon={Circle}
+              label="No"
+            />
+            <CircularButton
+              selected={formData.smoking === true}
+              onClick={() => setFormData({ ...formData, smoking: true })}
+              icon={AlertCircle}
+              label="Yes"
+            />
+          </div>
+        </div>
+
+        {/* Testosterone Section */}
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-5 md:p-6 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-0.5">Testosterone</h3>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">Did you take testosterone?</p>
+          <div className="flex gap-3 justify-start">
+            <CircularButton
+              selected={formData.testosterone === false}
+              onClick={() => setFormData({ ...formData, testosterone: false })}
+              icon={Circle}
+              label="No"
+            />
+            <CircularButton
+              selected={formData.testosterone === true}
+              onClick={() => setFormData({ ...formData, testosterone: true })}
               icon={Zap}
               label="Yes"
             />
