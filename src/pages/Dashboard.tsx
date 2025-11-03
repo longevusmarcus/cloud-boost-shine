@@ -7,7 +7,7 @@ import Layout from "@/components/Layout";
 import SpermValueChart from "@/components/dashboard/SpermValueChart";
 import { decryptDailyLog } from "@/lib/encryption";
 import { useAuditLog } from "@/hooks/useAuditLog";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -16,8 +16,7 @@ export default function Dashboard() {
   const [recentLogs, setRecentLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [userRank, setUserRank] = useState<number | null>(null);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [selectedLog, setSelectedLog] = useState<any>(null);
+  const [showTimeline, setShowTimeline] = useState(false);
   const { logAction } = useAuditLog();
 
   useEffect(() => {
@@ -108,14 +107,6 @@ export default function Dashboard() {
   const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
   const loggedDates = new Set(recentLogs.map(log => log.date));
 
-  const handleDayClick = (dateStr: string) => {
-    const log = recentLogs.find(l => l.date === dateStr);
-    if (log) {
-      setSelectedDate(dateStr);
-      setSelectedLog(log);
-    }
-  };
-
   return (
     <Layout>
       <div className="max-w-3xl mx-auto space-y-4 mt-12 md:mt-0">
@@ -139,15 +130,15 @@ export default function Dashboard() {
               return (
                 <button
                   key={idx}
-                  onClick={() => handleDayClick(dateStr)}
+                  onClick={() => isLogged && setShowTimeline(true)}
                   disabled={!isLogged}
                   className={`flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-semibold transition-all text-xs ${
                     isToday
                       ? 'bg-black dark:bg-white text-white dark:text-black'
                       : isYesterday && isLogged
-                      ? 'bg-black dark:bg-white text-white dark:text-black hover:scale-110'
+                      ? 'bg-black dark:bg-white text-white dark:text-black hover:scale-110 active:scale-95'
                       : isLogged && isPast
-                      ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 hover:scale-110 cursor-pointer'
+                      ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 hover:scale-110 active:scale-95 cursor-pointer'
                       : isPast
                       ? 'border-2 border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-600 cursor-not-allowed'
                       : 'border-2 border-dashed border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed'
@@ -437,88 +428,157 @@ export default function Dashboard() {
         }
       `}</style>
 
-      {/* Day Log Dialog */}
-      <Dialog open={!!selectedDate} onOpenChange={() => setSelectedDate(null)}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-lg font-bold">
-              {selectedDate && format(new Date(selectedDate), "MMMM d, yyyy")}
-            </DialogTitle>
-          </DialogHeader>
-          {selectedLog && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Droplet className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                    <span className="text-xs text-gray-600 dark:text-gray-400">Masturbation</span>
-                  </div>
-                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {selectedLog.masturbation_count ?? "N/A"}
-                  </div>
+      {/* Timeline Sheet */}
+      <Sheet open={showTimeline} onOpenChange={setShowTimeline}>
+        <SheetContent side="bottom" className="h-[90vh] rounded-t-3xl p-0">
+          <SheetHeader className="p-6 pb-4 border-b border-gray-200 dark:border-gray-800">
+            <SheetTitle className="text-xl font-bold text-center">Check-in History</SheetTitle>
+            <p className="text-sm text-gray-600 dark:text-gray-400 text-center">{recentLogs.length} days logged</p>
+          </SheetHeader>
+          
+          <div className="overflow-y-auto h-[calc(90vh-100px)] px-6">
+            <div className="space-y-6 py-6">
+              {recentLogs.length === 0 ? (
+                <div className="text-center py-12">
+                  <Calendar className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+                  <p className="text-gray-600 dark:text-gray-400">No check-ins yet</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">Start tracking to see your history</p>
                 </div>
+              ) : (
+                recentLogs.map((log, index) => {
+                  const logDate = new Date(log.date);
+                  const isToday = format(logDate, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
+                  
+                  return (
+                    <div key={log.id} className="relative">
+                      {/* Timeline line */}
+                      {index < recentLogs.length - 1 && (
+                        <div className="absolute left-[19px] top-12 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700 -translate-y-6" />
+                      )}
+                      
+                      <div className="flex gap-4">
+                        {/* Timeline dot */}
+                        <div className="flex-shrink-0 relative">
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                            isToday 
+                              ? 'bg-black dark:bg-white' 
+                              : 'bg-gray-200 dark:bg-gray-700'
+                          }`}>
+                            <span className={`text-sm font-bold ${
+                              isToday 
+                                ? 'text-white dark:text-black' 
+                                : 'text-gray-600 dark:text-gray-400'
+                            }`}>
+                              {format(logDate, "d")}
+                            </span>
+                          </div>
+                        </div>
 
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Moon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                    <span className="text-xs text-gray-600 dark:text-gray-400">Sleep</span>
-                  </div>
-                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {selectedLog.sleep_hours ? `${selectedLog.sleep_hours}h` : "N/A"}
-                  </div>
-                </div>
+                        {/* Log content */}
+                        <div className="flex-1 pb-6">
+                          <div className="bg-white dark:bg-gray-900 rounded-3xl p-4 border border-gray-200 dark:border-gray-800 animate-fade-in">
+                            <div className="flex items-center justify-between mb-3">
+                              <div>
+                                <h3 className="font-semibold text-gray-900 dark:text-white">
+                                  {format(logDate, "EEEE, MMM d")}
+                                </h3>
+                                {isToday && (
+                                  <span className="inline-block mt-1 px-2 py-0.5 bg-black dark:bg-white text-white dark:text-black text-xs font-medium rounded-full">
+                                    Today
+                                  </span>
+                                )}
+                              </div>
+                              <Flame className={`w-5 h-5 ${
+                                log.masturbation_count === 0 
+                                  ? 'text-green-500' 
+                                  : 'text-gray-400'
+                              }`} />
+                            </div>
 
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Apple className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                    <span className="text-xs text-gray-600 dark:text-gray-400">Diet Quality</span>
-                  </div>
-                  <div className="text-lg font-bold text-gray-900 dark:text-white capitalize">
-                    {selectedLog.diet_quality || "N/A"}
-                  </div>
-                </div>
+                            {/* Stats grid */}
+                            <div className="grid grid-cols-2 gap-2 mb-3">
+                              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <Droplet className="w-3 h-3 text-gray-600 dark:text-gray-400" />
+                                  <span className="text-xs text-gray-600 dark:text-gray-400">Masturbation</span>
+                                </div>
+                                <div className="text-lg font-bold text-gray-900 dark:text-white">
+                                  {log.masturbation_count ?? "N/A"}
+                                </div>
+                              </div>
 
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Activity className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                    <span className="text-xs text-gray-600 dark:text-gray-400">Exercise</span>
-                  </div>
-                  <div className="text-lg font-bold text-gray-900 dark:text-white">
-                    {selectedLog.exercise_minutes ? `${selectedLog.exercise_minutes}m` : "N/A"}
-                  </div>
-                </div>
-              </div>
+                              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <Moon className="w-3 h-3 text-gray-600 dark:text-gray-400" />
+                                  <span className="text-xs text-gray-600 dark:text-gray-400">Sleep</span>
+                                </div>
+                                <div className="text-lg font-bold text-gray-900 dark:text-white">
+                                  {log.sleep_hours ? `${log.sleep_hours}h` : "N/A"}
+                                </div>
+                              </div>
 
-              {selectedLog.sleep_quality && (
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
-                  <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Sleep Quality</div>
-                  <div className="text-base font-semibold text-gray-900 dark:text-white capitalize">
-                    {selectedLog.sleep_quality}
-                  </div>
-                </div>
-              )}
+                              {log.diet_quality && (
+                                <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <Apple className="w-3 h-3 text-gray-600 dark:text-gray-400" />
+                                    <span className="text-xs text-gray-600 dark:text-gray-400">Diet</span>
+                                  </div>
+                                  <div className="text-sm font-semibold text-gray-900 dark:text-white capitalize">
+                                    {log.diet_quality}
+                                  </div>
+                                </div>
+                              )}
 
-              {selectedLog.stress_level !== null && (
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
-                  <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Stress Level</div>
-                  <div className="text-base font-semibold text-gray-900 dark:text-white">
-                    {selectedLog.stress_level}/10
-                  </div>
-                </div>
-              )}
+                              {log.exercise_minutes > 0 && (
+                                <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <Activity className="w-3 h-3 text-gray-600 dark:text-gray-400" />
+                                    <span className="text-xs text-gray-600 dark:text-gray-400">Exercise</span>
+                                  </div>
+                                  <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                                    {log.exercise_minutes}m
+                                  </div>
+                                </div>
+                              )}
+                            </div>
 
-              {selectedLog.notes && (
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4">
-                  <div className="text-xs text-gray-600 dark:text-gray-400 mb-2">Notes</div>
-                  <div className="text-sm text-gray-900 dark:text-white">
-                    {selectedLog.notes}
-                  </div>
-                </div>
+                            {/* Additional details */}
+                            {(log.sleep_quality || log.stress_level !== null) && (
+                              <div className="flex gap-2 flex-wrap">
+                                {log.sleep_quality && (
+                                  <div className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg text-xs text-gray-700 dark:text-gray-300">
+                                    Sleep: {log.sleep_quality}
+                                  </div>
+                                )}
+                                {log.stress_level !== null && (
+                                  <div className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg text-xs text-gray-700 dark:text-gray-300">
+                                    Stress: {log.stress_level}/10
+                                  </div>
+                                )}
+                                {log.electrolytes && (
+                                  <div className="px-2 py-1 bg-blue-100 dark:bg-blue-900 rounded-lg text-xs text-blue-700 dark:text-blue-300">
+                                    ⚡ Electrolytes
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {log.notes && (
+                              <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                                <p className="text-xs text-gray-600 dark:text-gray-400">{log.notes}</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
               )}
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+          </div>
+        </SheetContent>
+      </Sheet>
     </Layout>
   );
 }
