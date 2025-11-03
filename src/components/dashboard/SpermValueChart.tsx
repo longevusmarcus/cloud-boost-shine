@@ -38,14 +38,14 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
               background: 'linear-gradient(135deg, #ffffff 0%, #f8f7ff 30%, #f0edff 60%, #e8e3ff 85%, #e0d9ff 100%)'
             }} />
             
-            {/* Dark mode gradient (white/light purple - soft) */}
+            {/* Dark mode gradient (dark grey/black) */}
             <div className="absolute inset-0 rounded-full hidden dark:block" style={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8f7ff 30%, #f0edff 60%, #e8e3ff 85%, #e0d9ff 100%)'
+              background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 30%, #3f3f3f 60%, #5a5a5a 85%, #6b6b6b 100%)'
             }} />
             
             {/* Percentage text inside bar */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-[9px] font-bold text-gray-900 drop-shadow-lg">
+              <span className="text-[9px] font-bold text-gray-900 dark:text-white drop-shadow-lg">
                 {Math.round(percentage)}%
               </span>
             </div>
