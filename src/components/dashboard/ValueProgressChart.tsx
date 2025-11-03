@@ -1,7 +1,43 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Line, ComposedChart } from "recharts";
 import { format } from "date-fns";
 import { TrendingUp, Target, Percent, Award, Crown, Gem, Zap, Medal, Trophy, Info } from "lucide-react";
+
+const timeRanges = ["1D", "1W", "1M", "3M", "6M", "1Y", "MAX"] as const;
+type TimeRange = typeof timeRanges[number];
+
+// Generate mock historical data for stock-style chart
+const generateStockChartData = (range: TimeRange, currentValue: number) => {
+  const dataPoints: { time: string; value: number }[] = [];
+  const now = new Date();
+  
+  const configs = {
+    "1D": { points: 24, interval: 60 * 60 * 1000, format: (d: Date) => d.getHours() + ":00" },
+    "1W": { points: 7, interval: 24 * 60 * 60 * 1000, format: (d: Date) => d.toLocaleDateString("en-US", { weekday: "short" }) },
+    "1M": { points: 30, interval: 24 * 60 * 60 * 1000, format: (d: Date) => d.getDate().toString() },
+    "3M": { points: 12, interval: 7 * 24 * 60 * 60 * 1000, format: (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "numeric" }) },
+    "6M": { points: 26, interval: 7 * 24 * 60 * 60 * 1000, format: (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "numeric" }) },
+    "1Y": { points: 12, interval: 30 * 24 * 60 * 60 * 1000, format: (d: Date) => d.toLocaleDateString("en-US", { month: "short" }) },
+    "MAX": { points: 24, interval: 30 * 24 * 60 * 60 * 1000, format: (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "2-digit" }) },
+  };
+  
+  const config = configs[range];
+  const startValue = currentValue * 0.7; // Start at 70% of current value
+  
+  for (let i = 0; i < config.points; i++) {
+    const date = new Date(now.getTime() - (config.points - i - 1) * config.interval);
+    const progress = i / (config.points - 1);
+    const randomVariation = (Math.random() - 0.5) * 0.1;
+    const value = startValue + (currentValue - startValue) * progress + currentValue * randomVariation;
+    
+    dataPoints.push({
+      time: config.format(date),
+      value: Math.max(0, value),
+    });
+  }
+  
+  return dataPoints;
+};
 
 interface ValueProgressChartProps {
   currentValue: number;
@@ -9,6 +45,12 @@ interface ValueProgressChartProps {
 }
 
 export default function ValueProgressChart({ currentValue, recentLogs }: ValueProgressChartProps) {
+  const [selectedRange, setSelectedRange] = useState<TimeRange>("1M");
+  
+  const stockChartData = useMemo(() => generateStockChartData(selectedRange, currentValue), [selectedRange, currentValue]);
+  const minStockValue = Math.min(...stockChartData.map(d => d.value));
+  const maxStockValue = Math.max(...stockChartData.map(d => d.value));
+  
   const chartData = useMemo(() => {
     // Generate data points based on recent logs
     const data = recentLogs.slice(0, 30).reverse().map((log, index) => {
@@ -61,6 +103,86 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
 
   return (
     <div className="space-y-6">
+      {/* Stock-Style Chart Section */}
+      <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm">
+        <div className="space-y-4">
+          {/* Current Value Display */}
+          <div className="text-center space-y-1">
+            <p className="text-3xl font-bold text-gray-900 dark:text-white">
+              ${currentValue.toLocaleString()}
+            </p>
+            <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium">
+              +{((currentValue / (currentValue * 0.7) - 1) * 100).toFixed(1)}% Growth
+            </p>
+          </div>
+
+          {/* Time Range Selector */}
+          <div className="flex justify-center gap-1">
+            {timeRanges.map((range) => (
+              <button
+                key={range}
+                onClick={() => setSelectedRange(range)}
+                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                  selectedRange === range
+                    ? "bg-gray-900 dark:bg-white text-white dark:text-black"
+                    : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                }`}
+              >
+                {range}
+              </button>
+            ))}
+          </div>
+
+          {/* Chart */}
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={stockChartData} margin={{ top: 10, right: 10, left: -10, bottom: 5 }}>
+                <defs>
+                  <linearGradient id="stockValueGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#10b981" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-gray-200 dark:text-gray-800" vertical={false} />
+                <XAxis 
+                  dataKey="time" 
+                  tick={{ fill: "currentColor", fontSize: 11 }}
+                  className="text-gray-500 dark:text-gray-400"
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis 
+                  domain={[minStockValue * 0.95, maxStockValue * 1.05]}
+                  tick={{ fill: "currentColor", fontSize: 11 }}
+                  className="text-gray-500 dark:text-gray-400"
+                  axisLine={false}
+                  tickLine={false}
+                  tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--background))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "12px",
+                    color: "hsl(var(--foreground))",
+                  }}
+                  formatter={(value: number) => [`$${value.toLocaleString(undefined, { maximumFractionDigits: 0 })}`, "Value"]}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#10b981"
+                  strokeWidth={2.5}
+                  fill="url(#stockValueGradient)"
+                  dot={false}
+                  activeDot={{ r: 5, fill: "#10b981", strokeWidth: 2, stroke: "#fff" }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+
       {/* Disclaimer Note */}
       <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-4 border border-gray-200 dark:border-gray-800">
         <div className="flex gap-3">
