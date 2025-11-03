@@ -1,8 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { CheckCircle, FlaskConical, TrendingUp, UserCircle, Moon, Sun, Edit, Droplet, Apple, Activity, TrendingDown, Minus } from "lucide-react";
+import { CheckCircle, FlaskConical, TrendingUp, UserCircle, Moon, Sun, Edit, Droplet, Apple, Activity } from "lucide-react";
 import Layout from "@/components/Layout";
 import DailyLogForm from "@/components/tracking/DailyLogForm";
 import TestResultUpload from "@/components/tracking/TestResultUpload";
@@ -19,7 +19,6 @@ export default function Tracking() {
   const [todayLog, setTodayLog] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [testResults, setTestResults] = useState<any[]>([]);
-  const [recentLogs, setRecentLogs] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("daily");
   const [loading, setLoading] = useState(true);
   const [showCompletionState, setShowCompletionState] = useState(false);
@@ -69,19 +68,6 @@ export default function Tracking() {
         (resultsData || []).map(result => decryptTestResult(result, session.user.id))
       );
       setTestResults(decryptedResults);
-
-      // Fetch recent logs for trends (last 7 days)
-      const { data: logsData } = await supabase
-        .from('daily_logs')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .order('date', { ascending: false })
-        .limit(7);
-
-      const decryptedLogs = await Promise.all(
-        (logsData || []).map(log => decryptDailyLog(log, session.user.id))
-      );
-      setRecentLogs(decryptedLogs);
 
       // Log audit trail for viewing
       await logAction({
@@ -214,26 +200,6 @@ export default function Tracking() {
   const nextTestDate = getNextTestDate();
   const daysUntilNext = getDaysUntilNextTest();
 
-  // Calculate trends
-  const trends = useMemo(() => {
-    if (recentLogs.length < 2) return { masturbation: 'stable', exercise: 'stable' };
-    
-    const recentMasturbation = recentLogs.slice(0, 3).map(l => l.masturbation_count || 0);
-    const olderMasturbation = recentLogs.slice(3, 6).map(l => l.masturbation_count || 0);
-    const avgRecent = recentMasturbation.reduce((a, b) => a + b, 0) / recentMasturbation.length;
-    const avgOlder = olderMasturbation.length > 0 ? olderMasturbation.reduce((a, b) => a + b, 0) / olderMasturbation.length : avgRecent;
-    
-    const recentExercise = recentLogs.slice(0, 3).map(l => l.exercise_minutes || 0);
-    const olderExercise = recentLogs.slice(3, 6).map(l => l.exercise_minutes || 0);
-    const avgRecentEx = recentExercise.reduce((a, b) => a + b, 0) / recentExercise.length;
-    const avgOlderEx = olderExercise.length > 0 ? olderExercise.reduce((a, b) => a + b, 0) / olderExercise.length : avgRecentEx;
-    
-    return {
-      masturbation: avgRecent < avgOlder ? 'down' : avgRecent > avgOlder ? 'up' : 'stable',
-      exercise: avgRecentEx > avgOlderEx ? 'up' : avgRecentEx < avgOlderEx ? 'down' : 'stable'
-    };
-  }, [recentLogs]);
-
   return (
     <Layout>
       <div className="max-w-3xl mx-auto space-y-4 mt-8 md:mt-0">
@@ -299,19 +265,8 @@ export default function Tracking() {
                       <Droplet className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                       <span className="text-xs text-gray-600 dark:text-gray-400">Masturbation</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div className="text-xl font-bold text-gray-900 dark:text-white">
-                        {todayLog.masturbation_count ?? "N/A"}
-                      </div>
-                      {trends.masturbation === 'down' && (
-                        <TrendingDown className="w-5 h-5 text-green-500" />
-                      )}
-                      {trends.masturbation === 'up' && (
-                        <TrendingUp className="w-5 h-5 text-red-500" />
-                      )}
-                      {trends.masturbation === 'stable' && (
-                        <Minus className="w-5 h-5 text-gray-400" />
-                      )}
+                    <div className="text-xl font-bold text-gray-900 dark:text-white">
+                      {todayLog.masturbation_count ?? "N/A"}
                     </div>
                   </div>
 
@@ -340,19 +295,8 @@ export default function Tracking() {
                       <Activity className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                       <span className="text-xs text-gray-600 dark:text-gray-400">Exercise</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div className="text-sm font-semibold text-gray-900 dark:text-white">
-                        {todayLog.exercise_minutes ? `${todayLog.exercise_minutes}m` : "N/A"}
-                      </div>
-                      {trends.exercise === 'up' && (
-                        <TrendingUp className="w-5 h-5 text-green-500" />
-                      )}
-                      {trends.exercise === 'down' && (
-                        <TrendingDown className="w-5 h-5 text-red-500" />
-                      )}
-                      {trends.exercise === 'stable' && (
-                        <Minus className="w-5 h-5 text-gray-400" />
-                      )}
+                    <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                      {todayLog.exercise_minutes ? `${todayLog.exercise_minutes}m` : "N/A"}
                     </div>
                   </div>
                 </div>
