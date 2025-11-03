@@ -171,14 +171,18 @@ export default function Analytics() {
             <div className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">Total</div>
           </div>
 
-          {/* Avg Sleep */}
+          {/* Latest Test */}
           <div className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-900 rounded-3xl p-4 md:p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
-              <Moon className="w-4 h-4 md:w-5 md:h-5" />
-              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Avg Sleep</span>
+              <FileText className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-[10px] md:text-xs font-medium uppercase tracking-wide">Latest Test</span>
             </div>
-            <div className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">{avgSleep.toFixed(1)}</div>
-            <div className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">hours/night</div>
+            <div className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">
+              {testResults.length > 0 ? format(new Date(testResults[0].test_date), 'MMM d') : 'N/A'}
+            </div>
+            <div className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">
+              {testResults.length > 0 ? format(new Date(testResults[0].test_date), 'yyyy') : 'No tests'}
+            </div>
           </div>
 
           {/* Tests Taken */}
