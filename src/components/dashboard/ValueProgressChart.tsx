@@ -68,8 +68,8 @@ export default function ValueProgressChart({ currentValue, recentLogs }: ValuePr
           <div>
             <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">Value Reference</h4>
             <p className="text-xs text-blue-800 dark:text-blue-200">
-              Maximum value of $70,000 represents optimal fertility metrics for healthy young individuals. 
-              Actual fertility value varies by age, health status, and lifestyle factors.
+              $70,000 represents maximum value for healthy young individuals. 
+              Actual maximum value varies by age, health status, and lifestyle factors.
             </p>
           </div>
         </div>
