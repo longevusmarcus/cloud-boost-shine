@@ -290,7 +290,7 @@ export default function DailyLogForm({ initialData, onSubmit }: DailyLogFormProp
         className="w-full h-12 md:h-14 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-black rounded-[20px] font-semibold text-base md:text-lg mt-6 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
         disabled={!isFormComplete()}
       >
-        Save Check-in
+        Save
       </Button>
     </form>
   );
