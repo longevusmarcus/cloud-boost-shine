@@ -258,6 +258,13 @@ export default function Dashboard() {
                 </svg>
               </div>
 
+              <div className="absolute top-1/2 right-4 animate-float" style={{ animationDelay: '1s', animationDuration: '5s' }}>
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-300 opacity-25">
+                  <circle cx="8" cy="8" r="4" fill="currentColor" />
+                  <path d="M12 8 Q16 6, 20 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                </svg>
+              </div>
+
               <div className="absolute bottom-10 right-2 animate-float" style={{ animationDelay: '2s', animationDuration: '5.5s' }}>
                 <svg width="8" height="8" viewBox="0 0 24 24" fill="none" className="text-gray-400 dark:text-gray-300 opacity-25">
                   <circle cx="8" cy="8" r="4" fill="currentColor" />
