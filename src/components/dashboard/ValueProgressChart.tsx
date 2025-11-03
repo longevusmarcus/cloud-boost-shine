@@ -30,39 +30,46 @@ const generateStockChartData = (range: TimeRange, currentValue: number, maxValue
     
     let easedProgress: number;
     let variation = 0;
-    let dailyGrowthFactor = 1;
+    let targetPercentage = 1; // What percentage of the goal to reach
     
     // Different progression curves for different timeframes
     if (range === "1D") {
-      // Daily: Very minimal increase - just show slight natural variation
-      // Only increase by a tiny fraction over the day (about 0.5-1% max)
-      dailyGrowthFactor = 0.01; // 1% max growth in a day
-      easedProgress = progress * progress * (3 - 2 * progress); // Smoothstep
-      variation = Math.sin(i * 0.8) * currentValue * 0.002; // Very subtle variation based on current value
+      // Daily: Very minimal increase - just show slight natural variation (~1% growth)
+      targetPercentage = 0.01;
+      easedProgress = progress * progress * (3 - 2 * progress);
+      variation = Math.sin(i * 0.8) * currentValue * 0.002;
     } else if (range === "1W") {
-      // Weekly: Gradual progression showing ~5-10% growth over the week
-      dailyGrowthFactor = 0.1; // 10% growth over a week
+      // Weekly: Small but noticeable progress (~7% growth)
+      targetPercentage = 0.07;
       easedProgress = progress * 0.95 + (progress * progress) * 0.05;
-      variation = Math.sin(i * 0.6) * (maxValue - currentValue) * 0.008;
+      variation = Math.sin(i * 0.6) * currentValue * 0.005;
+    } else if (range === "1M") {
+      // Monthly: Moderate progress (~25% toward goal)
+      targetPercentage = 0.25;
+      easedProgress = progress * 0.95 + (Math.sqrt(progress)) * 0.05;
+      variation = Math.sin(i * 0.4) * (maxValue - currentValue) * 0.005;
+    } else if (range === "3M") {
+      // 3 Months: Significant progress (~60% toward goal)
+      targetPercentage = 0.60;
+      easedProgress = progress * 0.98 + (Math.sqrt(progress)) * 0.02;
+      variation = Math.sin(i * 0.3) * (maxValue - currentValue) * 0.004;
+    } else if (range === "6M") {
+      // 6 Months: Nearly reach goal (~95% of goal)
+      targetPercentage = 0.95;
+      easedProgress = progress * 0.98 + (Math.sqrt(progress)) * 0.02;
+      variation = Math.sin(i * 0.3) * (maxValue - currentValue) * 0.003;
     } else {
-      // Monthly and longer: Gradual progression toward max value
-      dailyGrowthFactor = 1; // Full progression to max value
+      // 1Y and MAX: Reach full goal (100%)
+      targetPercentage = 1.0;
       easedProgress = progress * 0.98 + (Math.sqrt(progress)) * 0.02;
       variation = Math.sin(i * 0.3) * (maxValue - currentValue) * 0.003;
     }
     
-    // Calculate target value based on timeframe
-    const growthAmount = range === "1D" || range === "1W"
-      ? currentValue * dailyGrowthFactor // For short timeframes, grow from current value
-      : (maxValue - currentValue) * dailyGrowthFactor; // For long timeframes, progress toward max
+    // Calculate the actual target value based on percentage
+    const targetGap = (maxValue - currentValue) * targetPercentage;
+    const targetValue = currentValue + targetGap * easedProgress;
     
-    const targetValue = progress === 1 && (range !== "1D" && range !== "1W")
-      ? maxValue 
-      : currentValue + growthAmount * easedProgress;
-    
-    const finalValue = progress === 1 
-      ? maxValue 
-      : Math.min(maxValue, Math.max(currentValue, targetValue + variation));
+    const finalValue = Math.min(maxValue, Math.max(currentValue, targetValue + variation));
     
     dataPoints.push({
       time: config.format(date),
