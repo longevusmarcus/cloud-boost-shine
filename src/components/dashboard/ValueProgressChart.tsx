@@ -43,8 +43,8 @@ const generateStockChartData = (range: TimeRange, currentValue: number, maxValue
       // Weekly: Small but noticeable progress (~7% growth)
       targetPercentage = 0.07;
       easedProgress = progress; // Linear for smooth gradual increase
-      // Gentle wave pattern
-      variation = (Math.sin(i * 0.9) * 0.7 + Math.cos(i * 0.6) * 0.3) * currentValue * 0.012;
+      // Gentle upward wave pattern - using abs to ensure no negative variation
+      variation = Math.abs(Math.sin(i * 0.9) * 0.7 + Math.cos(i * 0.6) * 0.3) * currentValue * 0.008;
     } else if (range === "1M") {
       // Monthly: Moderate progress (~25% toward goal)
       targetPercentage = 0.25;
