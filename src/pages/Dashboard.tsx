@@ -494,13 +494,13 @@ export default function Dashboard() {
 
       {/* Timeline Sheet */}
       <Sheet open={showTimeline} onOpenChange={setShowTimeline}>
-        <SheetContent side="bottom" className="h-[90vh] rounded-t-3xl p-0">
-          <SheetHeader className="p-6 pb-4 border-b border-gray-200 dark:border-gray-800">
+        <SheetContent side="bottom" className="h-[85vh] max-h-[85vh] rounded-t-3xl p-0 z-[60]">
+          <SheetHeader className="p-6 pb-4 border-b border-gray-200 dark:border-gray-800 flex-shrink-0">
             <SheetTitle className="text-xl font-bold text-center">Check-in History</SheetTitle>
             <p className="text-sm text-gray-600 dark:text-gray-400 text-center">{recentLogs.length} days logged</p>
           </SheetHeader>
           
-          <div className="overflow-y-auto h-[calc(90vh-100px)] px-6">
+          <div className="overflow-y-auto h-[calc(85vh-100px)] px-6 touch-pan-y overscroll-contain">
             <div className="space-y-6 py-6">
               {recentLogs.length === 0 ? (
                 <div className="text-center py-12">
@@ -646,13 +646,13 @@ export default function Dashboard() {
 
       {/* Value Progress Chart Sheet */}
       <Sheet open={showValueChart} onOpenChange={setShowValueChart}>
-        <SheetContent side="bottom" className="h-[90vh] rounded-t-3xl p-0 overflow-hidden">
-          <SheetHeader className="p-6 pb-4 border-b border-gray-200 dark:border-gray-800">
+        <SheetContent side="bottom" className="h-[85vh] max-h-[85vh] rounded-t-3xl p-0 overflow-hidden z-[60]">
+          <SheetHeader className="p-6 pb-4 border-b border-gray-200 dark:border-gray-800 flex-shrink-0">
             <SheetTitle className="text-xl font-bold text-center">Sperm Value Progression</SheetTitle>
             <p className="text-sm text-gray-600 dark:text-gray-400 text-center">Track your journey to maximum value</p>
           </SheetHeader>
           
-          <div className="overflow-y-auto h-[calc(90vh-100px)] px-6 py-6">
+          <div className="overflow-y-auto h-[calc(85vh-100px)] px-6 py-6 touch-pan-y overscroll-contain">
             <ValueProgressChart currentValue={profile?.sperm_value || 50} recentLogs={recentLogs} />
           </div>
         </SheetContent>
