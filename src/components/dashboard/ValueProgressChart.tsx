@@ -15,10 +15,10 @@ const generateStockChartData = (range: TimeRange, currentValue: number, maxValue
     "1D": { points: 24, interval: 60 * 60 * 1000, format: (d: Date) => format(d, "ha") },
     "1W": { points: 7, interval: 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM d") },
     "1M": { points: 30, interval: 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM d") },
-    "3M": { points: 12, interval: 7 * 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM d") },
-    "6M": { points: 26, interval: 7 * 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM d") },
-    "1Y": { points: 12, interval: 30 * 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM yyyy") },
-    "MAX": { points: 24, interval: 30 * 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM yyyy") },
+    "3M": { points: 90, interval: 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM d") },
+    "6M": { points: 180, interval: 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM d") },
+    "1Y": { points: 365, interval: 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM yyyy") },
+    "MAX": { points: 730, interval: 24 * 60 * 60 * 1000, format: (d: Date) => format(d, "MMM yyyy") },
   };
   
   const config = configs[range];
@@ -28,19 +28,38 @@ const generateStockChartData = (range: TimeRange, currentValue: number, maxValue
     const date = new Date(today.getTime() + i * config.interval);
     const progress = i / (config.points - 1);
     
-    // Smooth S-curve progression towards max value
-    const easedProgress = progress < 0.5 
-      ? 2 * progress * progress 
-      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+    let easedProgress: number;
+    let variation = 0;
     
-    const value = currentValue + (maxValue - currentValue) * easedProgress;
+    // Different progression curves for different timeframes
+    if (range === "1D") {
+      // Daily: Ultra-smooth cubic easing with minimal variation
+      easedProgress = progress * progress * (3 - 2 * progress); // Smoothstep
+      variation = Math.sin(i * 0.8) * (maxValue - currentValue) * 0.005; // Very subtle variation
+    } else if (range === "1W") {
+      // Weekly: Gradual linear progression with slight easing at the end
+      easedProgress = progress * 0.95 + (progress * progress) * 0.05;
+      variation = Math.sin(i * 0.6) * (maxValue - currentValue) * 0.008;
+    } else {
+      // Monthly and longer: Very gradual, nearly linear progression
+      // Slight ease-out at the end to smoothly reach the goal
+      easedProgress = progress * 0.98 + (Math.sqrt(progress)) * 0.02;
+      // Minimal variation for longer timeframes to show steady growth
+      variation = Math.sin(i * 0.3) * (maxValue - currentValue) * 0.003;
+    }
     
-    // Add slight realistic variation
-    const variation = Math.sin(i * 0.5) * (maxValue - currentValue) * 0.02;
+    // Ensure we reach exactly maxValue at the last point
+    const targetValue = progress === 1 
+      ? maxValue 
+      : currentValue + (maxValue - currentValue) * easedProgress;
+    
+    const finalValue = progress === 1 
+      ? maxValue 
+      : Math.min(maxValue, Math.max(currentValue, targetValue + variation));
     
     dataPoints.push({
       time: config.format(date),
-      value: Math.min(maxValue, Math.max(currentValue, value + variation)),
+      value: Math.round(finalValue),
       isToday: i === 0,
     });
   }
