@@ -6,7 +6,6 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useTheme } from "@/components/ThemeProvider";
 import NotificationCenter from "@/components/NotificationCenter";
 import SubscriptionModal from "@/components/SubscriptionModal";
-import { toast } from "@/hooks/use-toast";
 
 interface LayoutProps {
   children: ReactNode;
@@ -286,29 +285,6 @@ export default function Layout({ children }: LayoutProps) {
       {/* Mobile Navigation - Glassmorphic */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden px-3 pb-3">
         <div className="relative">
-          {/* Action Buttons Above Nav */}
-          {location.pathname === '/dashboard' && (
-            <div className="mb-3 px-2 flex gap-3">
-              <button
-                onClick={() => navigate('/pricing')}
-                className="flex-1 py-3 rounded-2xl bg-gray-800 dark:bg-gray-200 text-white dark:text-black text-sm font-semibold hover:scale-[1.02] transition-all shadow-md"
-              >
-                Increase Value
-              </button>
-              
-              <button
-                onClick={() => {
-                  toast({
-                    title: "Coming Soon",
-                    description: "This feature will be available soon.",
-                  });
-                }}
-                className="flex-1 py-3 rounded-2xl bg-white dark:bg-gray-900 text-black dark:text-white text-sm font-semibold hover:scale-[1.02] transition-all shadow-md border border-gray-200 dark:border-gray-700"
-              >
-                Sell Sperm
-              </button>
-            </div>
-          )}
           {/* Glass container */}
           <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-2xl rounded-3xl shadow-lg border border-gray-200/30 dark:border-gray-700/30 px-4 py-3">
             <div className="flex justify-around items-center relative">

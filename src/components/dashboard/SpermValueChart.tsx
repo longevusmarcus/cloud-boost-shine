@@ -1,9 +1,13 @@
+import { TrendingUp, DollarSign } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
 
 interface SpermValueChartProps {
   currentValue: number;
 }
 
 export default function SpermValueChart({ currentValue }: SpermValueChartProps) {
+  const navigate = useNavigate();
   const maxValue = 70000;
   const percentage = (currentValue / maxValue) * 100;
 
@@ -41,6 +45,30 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex gap-3 pt-2">
+        <button
+          onClick={() => navigate('/pricing')}
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl bg-gray-800 dark:bg-gray-200 text-white dark:text-black text-sm font-semibold hover:scale-[1.02] transition-all shadow-md"
+        >
+          <TrendingUp className="w-4 h-4" />
+          <span>Increase Value</span>
+        </button>
+        
+        <button
+          onClick={() => {
+            toast({
+              title: "Coming Soon",
+              description: "This feature will be available soon.",
+            });
+          }}
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl bg-white dark:bg-gray-900 text-black dark:text-white text-sm font-semibold hover:scale-[1.02] transition-all shadow-md border border-gray-200 dark:border-gray-700"
+        >
+          <DollarSign className="w-4 h-4" />
+          <span>Sell Sperm</span>
+        </button>
       </div>
     </div>
   );
