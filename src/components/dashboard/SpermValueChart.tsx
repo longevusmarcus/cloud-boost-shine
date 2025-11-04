@@ -50,12 +50,12 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
       </div>
 
       {/* Floating CTA Buttons - Fixed Position */}
-      <div className="fixed bottom-24 left-1/2 -translate-x-1/2 flex gap-3 z-40 animate-fade-in">
+      <div className="fixed bottom-24 left-1/2 -translate-x-1/2 flex gap-2 z-40 animate-fade-in">
         <button
           onClick={() => navigate('/pricing')}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-900 dark:bg-white text-white dark:text-black text-sm font-semibold hover:scale-105 transition-all shadow-lg hover:shadow-xl"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-900 dark:bg-white text-white dark:text-black text-xs font-semibold hover:scale-105 transition-all shadow-lg hover:shadow-xl whitespace-nowrap"
         >
-          <TrendingUp className="w-4 h-4" />
+          <TrendingUp className="w-3.5 h-3.5" />
           <span>Increase Value</span>
         </button>
         
@@ -66,9 +66,9 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
               description: "This feature will be available soon.",
             });
           }}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm text-gray-900 dark:text-white text-sm font-medium border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-900 hover:scale-105 transition-all shadow-sm"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm text-gray-900 dark:text-white text-xs font-medium border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-900 hover:scale-105 transition-all shadow-sm whitespace-nowrap"
         >
-          <DollarSign className="w-4 h-4" />
+          <DollarSign className="w-3.5 h-3.5" />
           <span>Sell Sperm</span>
         </button>
       </div>
