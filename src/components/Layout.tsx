@@ -288,20 +288,13 @@ export default function Layout({ children }: LayoutProps) {
         <div className="relative">
           {/* Action Buttons Above Nav */}
           {location.pathname === '/dashboard' && (
-            <div className="mb-3 px-2 flex gap-3 items-center">
+            <div className="mb-3 px-2 flex gap-3">
               <button
                 onClick={() => navigate('/pricing')}
                 className="flex-1 py-3 rounded-2xl bg-gray-800 dark:bg-gray-200 text-white dark:text-black text-sm font-semibold hover:scale-[1.02] transition-all shadow-md"
               >
                 Increase Value
               </button>
-              
-              <Link
-                to="/tracking"
-                className="w-14 h-14 bg-gray-900 dark:bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-all duration-300 flex-shrink-0"
-              >
-                <Plus className="w-7 h-7 text-white dark:text-black" strokeWidth={2.5} />
-              </Link>
               
               <button
                 onClick={() => {
@@ -345,20 +338,8 @@ export default function Layout({ children }: LayoutProps) {
                 <span className="text-[9px] font-medium">Stats</span>
               </Link>
 
-              {/* Center Button */}
-              <Link
-                to={isOnTrackingPage ? "/dashboard" : "/tracking"}
-                className="flex flex-col items-center gap-0.5 transition-all duration-200"
-              >
-                <div className={`transition-all duration-300 ${isOnTrackingPage ? 'rotate-90' : 'rotate-0'}`}>
-                  {isOnTrackingPage ? (
-                    <X className="w-5 h-5 text-gray-900 dark:text-white" strokeWidth={2.5} />
-                  ) : (
-                    <Plus className="w-5 h-5 text-gray-900 dark:text-white" strokeWidth={2.5} />
-                  )}
-                </div>
-                <span className="text-[9px] font-medium text-gray-900 dark:text-white">Track</span>
-              </Link>
+              {/* Center Floating Button - Spacer */}
+              <div className="w-12"></div>
 
               {/* Content */}
               <Link
@@ -387,6 +368,20 @@ export default function Layout({ children }: LayoutProps) {
               </Link>
             </div>
           </div>
+
+          {/* Floating Center Button */}
+          <Link
+            to={isOnTrackingPage ? "/dashboard" : "/tracking"}
+            className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 bg-gray-900 dark:bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-all duration-300"
+          >
+            <div className={`transition-all duration-300 ${isOnTrackingPage ? 'rotate-90' : 'rotate-0'}`}>
+              {isOnTrackingPage ? (
+                <X className="w-7 h-7 text-white dark:text-black" strokeWidth={2.5} />
+              ) : (
+                <Plus className="w-7 h-7 text-white dark:text-black" strokeWidth={2.5} />
+              )}
+            </div>
+          </Link>
         </div>
       </nav>
 
