@@ -1,5 +1,6 @@
 import { TrendingUp, DollarSign } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
 
 interface SpermValueChartProps {
   currentValue: number;
@@ -47,26 +48,26 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
       </div>
 
       {/* Floating CTA Buttons */}
-      <div className="flex gap-2 w-full justify-center">
+      <div className="flex gap-3 w-full justify-center">
         <button
           onClick={() => navigate('/pricing')}
-          className="px-4 py-2 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm text-gray-900 dark:text-white text-xs font-medium border border-gray-200/50 dark:border-gray-700/50 hover:bg-white dark:hover:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-600 transition-all hover:scale-105 shadow-sm"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-900 dark:bg-white text-white dark:text-black text-sm font-semibold hover:scale-105 transition-all shadow-lg hover:shadow-xl"
         >
-          Increase Value
+          <TrendingUp className="w-4 h-4" />
+          <span>Increase Value</span>
         </button>
         
         <button
           onClick={() => {
-            // Show toast notification
-            const toast = document.createElement('div');
-            toast.textContent = 'Coming soon';
-            toast.className = 'fixed top-4 left-1/2 -translate-x-1/2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-full text-sm z-50 shadow-lg';
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2000);
+            toast({
+              title: "Coming Soon",
+              description: "This feature will be available soon.",
+            });
           }}
-          className="px-4 py-2 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm text-gray-900 dark:text-white text-xs font-medium border border-gray-200/50 dark:border-gray-700/50 hover:bg-white dark:hover:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-600 transition-all hover:scale-105 shadow-sm"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm text-gray-900 dark:text-white text-sm font-medium border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-900 hover:scale-105 transition-all shadow-sm"
         >
-          Sell Sperm
+          <DollarSign className="w-4 h-4" />
+          <span>Sell Sperm</span>
         </button>
       </div>
     </div>
