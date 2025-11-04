@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { X, Check } from "lucide-react";
-import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
+import { Check } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -47,102 +47,96 @@ export default function SubscriptionModal({ open, onOpenChange }: SubscriptionMo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md w-[calc(100%-2rem)] max-h-[90vh] overflow-y-auto p-0 gap-0 border-0 bg-background rounded-3xl">
-        {/* Close Button */}
-        <DialogClose className="absolute right-4 top-4 z-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-          <X className="h-5 w-5" />
-          <span className="sr-only">Close</span>
-        </DialogClose>
-
-        <div className="p-5 space-y-5">
+      <DialogContent className="max-w-md w-[calc(100%-2rem)] max-h-[95vh] p-0 gap-0 border-0 bg-background rounded-3xl">
+        <div className="p-4 space-y-3 pr-10">
           {/* Badge */}
           <div className="inline-block">
-            <div className="px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 text-white text-sm font-semibold">
+            <div className="px-3 py-1 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-semibold">
               Go Premium
             </div>
           </div>
 
           {/* Header */}
-          <div className="space-y-2 pr-8">
-            <h2 className="text-xl md:text-2xl font-bold text-foreground leading-tight">
+          <div className="space-y-1">
+            <h2 className="text-lg font-bold text-foreground leading-tight">
               Become the sperm king 👑
             </h2>
-            <p className="text-sm text-muted-foreground">
-              Unlock advanced insights and personalized recommendations to maximize your fertility.
+            <p className="text-xs text-muted-foreground leading-tight">
+              Unlock advanced insights and personalized recommendations.
             </p>
           </div>
 
           {/* Feature Card */}
-          <div className="bg-accent/50 rounded-2xl p-3.5 space-y-2.5">
-            <h3 className="text-sm font-semibold text-foreground">
+          <div className="bg-accent/50 rounded-xl p-2.5 space-y-1.5">
+            <h3 className="text-xs font-semibold text-foreground">
               Premium Features
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {[
                 "Advanced sperm value tracking",
                 "Personalized AI recommendations",
                 "Detailed analytics & insights",
                 "Priority support",
               ].map((feature, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <div className="flex-shrink-0 w-4 h-4 rounded-full bg-primary flex items-center justify-center">
-                    <Check className="w-2.5 h-2.5 text-primary-foreground" strokeWidth={3} />
+                <div key={index} className="flex items-center gap-1.5">
+                  <div className="flex-shrink-0 w-3.5 h-3.5 rounded-full bg-primary flex items-center justify-center">
+                    <Check className="w-2 h-2 text-primary-foreground" strokeWidth={3} />
                   </div>
-                  <span className="text-xs text-foreground">{feature}</span>
+                  <span className="text-[10px] text-foreground">{feature}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Pricing Options */}
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             {plans.map((plan) => (
               <button
                 key={plan.id}
                 onClick={() => setSelectedPlan(plan.id)}
-                className={`w-full text-left p-3 rounded-2xl border-2 transition-all ${
+                className={`w-full text-left p-2.5 rounded-xl border-2 transition-all ${
                   selectedPlan === plan.id
                     ? "border-primary bg-primary/10"
                     : "border-border hover:border-muted-foreground"
                 }`}
               >
-                <div className="flex items-start gap-2.5">
+                <div className="flex items-start gap-2">
                   {/* Radio/Check */}
                   <div
-                    className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center transition-all mt-0.5 ${
+                    className={`flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center transition-all mt-0.5 ${
                       selectedPlan === plan.id
                         ? "bg-primary"
                         : "border-2 border-muted-foreground"
                     }`}
                   >
                     {selectedPlan === plan.id && (
-                      <Check className="w-3 h-3 text-primary-foreground" strokeWidth={3} />
+                      <Check className="w-2.5 h-2.5 text-primary-foreground" strokeWidth={3} />
                     )}
                   </div>
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-0.5">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[11px] font-semibold text-foreground tracking-wide">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-semibold text-foreground tracking-wide">
                           {plan.name}
                         </span>
                         {plan.badge && (
-                          <span className="px-1.5 py-0.5 bg-primary text-primary-foreground text-[9px] font-semibold rounded-full">
+                          <span className="px-1.5 py-0.5 bg-primary text-primary-foreground text-[8px] font-semibold rounded-full">
                             {plan.badge}
                           </span>
                         )}
                       </div>
                     </div>
                     <div className="flex items-baseline gap-1 mb-0.5">
-                      <span className="text-base font-bold text-foreground">
+                      <span className="text-sm font-bold text-foreground">
                         {plan.price}
                       </span>
-                      <span className="text-[10px] text-muted-foreground">
+                      <span className="text-[9px] text-muted-foreground">
                         {plan.period}
                       </span>
                     </div>
-                    <p className="text-[10px] text-muted-foreground leading-tight">
+                    <p className="text-[9px] text-muted-foreground leading-tight">
                       {plan.description}
                     </p>
                   </div>
@@ -154,7 +148,7 @@ export default function SubscriptionModal({ open, onOpenChange }: SubscriptionMo
           {/* Continue Button */}
           <Button
             onClick={handleContinue}
-            className="w-full h-11 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold text-sm"
+            className="w-full h-10 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold text-xs"
           >
             Continue
           </Button>
