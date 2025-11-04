@@ -39,8 +39,9 @@ export default function Pricing() {
     // Mock purchase - in production this would integrate with payment processor
     localStorage.setItem('hasSubscription', 'true');
     toast({
-      title: "Success!",
-      description: "Welcome to premium! Your subscription is now active.",
+      title: "Setup complete! 🎉",
+      description: "Let's start your optimization journey",
+      duration: 3000, // Auto-dismiss after 3 seconds
     });
     setTimeout(() => {
       navigate('/dashboard');
