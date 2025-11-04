@@ -50,13 +50,27 @@ export default function Layout({ children }: LayoutProps) {
     fetchProfile();
   }, []);
 
+  // Check if user should see subscription modal
+  useEffect(() => {
+    const hasSubscription = localStorage.getItem('hasSubscription');
+    const hasSeenModalThisSession = sessionStorage.getItem('hasSeenSubscriptionModal');
+    
+    // Show modal if user hasn't subscribed and hasn't seen it this session
+    if (!hasSubscription && !hasSeenModalThisSession && location.pathname !== '/pricing') {
+      const timer = setTimeout(() => {
+        setShowSubscriptionModal(true);
+        sessionStorage.setItem('hasSeenSubscriptionModal', 'true');
+      }, 2000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [location.pathname]);
+
   // Listen for custom event from Dashboard when value chart closes
   useEffect(() => {
     const handleShowModal = () => {
       const hasSubscription = localStorage.getItem('hasSubscription');
-      const hasSeenModalThisSession = sessionStorage.getItem('hasSeenSubscriptionModal');
-      
-      if (!hasSubscription && !hasSeenModalThisSession) {
+      if (!hasSubscription) {
         setTimeout(() => {
           setShowSubscriptionModal(true);
           sessionStorage.setItem('hasSeenSubscriptionModal', 'true');
