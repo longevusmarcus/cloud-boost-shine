@@ -9,36 +9,26 @@ interface DisclaimerModalProps {
 export const DisclaimerModal = ({ open, onAccept }: DisclaimerModalProps) => {
   return (
     <Dialog open={open}>
-      <DialogContent className="sm:max-w-sm p-6 gap-4 bg-card border">
-        {/* Floating Sperm Icon */}
-        <div className="flex justify-center mb-2">
-          <div className="text-4xl animate-bounce">💧</div>
-        </div>
-        
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-center text-foreground">
+      <DialogContent className="sm:max-w-[300px] p-0 gap-0 bg-white dark:bg-gray-900 border-none rounded-2xl overflow-hidden shadow-lg">
+        <div className="pt-6 pb-4 px-6 space-y-3">
+          <h2 className="text-[17px] font-semibold text-center text-gray-900 dark:text-gray-100" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif' }}>
             Disclaimer
           </h2>
           
-          <div className="text-sm text-muted-foreground leading-relaxed space-y-3" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif' }}>
-            <p>
-              Status is in Beta. The sperm valuation algorithm is experimental and under active development.
-            </p>
-            <p>
-              This app does not provide financial, medical, or professional advice. For educational and entertainment purposes only.
-            </p>
-            <p>
-              Don't store more data than needed. By using the app you assume full responsibility for all risks concerning your data and decisions.
-            </p>
-          </div>
+          <p className="text-[13px] text-gray-900 dark:text-gray-100 text-center leading-[18px]" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif' }}>
+            Status is in Beta. The sperm valuation algorithm is experimental and under active development. This app does not provide financial, medical, or professional advice. For educational and entertainment purposes only. Don't store more data than needed. By using the app you assume full responsibility for all risks concerning your data and decisions.
+          </p>
         </div>
 
-        <Button
-          onClick={onAccept}
-          className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium"
-        >
-          I Understand
-        </Button>
+        <div className="border-t border-gray-200 dark:border-gray-700">
+          <button
+            onClick={onAccept}
+            className="w-full py-3 text-[17px] font-semibold text-blue-500 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif' }}
+          >
+            OK
+          </button>
+        </div>
       </DialogContent>
     </Dialog>
   );
