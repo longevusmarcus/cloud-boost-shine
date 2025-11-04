@@ -303,7 +303,7 @@ export default function Layout({ children }: LayoutProps) {
                     description: "This feature will be available soon.",
                   });
                 }}
-                className="flex-1 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-purple-500 text-white text-sm font-semibold hover:scale-[1.02] transition-all shadow-md"
+                className="flex-1 py-3 rounded-2xl bg-white dark:bg-gray-900 text-black dark:text-white text-sm font-semibold hover:scale-[1.02] transition-all shadow-md border border-gray-200 dark:border-gray-700"
               >
                 Sell Sperm
               </button>
