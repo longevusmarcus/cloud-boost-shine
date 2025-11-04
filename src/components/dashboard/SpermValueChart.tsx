@@ -68,10 +68,14 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
               description: "This feature will be available soon.",
             });
           }}
-          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl bg-white dark:bg-gray-900 text-black dark:text-white text-sm font-semibold hover:scale-[1.02] transition-all shadow-md border border-gray-200 dark:border-gray-700"
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl text-black dark:text-white text-sm font-semibold hover:scale-[1.02] transition-all shadow-lg border border-white/40 dark:border-gray-700/40 hover:bg-white/70 dark:hover:bg-gray-900/70 relative overflow-hidden group"
         >
-          <DollarSign className="w-4 h-4" />
-          <span>Sell Sperm</span>
+          {/* Glassy shine effect */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent dark:from-white/10 dark:via-transparent dark:to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-tl from-transparent via-white/20 to-transparent dark:via-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          
+          <DollarSign className="w-4 h-4 relative z-10" />
+          <span className="relative z-10">Sell Sperm</span>
         </button>
       </div>
     </div>
