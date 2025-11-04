@@ -46,31 +46,27 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
         </div>
       </div>
 
-      {/* CTA Buttons */}
-      <div className="grid grid-cols-2 gap-3 w-full">
+      {/* Floating CTA Buttons */}
+      <div className="flex gap-2 w-full justify-center">
         <button
           onClick={() => navigate('/pricing')}
-          className="w-full py-2.5 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-black font-bold text-xs flex flex-col items-center justify-center gap-1 transition-all shadow-[0_0_30px_rgba(0,0,0,0.4)] hover:shadow-[0_0_50px_rgba(0,0,0,0.6)] dark:shadow-[0_0_30px_rgba(255,255,255,0.5)] dark:hover:shadow-[0_0_50px_rgba(255,255,255,0.7)] animate-pulse hover:scale-105 relative overflow-hidden"
+          className="px-4 py-2 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm text-gray-900 dark:text-white text-xs font-medium border border-gray-200/50 dark:border-gray-700/50 hover:bg-white dark:hover:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-600 transition-all hover:scale-105 shadow-sm"
         >
-          {/* Highlight glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent dark:via-black/20 animate-pulse" />
-          
-          <TrendingUp className="w-4 h-4 relative z-10" />
-          <div className="text-center leading-tight relative z-10">
-            <div className="text-xs">Increase</div>
-            <div className="text-xs">your value</div>
-          </div>
+          Increase Value
         </button>
         
         <button
-          disabled
-          className="w-full py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-semibold text-xs flex flex-col items-center justify-center gap-1 border-2 border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-60"
+          onClick={() => {
+            // Show toast notification
+            const toast = document.createElement('div');
+            toast.textContent = 'Coming soon';
+            toast.className = 'fixed top-4 left-1/2 -translate-x-1/2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-full text-sm z-50 shadow-lg';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+          }}
+          className="px-4 py-2 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm text-gray-900 dark:text-white text-xs font-medium border border-gray-200/50 dark:border-gray-700/50 hover:bg-white dark:hover:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-600 transition-all hover:scale-105 shadow-sm"
         >
-          <DollarSign className="w-4 h-4" />
-          <div className="text-center leading-tight">
-            <div className="text-xs">Sell</div>
-          </div>
-          <span className="text-[9px] font-normal text-gray-500 dark:text-gray-400">Not available yet</span>
+          Sell Sperm
         </button>
       </div>
     </div>
