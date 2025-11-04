@@ -51,10 +51,14 @@ export default function SpermValueChart({ currentValue }: SpermValueChartProps) 
       <div className="flex gap-3 pt-2">
         <button
           onClick={() => navigate('/pricing')}
-          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl bg-gray-800 dark:bg-gray-200 text-white dark:text-black text-sm font-semibold hover:scale-[1.02] transition-all shadow-md"
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-white text-white dark:text-black text-sm font-semibold hover:scale-[1.02] transition-all shadow-lg hover:shadow-xl relative overflow-hidden group"
         >
-          <TrendingUp className="w-4 h-4" />
-          <span>Increase Value</span>
+          {/* Glaze effect overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/10 dark:from-black/5 dark:via-transparent dark:to-black/5"></div>
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent dark:via-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          
+          <TrendingUp className="w-4 h-4 relative z-10" />
+          <span className="relative z-10">Increase Value</span>
         </button>
         
         <button
