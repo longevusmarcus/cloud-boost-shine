@@ -40,6 +40,19 @@ export default function Dashboard() {
     }
   }, []);
 
+  const handleValueChartClose = (open: boolean) => {
+    setShowValueChart(open);
+    
+    // When closing, trigger the global subscription modal via custom event
+    if (!open) {
+      const hasSubscription = localStorage.getItem('hasSubscription');
+      if (!hasSubscription) {
+        // Dispatch custom event that Layout will listen to
+        window.dispatchEvent(new CustomEvent('showSubscriptionModal'));
+      }
+    }
+  };
+
   const loadData = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -615,7 +628,7 @@ export default function Dashboard() {
       </Sheet>
 
       {/* Value Progress Chart Sheet */}
-      <Sheet open={showValueChart} onOpenChange={setShowValueChart}>
+      <Sheet open={showValueChart} onOpenChange={handleValueChartClose}>
         <SheetContent side="bottom" className="h-[85vh] max-h-[85vh] rounded-t-3xl p-0 overflow-hidden z-[60]">
           <SheetHeader className="p-6 pb-4 border-b border-gray-200 dark:border-gray-800 flex-shrink-0">
             <SheetTitle className="text-xl font-bold text-center">Sperm Value Progression</SheetTitle>

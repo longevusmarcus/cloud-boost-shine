@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useTheme } from "@/components/ThemeProvider";
 import NotificationCenter from "@/components/NotificationCenter";
+import SubscriptionModal from "@/components/SubscriptionModal";
 
 interface LayoutProps {
   children: ReactNode;
@@ -20,6 +21,7 @@ export default function Layout({ children }: LayoutProps) {
   });
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('sidebarCollapsed', JSON.stringify(sidebarCollapsed));
@@ -46,6 +48,38 @@ export default function Layout({ children }: LayoutProps) {
       }
     };
     fetchProfile();
+  }, []);
+
+  // Check if user should see subscription modal
+  useEffect(() => {
+    const hasSubscription = localStorage.getItem('hasSubscription');
+    const hasSeenModalThisSession = sessionStorage.getItem('hasSeenSubscriptionModal');
+    
+    // Show modal if user hasn't subscribed and hasn't seen it this session
+    if (!hasSubscription && !hasSeenModalThisSession && location.pathname !== '/pricing') {
+      const timer = setTimeout(() => {
+        setShowSubscriptionModal(true);
+        sessionStorage.setItem('hasSeenSubscriptionModal', 'true');
+      }, 2000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [location.pathname]);
+
+  // Listen for custom event from Dashboard when value chart closes
+  useEffect(() => {
+    const handleShowModal = () => {
+      const hasSubscription = localStorage.getItem('hasSubscription');
+      if (!hasSubscription) {
+        setTimeout(() => {
+          setShowSubscriptionModal(true);
+          sessionStorage.setItem('hasSeenSubscriptionModal', 'true');
+        }, 300);
+      }
+    };
+
+    window.addEventListener('showSubscriptionModal', handleShowModal);
+    return () => window.removeEventListener('showSubscriptionModal', handleShowModal);
   }, []);
 
   const navItems = [
@@ -326,6 +360,12 @@ export default function Layout({ children }: LayoutProps) {
           </Link>
         </div>
       </nav>
+
+      {/* Subscription Modal */}
+      <SubscriptionModal 
+        open={showSubscriptionModal} 
+        onOpenChange={setShowSubscriptionModal}
+      />
     </div>
   );
 }

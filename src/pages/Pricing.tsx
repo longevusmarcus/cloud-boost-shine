@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Check, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
 
 export default function Pricing() {
   const navigate = useNavigate();
@@ -33,6 +34,18 @@ export default function Pricing() {
       badge: "Best value",
     },
   ];
+
+  const handleContinue = () => {
+    // Mock purchase - in production this would integrate with payment processor
+    localStorage.setItem('hasSubscription', 'true');
+    toast({
+      title: "Success!",
+      description: "Welcome to premium! Your subscription is now active.",
+    });
+    setTimeout(() => {
+      navigate('/dashboard');
+    }, 1000);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center px-3 py-2">
@@ -116,7 +129,7 @@ export default function Pricing() {
 
             {/* Continue Button */}
             <Button
-              onClick={() => navigate("/profile")}
+              onClick={handleContinue}
               className="w-full h-11 rounded-full bg-foreground text-background hover:bg-foreground/90 font-semibold mb-2.5 text-sm"
             >
               Continue
