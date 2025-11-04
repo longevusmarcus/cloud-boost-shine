@@ -35,7 +35,7 @@ export default function Pricing() {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-3 py-2 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen flex items-center justify-center px-3 py-2">
       {/* Floating Back Button - Mobile Only */}
       <div className="fixed top-4 left-4 z-50 md:hidden">
         <button 
@@ -48,13 +48,13 @@ export default function Pricing() {
 
       <div className="w-full max-w-md">
         {/* Card Container */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 p-4">
+        <div className="bg-background rounded-3xl shadow-xl border border-border p-4">
           {/* Header */}
           <div className="text-center mb-4">
-            <h1 className="text-2xl font-bold text-black dark:text-white mb-2">
+            <h1 className="text-2xl font-bold text-foreground mb-2">
               Start Your Journey
             </h1>
-            <p className="text-xs text-gray-600 dark:text-gray-400">
+            <p className="text-xs text-muted-foreground">
               Choose the perfect plan for your sperm health goals
             </p>
           </div>
@@ -67,8 +67,8 @@ export default function Pricing() {
                   onClick={() => setSelectedPlan(plan.id)}
                   className={`w-full text-left p-3.5 rounded-2xl border-2 transition-all ${
                     selectedPlan === plan.id
-                      ? "border-black dark:border-white bg-gray-50 dark:bg-gray-700"
-                      : "border-gray-200 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
+                      ? "border-foreground bg-accent/50"
+                      : "border-border hover:border-muted-foreground"
                   }`}
                 >
                   <div className="flex items-start gap-3">
@@ -76,36 +76,36 @@ export default function Pricing() {
                     <div
                       className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center transition-all ${
                         selectedPlan === plan.id
-                          ? "bg-black dark:bg-white"
-                          : "border-2 border-gray-400 dark:border-gray-500"
+                          ? "bg-foreground"
+                          : "border-2 border-muted-foreground"
                       }`}
                     >
                       {selectedPlan === plan.id && (
-                        <Check className="w-3.5 h-3.5 text-white dark:text-black" strokeWidth={3} />
+                        <Check className="w-3.5 h-3.5 text-background" strokeWidth={3} />
                       )}
                     </div>
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[11px] font-semibold text-black dark:text-white tracking-wide">
+                        <span className="text-[11px] font-semibold text-foreground tracking-wide">
                           {plan.name}
                         </span>
                         {plan.badge && (
-                          <span className="px-2 py-0.5 bg-black dark:bg-white text-white dark:text-black text-[10px] font-semibold rounded-full">
+                          <span className="px-2 py-0.5 bg-primary text-primary-foreground text-[10px] font-semibold rounded-full">
                             {plan.badge}
                           </span>
                         )}
                       </div>
                       <div className="flex items-baseline gap-1 mb-0.5">
-                        <span className="text-lg font-bold text-black dark:text-white">
+                        <span className="text-lg font-bold text-foreground">
                           {plan.price}
                         </span>
-                        <span className="text-xs text-gray-600 dark:text-gray-400">
+                        <span className="text-xs text-muted-foreground">
                           {plan.period}
                         </span>
                       </div>
-                      <p className="text-[11px] text-gray-600 dark:text-gray-400">
+                      <p className="text-[11px] text-muted-foreground">
                         {plan.description}
                       </p>
                     </div>
@@ -117,7 +117,7 @@ export default function Pricing() {
             {/* Continue Button */}
             <Button
               onClick={() => navigate("/profile")}
-              className="w-full h-11 rounded-full bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 font-semibold mb-2.5 text-sm"
+              className="w-full h-11 rounded-full bg-foreground text-background hover:bg-foreground/90 font-semibold mb-2.5 text-sm"
             >
               Continue
             </Button>
@@ -126,7 +126,7 @@ export default function Pricing() {
             <div className="text-center">
               <button
                 onClick={() => navigate("/dashboard")}
-                className="text-xs text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white font-medium transition-colors"
+                className="text-xs text-muted-foreground hover:text-foreground font-medium transition-colors"
               >
                 I don't want to increase my value
               </button>
