@@ -65,37 +65,37 @@ export default function Leaderboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-900 border-t-transparent" />
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-900 dark:border-white border-t-transparent" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Floating Back Button - Mobile Only */}
       <div className="fixed top-4 left-4 z-50 md:hidden">
         <button 
           onClick={() => navigate('/dashboard')}
-          className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center transition-colors shadow-lg"
+          className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors shadow-lg"
         >
-          <ArrowLeft className="w-4 h-4 text-gray-600" />
+          <ArrowLeft className="w-4 h-4 text-gray-600 dark:text-gray-400" />
         </button>
       </div>
 
       <div className="max-w-2xl mx-auto py-8 px-4">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="text-2xl font-semibold text-black mb-2 tracking-tight">Leaderboard</h1>
-          <p className="text-sm text-gray-600">Top performers by value</p>
+          <h1 className="text-2xl font-semibold text-black dark:text-white mb-2 tracking-tight">Leaderboard</h1>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Top performers by value</p>
         </div>
 
         {/* Current User Rank - Minimal Badge */}
         {currentUserRank && (
           <div className="mb-8 flex justify-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-gray-200 shadow-sm">
-              <span className="text-xs text-gray-600">Your position</span>
-              <span className="text-sm font-semibold text-black">#{currentUserRank}</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-full border border-gray-200 dark:border-gray-700 shadow-sm">
+              <span className="text-xs text-gray-600 dark:text-gray-400">Your position</span>
+              <span className="text-sm font-semibold text-black dark:text-white">#{currentUserRank}</span>
             </div>
           </div>
         )}
@@ -105,9 +105,9 @@ export default function Leaderboard() {
           {leaderboard.map((entry, index) => (
             <div
               key={entry.rank}
-              className={`group relative transition-all duration-200 bg-white rounded-2xl border border-gray-200 ${
+              className={`group relative transition-all duration-200 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 ${
                 entry.rank === currentUserRank
-                  ? 'ring-2 ring-black'
+                  ? 'ring-2 ring-black dark:ring-white'
                   : 'hover:shadow-md'
               }`}
             >
@@ -117,8 +117,8 @@ export default function Leaderboard() {
                   {getRankIcon(entry.rank) || (
                     <span className={`text-sm font-medium ${
                       entry.rank === currentUserRank 
-                        ? 'text-black' 
-                        : 'text-gray-600'
+                        ? 'text-black dark:text-white' 
+                        : 'text-gray-600 dark:text-gray-400'
                     }`}>
                       {entry.rank}
                     </span>
@@ -127,11 +127,11 @@ export default function Leaderboard() {
 
                 {/* Avatar */}
                 <div className="flex-shrink-0">
-                  <div className="w-9 h-9 rounded-full bg-gray-100 overflow-hidden ring-1 ring-gray-200">
+                  <div className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden ring-1 ring-gray-200 dark:ring-gray-600">
                     {entry.avatar ? (
                       <img src={entry.avatar} alt={entry.name} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-xs font-medium text-gray-600">
+                      <div className="w-full h-full flex items-center justify-center text-xs font-medium text-gray-600 dark:text-gray-400">
                         {entry.name.charAt(0).toUpperCase()}
                       </div>
                     )}
@@ -140,10 +140,10 @@ export default function Leaderboard() {
 
                 {/* Name & Stats */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate text-black">
+                  <p className="text-sm font-medium truncate text-black dark:text-white">
                     {entry.name}
                   </p>
-                  <div className="flex items-center gap-2 text-xs text-gray-600 mt-0.5">
+                  <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 mt-0.5">
                     <span>Lvl {entry.level}</span>
                     <span className="opacity-50">·</span>
                     <span>{entry.streak}d</span>
@@ -152,7 +152,7 @@ export default function Leaderboard() {
 
                 {/* Value */}
                 <div className="flex-shrink-0 text-right">
-                  <p className="text-sm font-semibold tabular-nums text-black">
+                  <p className="text-sm font-semibold tabular-nums text-black dark:text-white">
                     ${entry.value.toLocaleString()}
                   </p>
                 </div>
@@ -160,7 +160,7 @@ export default function Leaderboard() {
 
               {/* Subtle separator */}
               {index < leaderboard.length - 1 && (
-                <div className="absolute bottom-0 left-16 right-4 h-px bg-gray-200" />
+                <div className="absolute bottom-0 left-16 right-4 h-px bg-gray-200 dark:bg-gray-700" />
               )}
             </div>
           ))}
