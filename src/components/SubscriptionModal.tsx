@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { X, Check, Crown } from "lucide-react";
-import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
+import { Check, Crown } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { toast } from "@/hooks/use-toast";
 
 interface SubscriptionModalProps {
   open: boolean;
@@ -48,14 +47,8 @@ export default function SubscriptionModal({ open, onOpenChange }: SubscriptionMo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md w-[calc(100vw-2rem)] max-h-[90vh] overflow-y-auto p-0 gap-0 border border-gray-200 dark:border-gray-700 bg-background">
-        {/* Close Button */}
-        <DialogClose className="absolute right-3 top-3 z-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-          <X className="h-5 w-5" />
-          <span className="sr-only">Close</span>
-        </DialogClose>
-
-        <div className="p-4 md:p-6 space-y-4 md:space-y-5">
+      <DialogContent hideClose className="w-full h-full md:max-w-md md:h-auto md:max-h-[90vh] p-0 gap-0 border-0 md:border md:border-gray-200 md:dark:border-gray-700 bg-background md:rounded-lg overflow-y-auto">
+        <div className="p-5 md:p-6 space-y-4 md:space-y-5 min-h-full md:min-h-0">
           {/* Badge */}
           <div className="inline-block">
             <div className="px-3 py-1.5 rounded-full bg-gray-900 dark:bg-gray-100 text-white dark:text-black text-xs md:text-sm font-semibold flex items-center gap-1.5">
@@ -158,6 +151,16 @@ export default function SubscriptionModal({ open, onOpenChange }: SubscriptionMo
           >
             Continue to Premium
           </Button>
+
+          {/* Skip Link */}
+          <div className="text-center pt-2">
+            <button
+              onClick={() => onOpenChange(false)}
+              className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium transition-colors"
+            >
+              Maybe later
+            </button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
