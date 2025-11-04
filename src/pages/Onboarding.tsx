@@ -7,6 +7,7 @@ import LifestyleQuiz from "@/components/onboarding/LifestyleQuiz";
 import FertilityGoal from "@/components/onboarding/FertilityGoal";
 import DonorProfile from "@/components/onboarding/DonorProfile";
 import CalculatorResults from "@/components/onboarding/CalculatorResults";
+import { DisclaimerModal } from "@/components/onboarding/DisclaimerModal";
 import { calculateSpermValuation, calculateBMIRange, getAgeRange } from "@/lib/sperm-valuation";
 import type { DonorProfileInput } from "@/lib/sperm-valuation";
 
@@ -16,6 +17,8 @@ export default function Onboarding() {
   const [step, setStep] = useState(1);
   const [userData, setUserData] = useState<any>({});
   const [loading, setLoading] = useState(false);
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
+  const [pendingSpermValue, setPendingSpermValue] = useState<number | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -81,8 +84,9 @@ export default function Onboarding() {
     const result = calculateSpermValuation(input);
     const calculatedValue = Math.round(result.estimatedSpermValue);
     
-    // Directly complete onboarding with calculated value
-    await handleComplete(calculatedValue);
+    // Show disclaimer before completing onboarding
+    setPendingSpermValue(calculatedValue);
+    setShowDisclaimer(true);
   };
 
   const getSpermLevel = (value: number) => {
@@ -176,6 +180,13 @@ export default function Onboarding() {
     if (step > 1) setStep(step - 1);
   };
 
+  const handleDisclaimerAccept = async () => {
+    if (pendingSpermValue !== null) {
+      await handleComplete(pendingSpermValue);
+    }
+    setShowDisclaimer(false);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-3 bg-background overflow-auto">
       <div className="max-w-lg w-full my-auto">
@@ -203,6 +214,11 @@ export default function Onboarding() {
           )}
         </div>
       </div>
+      
+      <DisclaimerModal 
+        open={showDisclaimer} 
+        onAccept={handleDisclaimerAccept}
+      />
     </div>
   );
 }
